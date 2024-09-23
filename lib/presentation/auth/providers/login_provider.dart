@@ -1,0 +1,75 @@
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:mpm/data/entities/user/user_entity.dart';
+import 'package:mpm/domain/repository/auth/auth_interface.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+import 'package:get_it/get_it.dart';
+
+part 'login_provider.freezed.dart';
+
+part 'login_provider.g.dart';
+
+@freezed
+class LoginStatus with _$LoginStatus {
+  const factory LoginStatus.initial() = Initial;
+
+  const factory LoginStatus.checkOtp(String loginToken) = CheclOtp;
+
+  const factory LoginStatus.success(UserEntity user) = Success;
+}
+
+@riverpod
+class LoginFlow extends _$LoginFlow {
+  @override
+  FutureOr<LoginStatus> build() async {
+    return const LoginStatus.initial();
+  }
+
+  login(String cellPhone) async {
+    state = const AsyncLoading();
+    state = await AsyncValue.guard(() async {
+      final result = await GetIt.I.get<AuthRepository>().login(cellPhone);
+      return result.fold((l) {
+        throw l;
+      }, (r) {
+        return LoginStatus.checkOtp(r);
+      });
+    });
+  }
+
+  checkOtp(String otp) async {
+    final previous = state;
+    if (previous.requireValue is! CheclOtp) {
+      return;
+    }
+    state = const AsyncLoading<LoginStatus>().copyWithPrevious(previous);
+    state = await AsyncValue.guard(() async {
+      final result = await GetIt.I
+          .get<AuthRepository>()
+          .checkOtp((previous.requireValue as CheclOtp).loginToken, otp);
+      return result.fold((l) {
+        throw l;
+      }, (r) {
+        return LoginStatus.success(r);
+      });
+    });
+  }
+
+  resendOtp() async {
+    final previous = state;
+    if (previous.requireValue is! CheclOtp) {
+      return;
+    }
+    state = const AsyncLoading<LoginStatus>().copyWithPrevious(previous);
+    state = await AsyncValue.guard<LoginStatus>(() async {
+      final result = await GetIt.I
+          .get<AuthRepository>()
+          .resendOtp((previous.requireValue as CheclOtp).loginToken);
+      return result.fold((l) {
+        throw l;
+      }, (r) {
+        return LoginStatus.checkOtp(r);
+      });
+    });
+  }
+}

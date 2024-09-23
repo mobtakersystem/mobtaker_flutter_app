@@ -1,0 +1,161 @@
+import 'package:mpm/data/data_provider/project/project_interface.dart';
+import 'package:mpm/data/entities/pagination/pagination.dart';
+import 'package:mpm/data/entities/project/project_data_entity.dart';
+import 'package:mpm/data/entities/project/project_entity.dart';
+import 'package:mpm/data/entities/project/project_property_entity.dart';
+import 'package:mpm/data/network/network_request.dart';
+import 'package:mpm/data/network/network_service.dart';
+import 'package:mpm/data/network/request_body.dart';
+
+class ProjectApiDataProvider implements ProjectDataProvider {
+  final NetworkService _networkService;
+
+  ProjectApiDataProvider({required NetworkService networkService})
+      : _networkService = networkService;
+
+  @override
+  Future<PaginationEntity<ProjectEntity>> getProjects({int? page}) {
+    return _networkService.execute(
+      NetworkRequest(
+        type: NetworkRequestType.get,
+        path: 'projects/drilling/index${page != null ? '?page=$page' : ''}',
+        data: const NetworkRequestBody.empty(),
+      ),
+      parser: (jsonParam) {
+        return PaginationEntity<ProjectEntity>.fromJson(
+          jsonParam!['projects'],
+          (p0) => ProjectEntity.fromJson(Map<String, dynamic>.from(p0 as Map)),
+        );
+      },
+    );
+  }
+
+  @override
+  Future<void> writeProjects(List<ProjectEntity> projects) {
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<ProjectPropertyEntity> getProjectProperty(String id) {
+    return _networkService.execute(
+      NetworkRequest(
+        type: NetworkRequestType.post,
+        path: 'projects/drilling/data/create',
+        data: NetworkRequestBody.json({
+          'project_id': id,
+        }),
+      ),
+      parser: (jsonParam) {
+        return ProjectPropertyEntity.fromJson(jsonParam!);
+      },
+    );
+  }
+
+  @override
+  Future<void> writeProjectProperty(
+      String id, ProjectPropertyEntity projectData) {
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<PaginationEntity<ProjectDataEntity>> getProjectData(
+      {int? page, required String projectId}) {
+    return _networkService.execute(
+      NetworkRequest(
+        type: NetworkRequestType.post,
+        path: 'projects/drilling/data/index',
+        data: NetworkRequestBody.json({
+          'project_id': projectId,
+          if (page != null) 'page': page,
+        }),
+      ),
+      parser: (jsonParam) {
+        return PaginationEntity<ProjectDataEntity>.fromJson(
+          jsonParam!['projectData'],
+          (p0) {
+            return ProjectDataEntity.fromJson(
+              Map<String, dynamic>.from(p0 as Map),
+            );
+          },
+        );
+      },
+    );
+  }
+
+  @override
+  Future<void> writeProjectsData(
+      List<ProjectDataEntity> projectData, String projectId) {
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> storeProjectData(
+    ProjectDataEntity projectData,
+  ) {
+    return _networkService.execute(
+      NetworkRequest(
+        type: NetworkRequestType.post,
+        path: 'projects/drilling/data/store',
+        data: NetworkRequestBody.json({
+          'project_id': projectData.projectId,
+          'date': projectData.date?.toIso8601String(),
+          'head_digger_id': projectData.headDiggerId,
+          'machinery_id': projectData.machineryId,
+          'supervisor_id': projectData.supervisorId,
+          'shift': projectData.shift,
+          'digger_id': projectData.diggerId,
+          'workers': projectData.workers,
+          'initial_meter': projectData.initialMeter,
+          'final_meter': projectData.finalMeter,
+          "machinery_working_hour": projectData.machineryWorkingHour,
+          'indicator_id': projectData.indicatorId,
+          'hasMachineryServices': projectData.hasMachineryServices,
+          if (projectData.hasMachineryServices!)
+            'machineryServices':
+                projectData.machineryServices.map((e) => e.toJson()).toList(),
+          'hasMachineryPartConsumes': projectData.hasMachineryPartConsumes,
+          if (projectData.hasMachineryPartConsumes!)
+            'machineryPartConsumes': projectData.machineryPartConsumes
+                .map((e) => e.toJson())
+                .toList(),
+          "stops": projectData.stops
+              .map((e) => {
+                    "reason": e.reason,
+                    "start": e.start,
+                    "end": e.end,
+                    "description": e.description
+                  })
+              .toList(),
+        }),
+      ),
+      parser: (jsonParam) {
+        return;
+      },
+    );
+  }
+
+  @override
+  Future<void> deleteProjectData(String projectDataId) {
+    // TODO: implement deleteProjectData
+    throw UnimplementedError();
+  }
+
+  @override
+  Stream<DataSyncStatus> projectSyncStatus(String projectDataId) async* {
+    if (projectDataId.startsWith("LOCAL_")) {
+      yield DataSyncStatus.pending;
+    }
+    yield DataSyncStatus.synced;
+  }
+
+  @override
+  Stream<List<ProjectDataEntity>> listenToLocalProjectData() async* {
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> updateProjectData(ProjectDataEntity newData) {
+    // TODO: implement updateProjectData
+    throw UnimplementedError();
+  }
+}
