@@ -58,6 +58,9 @@ dependencies:
   flutter_phoenix: ^1.1.1
   image_picker: ^1.1.2
   cross_file: ^0.3.4+2
+  flutter_image_compress: ^2.3.0
+  mime: ^1.0.6
+  internet_connection_checker_plus: ^2.5.2
 
 dev_dependencies:
   flutter_test:

@@ -45,6 +45,10 @@ mixin _$ProjectDataEntity {
   double get finalMeter => throw _privateConstructorUsedError;
   @JsonKey(name: 'machinery_working_hour')
   String get machineryWorkingHour => throw _privateConstructorUsedError;
+  @JsonKey(name: 'machinery_working_hour_image')
+  DocumentEntity? get machineryWorkingHourImage =>
+      throw _privateConstructorUsedError;
+  DocumentEntity? get stopsImage => throw _privateConstructorUsedError;
   @JsonKey(name: 'stop_image')
   String get stopImage => throw _privateConstructorUsedError;
   List<String> get workers => throw _privateConstructorUsedError;
@@ -100,6 +104,9 @@ abstract class $ProjectDataEntityCopyWith<$Res> {
       @JsonKey(name: 'initial_meter') double initialMeter,
       @JsonKey(name: 'final_meter') double finalMeter,
       @JsonKey(name: 'machinery_working_hour') String machineryWorkingHour,
+      @JsonKey(name: 'machinery_working_hour_image')
+      DocumentEntity? machineryWorkingHourImage,
+      DocumentEntity? stopsImage,
       @JsonKey(name: 'stop_image') String stopImage,
       List<String> workers,
       String description,
@@ -125,6 +132,9 @@ abstract class $ProjectDataEntityCopyWith<$Res> {
       bool? hasStop,
       bool? hasMachineryServices,
       bool? hasMachineryPartConsumes});
+
+  $DocumentEntityCopyWith<$Res>? get machineryWorkingHourImage;
+  $DocumentEntityCopyWith<$Res>? get stopsImage;
 }
 
 /// @nodoc
@@ -153,6 +163,8 @@ class _$ProjectDataEntityCopyWithImpl<$Res, $Val extends ProjectDataEntity>
     Object? initialMeter = null,
     Object? finalMeter = null,
     Object? machineryWorkingHour = null,
+    Object? machineryWorkingHourImage = freezed,
+    Object? stopsImage = freezed,
     Object? stopImage = null,
     Object? workers = null,
     Object? description = null,
@@ -226,6 +238,14 @@ class _$ProjectDataEntityCopyWithImpl<$Res, $Val extends ProjectDataEntity>
           ? _value.machineryWorkingHour
           : machineryWorkingHour // ignore: cast_nullable_to_non_nullable
               as String,
+      machineryWorkingHourImage: freezed == machineryWorkingHourImage
+          ? _value.machineryWorkingHourImage
+          : machineryWorkingHourImage // ignore: cast_nullable_to_non_nullable
+              as DocumentEntity?,
+      stopsImage: freezed == stopsImage
+          ? _value.stopsImage
+          : stopsImage // ignore: cast_nullable_to_non_nullable
+              as DocumentEntity?,
       stopImage: null == stopImage
           ? _value.stopImage
           : stopImage // ignore: cast_nullable_to_non_nullable
@@ -304,6 +324,31 @@ class _$ProjectDataEntityCopyWithImpl<$Res, $Val extends ProjectDataEntity>
               as bool?,
     ) as $Val);
   }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $DocumentEntityCopyWith<$Res>? get machineryWorkingHourImage {
+    if (_value.machineryWorkingHourImage == null) {
+      return null;
+    }
+
+    return $DocumentEntityCopyWith<$Res>(_value.machineryWorkingHourImage!,
+        (value) {
+      return _then(_value.copyWith(machineryWorkingHourImage: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $DocumentEntityCopyWith<$Res>? get stopsImage {
+    if (_value.stopsImage == null) {
+      return null;
+    }
+
+    return $DocumentEntityCopyWith<$Res>(_value.stopsImage!, (value) {
+      return _then(_value.copyWith(stopsImage: value) as $Val);
+    });
+  }
 }
 
 /// @nodoc
@@ -328,6 +373,9 @@ abstract class _$$ProjectDataEntityImplCopyWith<$Res>
       @JsonKey(name: 'initial_meter') double initialMeter,
       @JsonKey(name: 'final_meter') double finalMeter,
       @JsonKey(name: 'machinery_working_hour') String machineryWorkingHour,
+      @JsonKey(name: 'machinery_working_hour_image')
+      DocumentEntity? machineryWorkingHourImage,
+      DocumentEntity? stopsImage,
       @JsonKey(name: 'stop_image') String stopImage,
       List<String> workers,
       String description,
@@ -353,6 +401,11 @@ abstract class _$$ProjectDataEntityImplCopyWith<$Res>
       bool? hasStop,
       bool? hasMachineryServices,
       bool? hasMachineryPartConsumes});
+
+  @override
+  $DocumentEntityCopyWith<$Res>? get machineryWorkingHourImage;
+  @override
+  $DocumentEntityCopyWith<$Res>? get stopsImage;
 }
 
 /// @nodoc
@@ -379,6 +432,8 @@ class __$$ProjectDataEntityImplCopyWithImpl<$Res>
     Object? initialMeter = null,
     Object? finalMeter = null,
     Object? machineryWorkingHour = null,
+    Object? machineryWorkingHourImage = freezed,
+    Object? stopsImage = freezed,
     Object? stopImage = null,
     Object? workers = null,
     Object? description = null,
@@ -452,6 +507,14 @@ class __$$ProjectDataEntityImplCopyWithImpl<$Res>
           ? _value.machineryWorkingHour
           : machineryWorkingHour // ignore: cast_nullable_to_non_nullable
               as String,
+      machineryWorkingHourImage: freezed == machineryWorkingHourImage
+          ? _value.machineryWorkingHourImage
+          : machineryWorkingHourImage // ignore: cast_nullable_to_non_nullable
+              as DocumentEntity?,
+      stopsImage: freezed == stopsImage
+          ? _value.stopsImage
+          : stopsImage // ignore: cast_nullable_to_non_nullable
+              as DocumentEntity?,
       stopImage: null == stopImage
           ? _value.stopImage
           : stopImage // ignore: cast_nullable_to_non_nullable
@@ -550,6 +613,9 @@ class _$ProjectDataEntityImpl implements _ProjectDataEntity {
       @JsonKey(name: 'initial_meter') this.initialMeter = 0.0,
       @JsonKey(name: 'final_meter') this.finalMeter = 0.0,
       @JsonKey(name: 'machinery_working_hour') this.machineryWorkingHour = "",
+      @JsonKey(name: 'machinery_working_hour_image')
+      this.machineryWorkingHourImage,
+      this.stopsImage,
       @JsonKey(name: 'stop_image') this.stopImage = "",
       final List<String> workers = const [],
       this.description = "",
@@ -622,6 +688,11 @@ class _$ProjectDataEntityImpl implements _ProjectDataEntity {
   @override
   @JsonKey(name: 'machinery_working_hour')
   final String machineryWorkingHour;
+  @override
+  @JsonKey(name: 'machinery_working_hour_image')
+  final DocumentEntity? machineryWorkingHourImage;
+  @override
+  final DocumentEntity? stopsImage;
   @override
   @JsonKey(name: 'stop_image')
   final String stopImage;
@@ -714,7 +785,7 @@ class _$ProjectDataEntityImpl implements _ProjectDataEntity {
 
   @override
   String toString() {
-    return 'ProjectDataEntity(id: $id, projectId: $projectId, userId: $userId, supervisorId: $supervisorId, indicatorId: $indicatorId, date: $date, headDiggerId: $headDiggerId, machineryId: $machineryId, diggerId: $diggerId, shift: $shift, initialMeter: $initialMeter, finalMeter: $finalMeter, machineryWorkingHour: $machineryWorkingHour, stopImage: $stopImage, workers: $workers, description: $description, status: $status, createdAt: $createdAt, updatedAt: $updatedAt, user: $user, headDigger: $headDigger, digger: $digger, machinery: $machinery, supervisor: $supervisor, images: $images, stops: $stops, machineryServices: $machineryServices, machineryPartConsumes: $machineryPartConsumes, syncStatus: $syncStatus, hasStop: $hasStop, hasMachineryServices: $hasMachineryServices, hasMachineryPartConsumes: $hasMachineryPartConsumes)';
+    return 'ProjectDataEntity(id: $id, projectId: $projectId, userId: $userId, supervisorId: $supervisorId, indicatorId: $indicatorId, date: $date, headDiggerId: $headDiggerId, machineryId: $machineryId, diggerId: $diggerId, shift: $shift, initialMeter: $initialMeter, finalMeter: $finalMeter, machineryWorkingHour: $machineryWorkingHour, machineryWorkingHourImage: $machineryWorkingHourImage, stopsImage: $stopsImage, stopImage: $stopImage, workers: $workers, description: $description, status: $status, createdAt: $createdAt, updatedAt: $updatedAt, user: $user, headDigger: $headDigger, digger: $digger, machinery: $machinery, supervisor: $supervisor, images: $images, stops: $stops, machineryServices: $machineryServices, machineryPartConsumes: $machineryPartConsumes, syncStatus: $syncStatus, hasStop: $hasStop, hasMachineryServices: $hasMachineryServices, hasMachineryPartConsumes: $hasMachineryPartConsumes)';
   }
 
   @override
@@ -744,6 +815,11 @@ class _$ProjectDataEntityImpl implements _ProjectDataEntity {
                 other.finalMeter == finalMeter) &&
             (identical(other.machineryWorkingHour, machineryWorkingHour) ||
                 other.machineryWorkingHour == machineryWorkingHour) &&
+            (identical(other.machineryWorkingHourImage,
+                    machineryWorkingHourImage) ||
+                other.machineryWorkingHourImage == machineryWorkingHourImage) &&
+            (identical(other.stopsImage, stopsImage) ||
+                other.stopsImage == stopsImage) &&
             (identical(other.stopImage, stopImage) ||
                 other.stopImage == stopImage) &&
             const DeepCollectionEquality().equals(other._workers, _workers) &&
@@ -795,6 +871,8 @@ class _$ProjectDataEntityImpl implements _ProjectDataEntity {
         initialMeter,
         finalMeter,
         machineryWorkingHour,
+        machineryWorkingHourImage,
+        stopsImage,
         stopImage,
         const DeepCollectionEquality().hash(_workers),
         description,
@@ -847,6 +925,9 @@ abstract class _ProjectDataEntity implements ProjectDataEntity {
       @JsonKey(name: 'final_meter') final double finalMeter,
       @JsonKey(name: 'machinery_working_hour')
       final String machineryWorkingHour,
+      @JsonKey(name: 'machinery_working_hour_image')
+      final DocumentEntity? machineryWorkingHourImage,
+      final DocumentEntity? stopsImage,
       @JsonKey(name: 'stop_image') final String stopImage,
       final List<String> workers,
       final String description,
@@ -914,6 +995,11 @@ abstract class _ProjectDataEntity implements ProjectDataEntity {
   @override
   @JsonKey(name: 'machinery_working_hour')
   String get machineryWorkingHour;
+  @override
+  @JsonKey(name: 'machinery_working_hour_image')
+  DocumentEntity? get machineryWorkingHourImage;
+  @override
+  DocumentEntity? get stopsImage;
   @override
   @JsonKey(name: 'stop_image')
   String get stopImage;

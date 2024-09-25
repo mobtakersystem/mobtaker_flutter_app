@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:mpm/data/data_provider/auth/auth_impl.dart';
 import 'package:mpm/data/data_provider/auth/auth_interface.dart';
 import 'package:mpm/data/data_provider/project/project_api_imp.dart';
@@ -14,6 +15,7 @@ import 'package:mpm/domain/repository/auth/auth_interface.dart';
 import 'package:mpm/domain/repository/project/project_repository.dart';
 import 'package:mpm/domain/repository/storage.dart';
 import 'package:mpm/domain/use_case/get_and_sync_local_project_data.dart';
+import 'package:mpm/domain/use_case/image_picker_usecase.dart';
 import 'package:mpm/domain/use_case/project_data_index.dart';
 import 'package:mpm/domain/use_case/project_property.dart';
 import 'package:mpm/domain/use_case/project_store.dart';
@@ -76,9 +78,24 @@ slConfig(GetIt getIt) async {
   );
   //
   _projectSl(getIt);
+  _storageSl(getIt);
+  _filePickerSl(getIt);
 }
 
-storageSl(GetIt getIt) {
+_filePickerSl(GetIt getIt) {
+  getIt.registerLazySingleton<SingleImagePickerUseCase>(
+    () => SingleImagePickerUseCase(
+      ImagePicker(),
+    ),
+  );
+  getIt.registerLazySingleton<MultiImagePickerUseCase>(
+    () => MultiImagePickerUseCase(
+      ImagePicker(),
+    ),
+  );
+}
+
+_storageSl(GetIt getIt) {
   //storage data provider
   getIt.registerLazySingleton<StorageDataProvider>(
     () => StorageApiImpl(

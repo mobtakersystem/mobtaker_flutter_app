@@ -8,6 +8,7 @@ import 'package:mpm/common/extention/context.dart';
 import 'package:mpm/common/riverpod_helper.dart';
 import 'package:mpm/common/sl_config.dart';
 import 'package:mpm/common/widget/form_date_picker.dart';
+import 'package:mpm/common/widget/image_picker_form_widget.dart';
 import 'package:mpm/data/entities/project/project_data_entity.dart';
 import 'package:mpm/domain/use_case/project_store.dart';
 import 'package:mpm/presentation/project_data/project_property_provider.dart';
@@ -180,6 +181,7 @@ class _ProjectDataStorePageState extends ConsumerState<ProjectDataStorePage> {
                     Row(
                       children: [
                         Expanded(
+                          flex: 6,
                           child: FormBuilderDateTimePicker(
                             name: 'machinery_working_hour',
                             //todo convert initial value
@@ -196,10 +198,25 @@ class _ProjectDataStorePageState extends ConsumerState<ProjectDataStorePage> {
                           ),
                         ),
                         //todo add machinery working hour image
+                        Expanded(
+                          flex: 3,
+                          child: ImagePickerFormWidget(
+                            label: 'تصویر کارکرد ماشین',
+                            name: 'machinery_working_hour_image',
+                            singlePicker: true,
+                            valueTransformer: (value) =>
+                                value?.firstOrNull?.toJson(),
+                          ),
+                        )
                       ],
                     ),
                     _space,
-                    //todo add other images
+                    ImagePickerFormWidget(
+                      name: 'images',
+                      label: 'تصاویر دیگر',
+                      valueTransformer: (value) =>
+                          value?.map((e) => e.toJson()).toList(),
+                    ),
                     FormBuilderSwitch(
                       name: 'hasStop',
                       title: const Text("توقف دارد"),
@@ -218,12 +235,20 @@ class _ProjectDataStorePageState extends ConsumerState<ProjectDataStorePage> {
                     ),
                     _space,
                     if (_formKey.currentState?.fields['hasStop']?.value ??
-                        false)
+                        false) ...[
+                      ImagePickerFormWidget(
+                        name: 'stopsImage',
+                        label: 'تصویر دفترچه توقف',
+                        singlePicker: true,
+                        valueTransformer: (value) =>
+                            value?.firstOrNull?.toJson(),
+                      ),
                       StopFormBuilder(
                         name: 'stops',
                         data: properties.stopReasons,
                         validator: FormBuilderValidators.required(),
                       ),
+                    ],
                     FormBuilderSwitch(
                       name: 'hasMachineryPartConsumes',
                       decoration:
@@ -240,7 +265,6 @@ class _ProjectDataStorePageState extends ConsumerState<ProjectDataStorePage> {
                       },
                       valueTransformer: (value) => value ?? false,
                     ),
-
                     _space,
                     if (_formKey.currentState
                             ?.fields['hasMachineryPartConsumes']?.value ??

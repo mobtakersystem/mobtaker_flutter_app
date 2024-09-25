@@ -1,6 +1,7 @@
 import 'package:cross_file/cross_file.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:mpm/data/entities/project/project_data_entity.dart';
+import 'package:mpm/domain/failure_model.dart';
 import 'package:mpm/domain/repository/project/project_repository.dart';
 import 'package:collection/collection.dart';
 import 'package:mpm/domain/use_case/upload_image_to_storage.dart';
@@ -60,39 +61,122 @@ class GetAndSyncLocalProjectDataUseCase {
     if (findImages.isNotEmpty) {
       for (final image in findImages) {
         ///upload image to storage
-        final result = await _uploadImageToStorageUseCase.call(
-          image: XFile(image.path!),
-        );
-        await result.fold(
-          (l) async {
-            debugPrint("FAILED TO UPLOAD IMAGE");
-            await _localRepository.updateProjectData(
-                item.copyWith(syncStatus: DataSyncStatus.failed));
-            return;
-          },
-          (preSignName) async {
-            debugPrint("IMAGE UPLOADED SUCCESSFULLY $preSignName");
-            final updatedImages = item.images
-                .map(
-                  (e) => e.id == image.id
-                      ? e.copyWith(preSignedName: preSignName)
-                      : e,
-                )
-                .toList();
-            item = item.copyWith(
-              images: updatedImages,
-            );
+        final result = await _uploadImage(image.path!, item);
+        if (result.isRight()) {
+          final updatedImages = item.images
+              .map(
+                (e) => e.id == image.id
+                    ? e.copyWith(preSignedName: result.getRight().toNullable())
+                    : e,
+              )
+              .toList();
+          item = item.copyWith(
+            images: updatedImages,
+          );
 
-            ///update the local item with the new image
-            await _localRepository.updateProjectData(item);
-          },
-        );
+          ///update the local item with the new image
+          await _localRepository.updateProjectData(item);
+        } else {
+          return;
+        }
       }
     } else {
       debugPrint("NO IMAGE TO UPLOAD");
     }
+
+    ///upload machinery work hour image
+    if (item.machineryWorkingHourImage != null &&
+        item.machineryWorkingHourImage!.path != null &&
+        item.machineryWorkingHourImage!.preSignedName == null) {
+      final result =
+          await _uploadImage(item.machineryWorkingHourImage!.path!, item);
+      if (result.isRight()) {
+        item = item.copyWith(
+          machineryWorkingHourImage: item.machineryWorkingHourImage!
+              .copyWith(preSignedName: result.getRight().toNullable()),
+        );
+        await _localRepository.updateProjectData(item);
+      } else {
+        return;
+      }
+    } else {
+      debugPrint("NO MACHINERY WORK HOUR IMAGE TO UPLOAD");
+    }
+    ///upload stop image
+    if (item.stopsImage != null &&
+        item.stopsImage!.path != null &&
+        item.stopsImage!.preSignedName == null) {
+      final uploadResult = await _uploadImage(item.stopImage, item);
+      if (uploadResult.isRight()) {
+        item = item.copyWith(
+          stopsImage: item.stopsImage!
+              .copyWith(preSignedName: uploadResult.getRight().toNullable()),
+        );
+        await _localRepository.updateProjectData(item);
+      } else {
+        return;
+      }
+    }
+    ///upload machinery part consume image
+    for(final machineryPartItem in item.machineryPartConsumes){
+      for(final image in machineryPartItem.images){
+        if(image.path != null && image.preSignedName == null){
+          final result = await _uploadImage(image.path!, item);
+          if(result.isRight()){
+            final updatedImages = machineryPartItem.images
+                .map(
+                  (e) => e.id == image.id
+                      ? e.copyWith(preSignedName: result.getRight().toNullable())
+                      : e,
+                )
+                .toList();
+            item = item.copyWith(
+              machineryPartConsumes: item.machineryPartConsumes
+                  .map(
+                    (e) => e.id == machineryPartItem.id
+                        ? e.copyWith(images: updatedImages)
+                        : e,
+                  )
+                  .toList(),
+            );
+            await _localRepository.updateProjectData(item);
+          }else{
+            return;
+          }
+        }
+      }
+    }
+    ///upload machinery service image
+    for(final machineryServiceItem in item.machineryServices){
+      for(final image in machineryServiceItem.images){
+        if(image.path != null && image.preSignedName == null){
+          final result = await _uploadImage(image.path!, item);
+          if(result.isRight()){
+            final updatedImages = machineryServiceItem.images
+                .map(
+                  (e) => e.id == image.id
+                      ? e.copyWith(preSignedName: result.getRight().toNullable())
+                      : e,
+                )
+                .toList();
+            item = item.copyWith(
+              machineryServices: item.machineryServices
+                  .map(
+                    (e) => e.id == machineryServiceItem.id
+                        ? e.copyWith(images: updatedImages)
+                        : e,
+                  )
+                  .toList(),
+            );
+            await _localRepository.updateProjectData(item);
+          }else{
+            return;
+          }
+        }
+      }
+    }
+    
     final result = await _apiRepository.storeProjectData(item);
-    // final result = ResultData.right("");
     await result.fold(
       (l) async {
         debugPrint("STATUS CHANGED TO FAILED");
@@ -105,6 +189,25 @@ class GetAndSyncLocalProjectDataUseCase {
             item.copyWith(syncStatus: DataSyncStatus.synced));
       },
     );
+  }
+
+  Future<ResultData<String>> _uploadImage(
+      String filePath, ProjectDataEntity item) async {
+    final result = await _uploadImageToStorageUseCase.call(
+      image: XFile(filePath),
+    );
+    await result.fold(
+      (l) async {
+        debugPrint("FAILED TO UPLOAD IMAGE");
+        await _localRepository.updateProjectData(
+            item.copyWith(syncStatus: DataSyncStatus.failed));
+      },
+      (preSignName) async {
+        debugPrint(
+            "IMAGE UPLOADED SUCCESSFULLY $preSignName");
+      },
+    );
+    return result;
   }
 }
 

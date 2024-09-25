@@ -4,6 +4,7 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mpm/common/sl_config.dart';
+import 'package:mpm/common/widget/image_picker_form_widget.dart';
 import 'package:mpm/data/entities/machinery/machinery_data_entity.dart';
 import 'package:mpm/presentation/project_data/project_property_provider.dart';
 
@@ -102,13 +103,16 @@ class MachineryServiceFormBuilder extends ConsumerWidget {
                         Row(
                           children: [
                             Expanded(
-                              child: TextButton.icon(
-                                style: TextButton.styleFrom(
-                                    minimumSize:
-                                        const Size(double.maxFinite, 42)),
-                                onPressed: () {},
-                                label: const Text("افزودن تصویر"),
-                                icon: const Icon(Icons.add_photo_alternate),
+                              child: ImagePickerFormWidget(
+                                name: 'images${e.id}',
+                                singlePicker: true,
+                                onChanged: (value) {
+                                  final index = field.value?.indexOf(e) ?? 0;
+                                  final newValue = field.value;
+                                  newValue?[index] =
+                                      e.copyWith(images: value ?? []);
+                                  field.didChange(newValue);
+                                },
                               ),
                             ),
                             if ((field.value?.length ?? 0) > 1)

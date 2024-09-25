@@ -28,6 +28,9 @@ class ProjectDataEntity with _$ProjectDataEntity {
     @JsonKey(name: 'machinery_working_hour')
     @Default("")
     String machineryWorkingHour,
+    @JsonKey(name: 'machinery_working_hour_image')
+    DocumentEntity? machineryWorkingHourImage,
+    DocumentEntity? stopsImage,
     @JsonKey(name: 'stop_image') @Default("") String stopImage,
     @Default([]) List<String> workers,
     @Default("") String description,
@@ -92,6 +95,7 @@ extension PrDataExt on ProjectDataEntity {
   bool isLocalRecord() {
     return id.startsWith("LOCAL_");
   }
+
   String getSyncStatusText() {
     switch (syncStatus) {
       case DataSyncStatus.none:

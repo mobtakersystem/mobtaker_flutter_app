@@ -1,3 +1,5 @@
+import 'package:dio/dio.dart';
+import 'package:mime/mime.dart';
 import 'package:mpm/data/data_provider/project/project_interface.dart';
 import 'package:mpm/data/entities/pagination/pagination.dart';
 import 'package:mpm/data/entities/project/project_data_entity.dart';
@@ -96,37 +98,50 @@ class ProjectApiDataProvider implements ProjectDataProvider {
       NetworkRequest(
         type: NetworkRequestType.post,
         path: 'projects/drilling/data/store',
-        data: NetworkRequestBody.json({
-          'project_id': projectData.projectId,
-          'date': projectData.date?.toIso8601String(),
-          'head_digger_id': projectData.headDiggerId,
-          'machinery_id': projectData.machineryId,
-          'supervisor_id': projectData.supervisorId,
-          'shift': projectData.shift,
-          'digger_id': projectData.diggerId,
-          'workers': projectData.workers,
-          'initial_meter': projectData.initialMeter,
-          'final_meter': projectData.finalMeter,
-          "machinery_working_hour": projectData.machineryWorkingHour,
-          'indicator_id': projectData.indicatorId,
-          'hasMachineryServices': projectData.hasMachineryServices,
-          if (projectData.hasMachineryServices!)
-            'machineryServices':
-                projectData.machineryServices.map((e) => e.toJson()).toList(),
-          'hasMachineryPartConsumes': projectData.hasMachineryPartConsumes,
-          if (projectData.hasMachineryPartConsumes!)
-            'machineryPartConsumes': projectData.machineryPartConsumes
-                .map((e) => e.toJson())
+        data: NetworkRequestBody.formData(FormData.fromMap(
+          {
+            'project_id': projectData.projectId,
+            'date': projectData.date?.toIso8601String(),
+            'head_digger_id': projectData.headDiggerId,
+            'machinery_id': projectData.machineryId,
+            'supervisor_id': projectData.supervisorId,
+            'shift': projectData.shift,
+            'digger_id': projectData.diggerId,
+            'workers': projectData.workers,
+            'initial_meter': projectData.initialMeter,
+            'final_meter': projectData.finalMeter,
+            "machinery_working_hour": projectData.machineryWorkingHour,
+            'indicator_id': projectData.indicatorId,
+            if (projectData.machineryWorkingHourImage != null)
+              'machinery_working_hour_image':
+                  projectData.machineryWorkingHourImage!.preSignedName,
+            if (projectData.images.isNotEmpty)
+              'images': projectData.images
+                  .map((e) => {
+                        "id": e.preSignedName,
+                        "mime_type": lookupMimeType(e.path!),
+                      })
+                  .toList(),
+            'hasMachineryServices': projectData.hasMachineryServices,
+            if (projectData.hasMachineryServices!)
+              'machineryServices':
+                  projectData.machineryServices.map((e) => e.toJson()).toList(),
+            'hasMachineryPartConsumes': projectData.hasMachineryPartConsumes,
+            if (projectData.hasMachineryPartConsumes!)
+              'machineryPartConsumes': projectData.machineryPartConsumes
+                  .map((e) => e.toJson())
+                  .toList(),
+            "stops": projectData.stops
+                .map((e) => {
+                      "reason": e.reason,
+                      "start": e.start,
+                      "end": e.end,
+                      "description": e.description
+                    })
                 .toList(),
-          "stops": projectData.stops
-              .map((e) => {
-                    "reason": e.reason,
-                    "start": e.start,
-                    "end": e.end,
-                    "description": e.description
-                  })
-              .toList(),
-        }),
+          },
+          ListFormat.multiCompatible,
+        )),
       ),
       parser: (jsonParam) {
         return;

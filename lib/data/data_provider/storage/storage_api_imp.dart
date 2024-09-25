@@ -56,6 +56,7 @@ class StorageApiImpl implements StorageDataProvider {
     var dio = Dio();
     var parse = Uri.parse(preSignLink);
     dio.options.headers.addAll(parse.queryParameters);
+    debugPrint("UPLOAD DATA");
     debugPrint(parse.host);
     debugPrint(parse.path);
     debugPrint(preSignLink);

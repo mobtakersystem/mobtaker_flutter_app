@@ -22,6 +22,13 @@ _$ProjectDataEntityImpl _$$ProjectDataEntityImplFromJson(
       initialMeter: (json['initial_meter'] as num?)?.toDouble() ?? 0.0,
       finalMeter: (json['final_meter'] as num?)?.toDouble() ?? 0.0,
       machineryWorkingHour: json['machinery_working_hour'] as String? ?? "",
+      machineryWorkingHourImage: json['machinery_working_hour_image'] == null
+          ? null
+          : DocumentEntity.fromJson(
+              json['machinery_working_hour_image'] as Map<String, dynamic>),
+      stopsImage: json['stopsImage'] == null
+          ? null
+          : DocumentEntity.fromJson(json['stopsImage'] as Map<String, dynamic>),
       stopImage: json['stop_image'] as String? ?? "",
       workers: (json['workers'] as List<dynamic>?)
               ?.map((e) => e as String)
@@ -80,6 +87,9 @@ Map<String, dynamic> _$$ProjectDataEntityImplToJson(
       'initial_meter': instance.initialMeter,
       'final_meter': instance.finalMeter,
       'machinery_working_hour': instance.machineryWorkingHour,
+      'machinery_working_hour_image':
+          instance.machineryWorkingHourImage?.toJson(),
+      'stopsImage': instance.stopsImage?.toJson(),
       'stop_image': instance.stopImage,
       'workers': instance.workers,
       'description': instance.description,
