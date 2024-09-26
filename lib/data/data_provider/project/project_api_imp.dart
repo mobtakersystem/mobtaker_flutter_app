@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:mime/mime.dart';
 import 'package:mpm/data/data_provider/project/project_interface.dart';
 import 'package:mpm/data/entities/pagination/pagination.dart';
 import 'package:mpm/data/entities/project/project_data_entity.dart';
@@ -8,6 +7,7 @@ import 'package:mpm/data/entities/project/project_property_entity.dart';
 import 'package:mpm/data/network/network_request.dart';
 import 'package:mpm/data/network/network_service.dart';
 import 'package:mpm/data/network/request_body.dart';
+import 'package:intl/intl.dart';
 
 class ProjectApiDataProvider implements ProjectDataProvider {
   final NetworkService _networkService;
@@ -101,7 +101,7 @@ class ProjectApiDataProvider implements ProjectDataProvider {
         data: NetworkRequestBody.formData(FormData.fromMap(
           {
             'project_id': projectData.projectId,
-            'date': projectData.date?.toIso8601String(),
+            'date': projectData.date?.toString().split(" ").firstOrNull,
             'head_digger_id': projectData.headDiggerId,
             'machinery_id': projectData.machineryId,
             'supervisor_id': projectData.supervisorId,
@@ -112,25 +112,49 @@ class ProjectApiDataProvider implements ProjectDataProvider {
             'final_meter': projectData.finalMeter,
             "machinery_working_hour": projectData.machineryWorkingHour,
             'indicator_id': projectData.indicatorId,
-            if (projectData.machineryWorkingHourImage != null)
+            if (projectData.localMachineryWorkingHourImage != null)
               'machinery_working_hour_image':
-                  projectData.machineryWorkingHourImage!.preSignedName,
+                  projectData.localMachineryWorkingHourImage!.preSignedName,
             if (projectData.images.isNotEmpty)
               'images': projectData.images
                   .map((e) => {
-                        "id": e.preSignedName,
-                        "mime_type": lookupMimeType(e.path!),
+                        "id": e.preSignedName!.split(".").first,
+                        "mime_type": e.preSignedName!.split(".").last,
                       })
                   .toList(),
-            'hasMachineryServices': projectData.hasMachineryServices,
+            'hasMachineryServices':
+                (projectData.hasMachineryServices ?? false) ? 1 : 0,
             if (projectData.hasMachineryServices!)
-              'machineryServices':
-                  projectData.machineryServices.map((e) => e.toJson()).toList(),
-            'hasMachineryPartConsumes': projectData.hasMachineryPartConsumes,
+              'machineryServices': projectData.machineryServices.map((e) {
+                final json = <String, dynamic>{
+                  "type": e.serviceType,
+                  "description": e.description,
+                };
+                if (e.images.isNotEmpty) {
+                  json['image_id'] =
+                      e.images.first.preSignedName?.split(".").first;
+                  json['mime_type'] =
+                      e.images.first.preSignedName?.split(".").last;
+                }
+                return json;
+              }).toList(),
+            'hasMachineryPartConsumes':
+                (projectData.hasMachineryPartConsumes ?? false) ? 1 : 0,
             if (projectData.hasMachineryPartConsumes!)
-              'machineryPartConsumes': projectData.machineryPartConsumes
-                  .map((e) => e.toJson())
-                  .toList(),
+              'machineryPartConsumes':
+                  projectData.machineryPartConsumes.map((e) {
+                final json = {
+                  "part_id": e.partId,
+                  "description": e.description,
+                };
+                if (e.images.isNotEmpty) {
+                  json['image_id'] =
+                      e.images.first.preSignedName?.split(".").first;
+                  json['mime_type'] =
+                      e.images.first.preSignedName?.split(".").last;
+                }
+                return json;
+              }).toList(),
             "stops": projectData.stops
                 .map((e) => {
                       "reason": e.reason,
@@ -139,6 +163,9 @@ class ProjectApiDataProvider implements ProjectDataProvider {
                       "description": e.description
                     })
                 .toList(),
+            if ((projectData.hasStop ?? false) &&
+                projectData.stopsImage != null)
+              "stopsImage": projectData.stopsImage?.preSignedName
           },
           ListFormat.multiCompatible,
         )),

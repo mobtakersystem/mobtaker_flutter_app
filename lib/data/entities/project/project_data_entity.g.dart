@@ -22,10 +22,8 @@ _$ProjectDataEntityImpl _$$ProjectDataEntityImplFromJson(
       initialMeter: (json['initial_meter'] as num?)?.toDouble() ?? 0.0,
       finalMeter: (json['final_meter'] as num?)?.toDouble() ?? 0.0,
       machineryWorkingHour: json['machinery_working_hour'] as String? ?? "",
-      machineryWorkingHourImage: json['machinery_working_hour_image'] == null
-          ? null
-          : DocumentEntity.fromJson(
-              json['machinery_working_hour_image'] as Map<String, dynamic>),
+      machineryWorkingHourImage:
+          json['machinery_working_hour_image'] as String?,
       stopsImage: json['stopsImage'] == null
           ? null
           : DocumentEntity.fromJson(json['stopsImage'] as Map<String, dynamic>),
@@ -69,6 +67,11 @@ _$ProjectDataEntityImpl _$$ProjectDataEntityImplFromJson(
       hasStop: json['hasStop'] as bool?,
       hasMachineryServices: json['hasMachineryServices'] as bool?,
       hasMachineryPartConsumes: json['hasMachineryPartConsumes'] as bool?,
+      localMachineryWorkingHourImage: json['localMachineryWorkingHourImage'] ==
+              null
+          ? null
+          : DocumentEntity.fromJson(
+              json['localMachineryWorkingHourImage'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$ProjectDataEntityImplToJson(
@@ -87,8 +90,7 @@ Map<String, dynamic> _$$ProjectDataEntityImplToJson(
       'initial_meter': instance.initialMeter,
       'final_meter': instance.finalMeter,
       'machinery_working_hour': instance.machineryWorkingHour,
-      'machinery_working_hour_image':
-          instance.machineryWorkingHourImage?.toJson(),
+      'machinery_working_hour_image': instance.machineryWorkingHourImage,
       'stopsImage': instance.stopsImage?.toJson(),
       'stop_image': instance.stopImage,
       'workers': instance.workers,
@@ -113,6 +115,8 @@ Map<String, dynamic> _$$ProjectDataEntityImplToJson(
       'hasStop': instance.hasStop,
       'hasMachineryServices': instance.hasMachineryServices,
       'hasMachineryPartConsumes': instance.hasMachineryPartConsumes,
+      'localMachineryWorkingHourImage':
+          instance.localMachineryWorkingHourImage?.toJson(),
     };
 
 const _$DataSyncStatusEnumMap = {

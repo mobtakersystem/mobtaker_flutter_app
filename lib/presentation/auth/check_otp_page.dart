@@ -21,7 +21,6 @@ class CheckOtpPage extends HookConsumerWidget {
     ref.listen(
       loginFlowProvider,
       (previous, next) {
-        print("STATE: $next");
         if (next != previous && next is AsyncData) {
           next.value?.maybeMap(
             checkOtp: (value) {
@@ -86,7 +85,13 @@ class CheckOtpPage extends HookConsumerWidget {
                           _formKey.currentState?.value['otp'] as String);
                     }
                   },
-                  child: const Text('تایید'),
+                  child: ref.watch(loginFlowProvider).isLoading
+                      ? CircularProgressIndicator(
+                          valueColor: AlwaysStoppedAnimation(
+                            context.onButtonColor,
+                          ),
+                        )
+                      : const Text('تایید'),
                 ),
                 const SizedBox.square(
                   dimension: 16,
@@ -95,7 +100,7 @@ class CheckOtpPage extends HookConsumerWidget {
                 Visibility(
                   visible: !showResend.value,
                   child: CountDownTimerWidget(
-                    duration: const Duration(seconds: 10),
+                    duration: const Duration(seconds: 120),
                     onEnd: () {
                       showResend.value = true;
                     },

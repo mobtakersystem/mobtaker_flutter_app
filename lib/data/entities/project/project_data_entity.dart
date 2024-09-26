@@ -29,8 +29,7 @@ class ProjectDataEntity with _$ProjectDataEntity {
     @Default("")
     String machineryWorkingHour,
     @JsonKey(name: 'machinery_working_hour_image')
-    DocumentEntity? machineryWorkingHourImage,
-    DocumentEntity? stopsImage,
+    String? machineryWorkingHourImage,
     @JsonKey(name: 'stop_image') @Default("") String stopImage,
     @Default([]) List<String> workers,
     @Default("") String description,
@@ -59,6 +58,8 @@ class ProjectDataEntity with _$ProjectDataEntity {
     bool? hasStop,
     bool? hasMachineryServices,
     bool? hasMachineryPartConsumes,
+    DocumentEntity? localMachineryWorkingHourImage,
+    DocumentEntity? stopsImage,
   }) = _ProjectDataEntity;
 
   factory ProjectDataEntity.fromJson(Map<String, dynamic> json) =>

@@ -25,12 +25,12 @@ class NetworkService {
       ..options.baseUrl = baseUrl
       ..options.headers = _headers
       ..options.connectTimeout = const Duration(seconds: 10)
-      ..options.receiveTimeout = const Duration(seconds: 20)
+      ..options.receiveTimeout = const Duration(seconds: 15)
       ..interceptors.add(
         PrettyDioLogger(
           requestBody: true,
           error: true,
-          responseBody: true,
+          responseBody: false,
           enabled: kDebugMode,
           filter: (options, args) {
             if (options.path.contains('projects/drilling/data/create')) {

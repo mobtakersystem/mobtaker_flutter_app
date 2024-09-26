@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:cross_file/cross_file.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 import 'package:mpm/data/entities/project/project_data_entity.dart';
 import 'package:mpm/domain/failure_model.dart';
 import 'package:mpm/domain/repository/project/project_repository.dart';
@@ -10,20 +13,47 @@ class GetAndSyncLocalProjectDataUseCase {
   final ProjectRepository _localRepository;
   final ProjectRepository _apiRepository;
   final UploadImageToStorageUseCase _uploadImageToStorageUseCase;
+  final InternetConnection _internetConnection;
+  StreamSubscription<InternetStatus>? internetListener;
+  List<ProjectDataEntity> currentData = [];
 
   GetAndSyncLocalProjectDataUseCase({
     required ProjectRepository localRepository,
     required ProjectRepository apiRepository,
     required UploadImageToStorageUseCase uploadImageToStorageUseCase,
+    required InternetConnection internetConnection,
   })  : _localRepository = localRepository,
         _apiRepository = apiRepository,
-        _uploadImageToStorageUseCase = uploadImageToStorageUseCase;
+        _uploadImageToStorageUseCase = uploadImageToStorageUseCase,
+        _internetConnection = internetConnection;
 
   Stream<List<ProjectDataEntity>> call() async* {
     final stream = _localRepository.listenToLocalProjectData();
+    debugPrint("#SYNC START");
+    internetListener = _internetConnection.onStatusChange
+        .listen((InternetStatus status) async {
+      switch (status) {
+        case InternetStatus.connected:
+          debugPrint("#SYNC INTERNET CONNECTED");
+          debugPrint(currentData.length.toString());
+          await Future.delayed(const Duration(seconds: 1));
+          _syncProcess(currentData);
+          break;
+        case InternetStatus.disconnected:
+          debugPrint("#SYNC INTERNET DISCONNECTED");
+          break;
+      }
+    });
+
     await for (final data in stream) {
       yield data;
-      _syncProcess(data);
+      currentData = data;
+      if (await _internetConnection.hasInternetAccess) {
+        debugPrint("#SYNC CALL BACK");
+        _syncProcess(data);
+      } else {
+        debugPrint("#SYNC CALL BACK NO INTERNET CONNECTION");
+      }
     }
   }
 
@@ -42,153 +72,161 @@ class GetAndSyncLocalProjectDataUseCase {
     if (pendingItem != null) {
       await _storeItem(pendingItem);
       return;
-    } else if (failedItem != null) {
-      // await _storeItem(failedItem);
-      return;
     }
     return;
   }
 
   _storeItem(ProjectDataEntity item) async {
-    final changeStatus = await _localRepository
-        .updateProjectData(item.copyWith(syncStatus: DataSyncStatus.running));
-    if (changeStatus.isLeft()) return;
-    debugPrint("STATUS CHANGED TO RUNNING");
+    try {
+      final changeStatus = await _localRepository
+          .updateProjectData(item.copyWith(syncStatus: DataSyncStatus.running));
+      if (changeStatus.isLeft()) return;
+      debugPrint("STATUS CHANGED TO RUNNING");
 
-    /// This is the place where the image is not uploaded to the storage
-    final findImages = item.images.where(
-        (element) => element.path != null && element.preSignedName == null);
-    if (findImages.isNotEmpty) {
-      for (final image in findImages) {
-        ///upload image to storage
-        final result = await _uploadImage(image.path!, item);
+      /// This is the place where the image is not uploaded to the storage
+      final findImages = item.images.where(
+          (element) => element.path != null && element.preSignedName == null);
+      if (findImages.isNotEmpty) {
+        for (final image in findImages) {
+          ///upload image to storage
+          final result = await _uploadImage(image.path!, item);
+          if (result.isRight()) {
+            final updatedImages = item.images
+                .map(
+                  (e) => e.id == image.id
+                      ? e.copyWith(
+                          preSignedName: result.getRight().toNullable())
+                      : e,
+                )
+                .toList();
+            item = item.copyWith(
+              images: updatedImages,
+            );
+
+            ///update the local item with the new image
+            await _localRepository.updateProjectData(item);
+          } else {
+            return;
+          }
+        }
+      } else {
+        debugPrint("NO IMAGE TO UPLOAD");
+      }
+
+      ///upload machinery work hour image
+      if (item.localMachineryWorkingHourImage != null &&
+          item.localMachineryWorkingHourImage!.path != null &&
+          item.localMachineryWorkingHourImage!.preSignedName == null) {
+        final result = await _uploadImage(
+            item.localMachineryWorkingHourImage!.path!, item);
         if (result.isRight()) {
-          final updatedImages = item.images
-              .map(
-                (e) => e.id == image.id
-                    ? e.copyWith(preSignedName: result.getRight().toNullable())
-                    : e,
-              )
-              .toList();
           item = item.copyWith(
-            images: updatedImages,
+            localMachineryWorkingHourImage: item.localMachineryWorkingHourImage!
+                .copyWith(preSignedName: result.getRight().toNullable()),
           );
+          await _localRepository.updateProjectData(item);
+        } else {
+          return;
+        }
+      } else {
+        debugPrint("NO MACHINERY WORK HOUR IMAGE TO UPLOAD");
+      }
 
-          ///update the local item with the new image
+      ///upload stop image
+      if (item.stopsImage != null &&
+          item.stopsImage!.path != null &&
+          item.stopsImage!.preSignedName == null) {
+        final uploadResult = await _uploadImage(item.stopsImage!.path!, item);
+        if (uploadResult.isRight()) {
+          item = item.copyWith(
+            stopsImage: item.stopsImage!
+                .copyWith(preSignedName: uploadResult.getRight().toNullable()),
+          );
           await _localRepository.updateProjectData(item);
         } else {
           return;
         }
       }
-    } else {
-      debugPrint("NO IMAGE TO UPLOAD");
-    }
 
-    ///upload machinery work hour image
-    if (item.machineryWorkingHourImage != null &&
-        item.machineryWorkingHourImage!.path != null &&
-        item.machineryWorkingHourImage!.preSignedName == null) {
-      final result =
-          await _uploadImage(item.machineryWorkingHourImage!.path!, item);
-      if (result.isRight()) {
-        item = item.copyWith(
-          machineryWorkingHourImage: item.machineryWorkingHourImage!
-              .copyWith(preSignedName: result.getRight().toNullable()),
-        );
-        await _localRepository.updateProjectData(item);
-      } else {
-        return;
-      }
-    } else {
-      debugPrint("NO MACHINERY WORK HOUR IMAGE TO UPLOAD");
-    }
-    ///upload stop image
-    if (item.stopsImage != null &&
-        item.stopsImage!.path != null &&
-        item.stopsImage!.preSignedName == null) {
-      final uploadResult = await _uploadImage(item.stopImage, item);
-      if (uploadResult.isRight()) {
-        item = item.copyWith(
-          stopsImage: item.stopsImage!
-              .copyWith(preSignedName: uploadResult.getRight().toNullable()),
-        );
-        await _localRepository.updateProjectData(item);
-      } else {
-        return;
-      }
-    }
-    ///upload machinery part consume image
-    for(final machineryPartItem in item.machineryPartConsumes){
-      for(final image in machineryPartItem.images){
-        if(image.path != null && image.preSignedName == null){
-          final result = await _uploadImage(image.path!, item);
-          if(result.isRight()){
-            final updatedImages = machineryPartItem.images
-                .map(
-                  (e) => e.id == image.id
-                      ? e.copyWith(preSignedName: result.getRight().toNullable())
-                      : e,
-                )
-                .toList();
-            item = item.copyWith(
-              machineryPartConsumes: item.machineryPartConsumes
+      ///upload machinery part consume image
+      for (final machineryPartItem in item.machineryPartConsumes) {
+        for (final image in machineryPartItem.images) {
+          if (image.path != null && image.preSignedName == null) {
+            final result = await _uploadImage(image.path!, item);
+            if (result.isRight()) {
+              final updatedImages = machineryPartItem.images
                   .map(
-                    (e) => e.id == machineryPartItem.id
-                        ? e.copyWith(images: updatedImages)
+                    (e) => e.id == image.id
+                        ? e.copyWith(
+                            preSignedName: result.getRight().toNullable())
                         : e,
                   )
-                  .toList(),
-            );
-            await _localRepository.updateProjectData(item);
-          }else{
-            return;
+                  .toList();
+              item = item.copyWith(
+                machineryPartConsumes: item.machineryPartConsumes
+                    .map(
+                      (e) => e.id == machineryPartItem.id
+                          ? e.copyWith(images: updatedImages)
+                          : e,
+                    )
+                    .toList(),
+              );
+              await _localRepository.updateProjectData(item);
+            } else {
+              return;
+            }
           }
         }
       }
-    }
-    ///upload machinery service image
-    for(final machineryServiceItem in item.machineryServices){
-      for(final image in machineryServiceItem.images){
-        if(image.path != null && image.preSignedName == null){
-          final result = await _uploadImage(image.path!, item);
-          if(result.isRight()){
-            final updatedImages = machineryServiceItem.images
-                .map(
-                  (e) => e.id == image.id
-                      ? e.copyWith(preSignedName: result.getRight().toNullable())
-                      : e,
-                )
-                .toList();
-            item = item.copyWith(
-              machineryServices: item.machineryServices
+
+      ///upload machinery service image
+      for (final machineryServiceItem in item.machineryServices) {
+        for (final image in machineryServiceItem.images) {
+          if (image.path != null && image.preSignedName == null) {
+            final result = await _uploadImage(image.path!, item);
+            if (result.isRight()) {
+              final updatedImages = machineryServiceItem.images
                   .map(
-                    (e) => e.id == machineryServiceItem.id
-                        ? e.copyWith(images: updatedImages)
+                    (e) => e.id == image.id
+                        ? e.copyWith(
+                            preSignedName: result.getRight().toNullable())
                         : e,
                   )
-                  .toList(),
-            );
-            await _localRepository.updateProjectData(item);
-          }else{
-            return;
+                  .toList();
+              item = item.copyWith(
+                machineryServices: item.machineryServices
+                    .map(
+                      (e) => e.id == machineryServiceItem.id
+                          ? e.copyWith(images: updatedImages)
+                          : e,
+                    )
+                    .toList(),
+              );
+              await _localRepository.updateProjectData(item);
+            } else {
+              return;
+            }
           }
         }
       }
+
+      final result = await _apiRepository.storeProjectData(item);
+      await result.fold(
+        (l) async {
+          debugPrint("STATUS CHANGED TO FAILED");
+          await _localRepository.updateProjectData(
+              item.copyWith(syncStatus: DataSyncStatus.failed));
+        },
+        (r) async {
+          debugPrint("STATUS CHANGED TO SYNCED");
+          await _localRepository.updateProjectData(
+              item.copyWith(syncStatus: DataSyncStatus.synced));
+        },
+      );
+    } catch (ex) {
+      await _localRepository
+          .updateProjectData(item.copyWith(syncStatus: DataSyncStatus.failed));
     }
-    
-    final result = await _apiRepository.storeProjectData(item);
-    await result.fold(
-      (l) async {
-        debugPrint("STATUS CHANGED TO FAILED");
-        await _localRepository.updateProjectData(
-            item.copyWith(syncStatus: DataSyncStatus.failed));
-      },
-      (r) async {
-        debugPrint("STATUS CHANGED TO SYNCED");
-        await _localRepository.updateProjectData(
-            item.copyWith(syncStatus: DataSyncStatus.synced));
-      },
-    );
   }
 
   Future<ResultData<String>> _uploadImage(
@@ -203,8 +241,7 @@ class GetAndSyncLocalProjectDataUseCase {
             item.copyWith(syncStatus: DataSyncStatus.failed));
       },
       (preSignName) async {
-        debugPrint(
-            "IMAGE UPLOADED SUCCESSFULLY $preSignName");
+        debugPrint("IMAGE UPLOADED SUCCESSFULLY $preSignName");
       },
     );
     return result;

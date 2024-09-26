@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 import 'package:mpm/data/data_provider/auth/auth_impl.dart';
 import 'package:mpm/data/data_provider/auth/auth_interface.dart';
 import 'package:mpm/data/data_provider/project/project_api_imp.dart';
@@ -174,13 +175,18 @@ _projectSl(GetIt getIt) {
       apiRepository: getIt(instanceName: ProviderType.api.name),
     );
   });
-  getIt.registerLazySingleton<GetAndSyncLocalProjectDataUseCase>(() {
-    return GetAndSyncLocalProjectDataUseCase(
-      localRepository: getIt(instanceName: ProviderType.local.name),
-      apiRepository: getIt(instanceName: ProviderType.api.name),
-      uploadImageToStorageUseCase: getIt(),
-    );
-  });
+  getIt.registerLazySingleton<GetAndSyncLocalProjectDataUseCase>(
+    () {
+      return GetAndSyncLocalProjectDataUseCase(
+          localRepository: getIt(instanceName: ProviderType.local.name),
+          apiRepository: getIt(instanceName: ProviderType.api.name),
+          uploadImageToStorageUseCase: getIt(),
+          internetConnection: InternetConnection());
+    },
+    dispose: (param) {
+      param.internetListener?.cancel();
+    },
+  );
   getIt.registerLazySingleton<SetTryAgainSyncItemUseCase>(() {
     return SetTryAgainSyncItemUseCase(
       localRepository: getIt(instanceName: ProviderType.local.name),

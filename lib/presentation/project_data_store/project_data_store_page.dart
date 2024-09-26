@@ -197,15 +197,20 @@ class _ProjectDataStorePageState extends ConsumerState<ProjectDataStorePage> {
                                 : null,
                           ),
                         ),
-                        //todo add machinery working hour image
                         Expanded(
                           flex: 3,
                           child: ImagePickerFormWidget(
                             label: 'تصویر کارکرد ماشین',
-                            name: 'machinery_working_hour_image',
+                            name: 'localMachineryWorkingHourImage',
                             singlePicker: true,
-                            valueTransformer: (value) =>
-                                value?.firstOrNull?.toJson(),
+                            valueTransformer: (value) {
+                              final res = (value?.isEmpty ?? true)
+                                  ? null
+                                  : value?.firstOrNull?.toJson();
+                              print("DATA");
+                              print(res);
+                              return res;
+                            },
                           ),
                         )
                       ],

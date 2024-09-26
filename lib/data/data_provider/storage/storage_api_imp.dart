@@ -64,7 +64,6 @@ class StorageApiImpl implements StorageDataProvider {
       "Host": parse.host,
       "Content-Type": "application/octet-stream",
       "Content-Length": await file.length(),
-      "x-amz-acl": "public-read",
       "bucket": parse.pathSegments.first
     });
     debugPrint(dio.options.headers.toString());
