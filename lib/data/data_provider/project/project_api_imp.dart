@@ -7,7 +7,6 @@ import 'package:mpm/data/entities/project/project_property_entity.dart';
 import 'package:mpm/data/network/network_request.dart';
 import 'package:mpm/data/network/network_service.dart';
 import 'package:mpm/data/network/request_body.dart';
-import 'package:intl/intl.dart';
 
 class ProjectApiDataProvider implements ProjectDataProvider {
   final NetworkService _networkService;

@@ -195,6 +195,12 @@ _projectSl(GetIt getIt) {
 }
 
 Future<void> databaseConfig(GetIt getIt) async {
+  final db = await getDataBase();
+// store the database reference in the global variable
+  getIt.registerSingleton<DB>(db);
+}
+
+Future<DB> getDataBase() async {
   final dir = await getApplicationDocumentsDirectory();
 // make sure it exists
   await dir.create(recursive: true);
@@ -202,8 +208,7 @@ Future<void> databaseConfig(GetIt getIt) async {
   final dbPath = join(dir.path, 'mpm_database.db');
 // open the database
   final db = await databaseFactoryIo.openDatabase(dbPath);
-// store the database reference in the global variable
-  getIt.registerSingleton<DB>(db);
+  return db;
 }
 
 enum ProviderType {

@@ -57,6 +57,17 @@ class GetAndSyncLocalProjectDataUseCase {
     }
   }
 
+  manualSync() async {
+    final localData = await _localRepository.listenToLocalProjectData().first;
+    debugPrint("#SYNC MANUAL GET DATA");
+    if (await _internetConnection.hasInternetAccess) {
+      debugPrint("#SYNC MANUAL INTERNET CONNECTED");
+      await _syncProcess(localData);
+    } else {
+      debugPrint("#SYNC MANUAL INTERNET CONNECTION");
+    }
+  }
+
   _syncProcess(List<ProjectDataEntity> currentData) async {
     if (currentData.isEmpty) return;
     final runningItem = currentData.firstWhereOrNull(
@@ -214,8 +225,10 @@ class GetAndSyncLocalProjectDataUseCase {
       await result.fold(
         (l) async {
           debugPrint("STATUS CHANGED TO FAILED");
-          await _localRepository.updateProjectData(
-              item.copyWith(syncStatus: DataSyncStatus.failed));
+          await _localRepository.updateProjectData(item.copyWith(
+            syncStatus: DataSyncStatus.failed,
+            lassSyncError: l.message,
+          ));
         },
         (r) async {
           debugPrint("STATUS CHANGED TO SYNCED");
@@ -224,8 +237,12 @@ class GetAndSyncLocalProjectDataUseCase {
         },
       );
     } catch (ex) {
-      await _localRepository
-          .updateProjectData(item.copyWith(syncStatus: DataSyncStatus.failed));
+      await _localRepository.updateProjectData(
+        item.copyWith(
+          syncStatus: DataSyncStatus.failed,
+          lassSyncError: ex.toString(),
+        ),
+      );
     }
   }
 
@@ -237,8 +254,10 @@ class GetAndSyncLocalProjectDataUseCase {
     await result.fold(
       (l) async {
         debugPrint("FAILED TO UPLOAD IMAGE");
-        await _localRepository.updateProjectData(
-            item.copyWith(syncStatus: DataSyncStatus.failed));
+        await _localRepository.updateProjectData(item.copyWith(
+          syncStatus: DataSyncStatus.failed,
+          lassSyncError: l.message,
+        ));
       },
       (preSignName) async {
         debugPrint("IMAGE UPLOADED SUCCESSFULLY $preSignName");

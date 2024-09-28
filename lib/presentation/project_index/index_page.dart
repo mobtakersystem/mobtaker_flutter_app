@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mpm/common/riverpod_helper.dart';
 import 'package:mpm/presentation/project_data_store/list_local_data_buttne_widget.dart';
-import 'package:mpm/presentation/project_data_store/sync_provider/get_local_sync_data_provider.dart';
 import 'package:mpm/presentation/project_index/project_item_widget.dart';
 
 import 'index_provider.dart';

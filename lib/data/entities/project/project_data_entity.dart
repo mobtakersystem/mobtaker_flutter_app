@@ -60,6 +60,7 @@ class ProjectDataEntity with _$ProjectDataEntity {
     bool? hasMachineryPartConsumes,
     DocumentEntity? localMachineryWorkingHourImage,
     DocumentEntity? stopsImage,
+    String? lassSyncError,
   }) = _ProjectDataEntity;
 
   factory ProjectDataEntity.fromJson(Map<String, dynamic> json) =>

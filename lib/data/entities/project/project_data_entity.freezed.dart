@@ -47,7 +47,6 @@ mixin _$ProjectDataEntity {
   String get machineryWorkingHour => throw _privateConstructorUsedError;
   @JsonKey(name: 'machinery_working_hour_image')
   String? get machineryWorkingHourImage => throw _privateConstructorUsedError;
-  DocumentEntity? get stopsImage => throw _privateConstructorUsedError;
   @JsonKey(name: 'stop_image')
   String get stopImage => throw _privateConstructorUsedError;
   List<String> get workers => throw _privateConstructorUsedError;
@@ -78,6 +77,8 @@ mixin _$ProjectDataEntity {
   bool? get hasMachineryPartConsumes => throw _privateConstructorUsedError;
   DocumentEntity? get localMachineryWorkingHourImage =>
       throw _privateConstructorUsedError;
+  DocumentEntity? get stopsImage => throw _privateConstructorUsedError;
+  String? get lassSyncError => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -107,7 +108,6 @@ abstract class $ProjectDataEntityCopyWith<$Res> {
       @JsonKey(name: 'machinery_working_hour') String machineryWorkingHour,
       @JsonKey(name: 'machinery_working_hour_image')
       String? machineryWorkingHourImage,
-      DocumentEntity? stopsImage,
       @JsonKey(name: 'stop_image') String stopImage,
       List<String> workers,
       String description,
@@ -133,10 +133,12 @@ abstract class $ProjectDataEntityCopyWith<$Res> {
       bool? hasStop,
       bool? hasMachineryServices,
       bool? hasMachineryPartConsumes,
-      DocumentEntity? localMachineryWorkingHourImage});
+      DocumentEntity? localMachineryWorkingHourImage,
+      DocumentEntity? stopsImage,
+      String? lassSyncError});
 
-  $DocumentEntityCopyWith<$Res>? get stopsImage;
   $DocumentEntityCopyWith<$Res>? get localMachineryWorkingHourImage;
+  $DocumentEntityCopyWith<$Res>? get stopsImage;
 }
 
 /// @nodoc
@@ -166,7 +168,6 @@ class _$ProjectDataEntityCopyWithImpl<$Res, $Val extends ProjectDataEntity>
     Object? finalMeter = null,
     Object? machineryWorkingHour = null,
     Object? machineryWorkingHourImage = freezed,
-    Object? stopsImage = freezed,
     Object? stopImage = null,
     Object? workers = null,
     Object? description = null,
@@ -187,6 +188,8 @@ class _$ProjectDataEntityCopyWithImpl<$Res, $Val extends ProjectDataEntity>
     Object? hasMachineryServices = freezed,
     Object? hasMachineryPartConsumes = freezed,
     Object? localMachineryWorkingHourImage = freezed,
+    Object? stopsImage = freezed,
+    Object? lassSyncError = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -245,10 +248,6 @@ class _$ProjectDataEntityCopyWithImpl<$Res, $Val extends ProjectDataEntity>
           ? _value.machineryWorkingHourImage
           : machineryWorkingHourImage // ignore: cast_nullable_to_non_nullable
               as String?,
-      stopsImage: freezed == stopsImage
-          ? _value.stopsImage
-          : stopsImage // ignore: cast_nullable_to_non_nullable
-              as DocumentEntity?,
       stopImage: null == stopImage
           ? _value.stopImage
           : stopImage // ignore: cast_nullable_to_non_nullable
@@ -329,19 +328,15 @@ class _$ProjectDataEntityCopyWithImpl<$Res, $Val extends ProjectDataEntity>
           ? _value.localMachineryWorkingHourImage
           : localMachineryWorkingHourImage // ignore: cast_nullable_to_non_nullable
               as DocumentEntity?,
+      stopsImage: freezed == stopsImage
+          ? _value.stopsImage
+          : stopsImage // ignore: cast_nullable_to_non_nullable
+              as DocumentEntity?,
+      lassSyncError: freezed == lassSyncError
+          ? _value.lassSyncError
+          : lassSyncError // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $DocumentEntityCopyWith<$Res>? get stopsImage {
-    if (_value.stopsImage == null) {
-      return null;
-    }
-
-    return $DocumentEntityCopyWith<$Res>(_value.stopsImage!, (value) {
-      return _then(_value.copyWith(stopsImage: value) as $Val);
-    });
   }
 
   @override
@@ -355,6 +350,18 @@ class _$ProjectDataEntityCopyWithImpl<$Res, $Val extends ProjectDataEntity>
         (value) {
       return _then(
           _value.copyWith(localMachineryWorkingHourImage: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $DocumentEntityCopyWith<$Res>? get stopsImage {
+    if (_value.stopsImage == null) {
+      return null;
+    }
+
+    return $DocumentEntityCopyWith<$Res>(_value.stopsImage!, (value) {
+      return _then(_value.copyWith(stopsImage: value) as $Val);
     });
   }
 }
@@ -383,7 +390,6 @@ abstract class _$$ProjectDataEntityImplCopyWith<$Res>
       @JsonKey(name: 'machinery_working_hour') String machineryWorkingHour,
       @JsonKey(name: 'machinery_working_hour_image')
       String? machineryWorkingHourImage,
-      DocumentEntity? stopsImage,
       @JsonKey(name: 'stop_image') String stopImage,
       List<String> workers,
       String description,
@@ -409,12 +415,14 @@ abstract class _$$ProjectDataEntityImplCopyWith<$Res>
       bool? hasStop,
       bool? hasMachineryServices,
       bool? hasMachineryPartConsumes,
-      DocumentEntity? localMachineryWorkingHourImage});
+      DocumentEntity? localMachineryWorkingHourImage,
+      DocumentEntity? stopsImage,
+      String? lassSyncError});
 
   @override
-  $DocumentEntityCopyWith<$Res>? get stopsImage;
-  @override
   $DocumentEntityCopyWith<$Res>? get localMachineryWorkingHourImage;
+  @override
+  $DocumentEntityCopyWith<$Res>? get stopsImage;
 }
 
 /// @nodoc
@@ -442,7 +450,6 @@ class __$$ProjectDataEntityImplCopyWithImpl<$Res>
     Object? finalMeter = null,
     Object? machineryWorkingHour = null,
     Object? machineryWorkingHourImage = freezed,
-    Object? stopsImage = freezed,
     Object? stopImage = null,
     Object? workers = null,
     Object? description = null,
@@ -463,6 +470,8 @@ class __$$ProjectDataEntityImplCopyWithImpl<$Res>
     Object? hasMachineryServices = freezed,
     Object? hasMachineryPartConsumes = freezed,
     Object? localMachineryWorkingHourImage = freezed,
+    Object? stopsImage = freezed,
+    Object? lassSyncError = freezed,
   }) {
     return _then(_$ProjectDataEntityImpl(
       id: null == id
@@ -521,10 +530,6 @@ class __$$ProjectDataEntityImplCopyWithImpl<$Res>
           ? _value.machineryWorkingHourImage
           : machineryWorkingHourImage // ignore: cast_nullable_to_non_nullable
               as String?,
-      stopsImage: freezed == stopsImage
-          ? _value.stopsImage
-          : stopsImage // ignore: cast_nullable_to_non_nullable
-              as DocumentEntity?,
       stopImage: null == stopImage
           ? _value.stopImage
           : stopImage // ignore: cast_nullable_to_non_nullable
@@ -605,6 +610,14 @@ class __$$ProjectDataEntityImplCopyWithImpl<$Res>
           ? _value.localMachineryWorkingHourImage
           : localMachineryWorkingHourImage // ignore: cast_nullable_to_non_nullable
               as DocumentEntity?,
+      stopsImage: freezed == stopsImage
+          ? _value.stopsImage
+          : stopsImage // ignore: cast_nullable_to_non_nullable
+              as DocumentEntity?,
+      lassSyncError: freezed == lassSyncError
+          ? _value.lassSyncError
+          : lassSyncError // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -629,7 +642,6 @@ class _$ProjectDataEntityImpl implements _ProjectDataEntity {
       @JsonKey(name: 'machinery_working_hour') this.machineryWorkingHour = "",
       @JsonKey(name: 'machinery_working_hour_image')
       this.machineryWorkingHourImage,
-      this.stopsImage,
       @JsonKey(name: 'stop_image') this.stopImage = "",
       final List<String> workers = const [],
       this.description = "",
@@ -655,7 +667,9 @@ class _$ProjectDataEntityImpl implements _ProjectDataEntity {
       this.hasStop,
       this.hasMachineryServices,
       this.hasMachineryPartConsumes,
-      this.localMachineryWorkingHourImage})
+      this.localMachineryWorkingHourImage,
+      this.stopsImage,
+      this.lassSyncError})
       : _workers = workers,
         _images = images,
         _stops = stops,
@@ -706,8 +720,6 @@ class _$ProjectDataEntityImpl implements _ProjectDataEntity {
   @override
   @JsonKey(name: 'machinery_working_hour_image')
   final String? machineryWorkingHourImage;
-  @override
-  final DocumentEntity? stopsImage;
   @override
   @JsonKey(name: 'stop_image')
   final String stopImage;
@@ -799,10 +811,14 @@ class _$ProjectDataEntityImpl implements _ProjectDataEntity {
   final bool? hasMachineryPartConsumes;
   @override
   final DocumentEntity? localMachineryWorkingHourImage;
+  @override
+  final DocumentEntity? stopsImage;
+  @override
+  final String? lassSyncError;
 
   @override
   String toString() {
-    return 'ProjectDataEntity(id: $id, projectId: $projectId, userId: $userId, supervisorId: $supervisorId, indicatorId: $indicatorId, date: $date, headDiggerId: $headDiggerId, machineryId: $machineryId, diggerId: $diggerId, shift: $shift, initialMeter: $initialMeter, finalMeter: $finalMeter, machineryWorkingHour: $machineryWorkingHour, machineryWorkingHourImage: $machineryWorkingHourImage, stopsImage: $stopsImage, stopImage: $stopImage, workers: $workers, description: $description, status: $status, createdAt: $createdAt, updatedAt: $updatedAt, user: $user, headDigger: $headDigger, digger: $digger, machinery: $machinery, supervisor: $supervisor, images: $images, stops: $stops, machineryServices: $machineryServices, machineryPartConsumes: $machineryPartConsumes, syncStatus: $syncStatus, hasStop: $hasStop, hasMachineryServices: $hasMachineryServices, hasMachineryPartConsumes: $hasMachineryPartConsumes, localMachineryWorkingHourImage: $localMachineryWorkingHourImage)';
+    return 'ProjectDataEntity(id: $id, projectId: $projectId, userId: $userId, supervisorId: $supervisorId, indicatorId: $indicatorId, date: $date, headDiggerId: $headDiggerId, machineryId: $machineryId, diggerId: $diggerId, shift: $shift, initialMeter: $initialMeter, finalMeter: $finalMeter, machineryWorkingHour: $machineryWorkingHour, machineryWorkingHourImage: $machineryWorkingHourImage, stopImage: $stopImage, workers: $workers, description: $description, status: $status, createdAt: $createdAt, updatedAt: $updatedAt, user: $user, headDigger: $headDigger, digger: $digger, machinery: $machinery, supervisor: $supervisor, images: $images, stops: $stops, machineryServices: $machineryServices, machineryPartConsumes: $machineryPartConsumes, syncStatus: $syncStatus, hasStop: $hasStop, hasMachineryServices: $hasMachineryServices, hasMachineryPartConsumes: $hasMachineryPartConsumes, localMachineryWorkingHourImage: $localMachineryWorkingHourImage, stopsImage: $stopsImage, lassSyncError: $lassSyncError)';
   }
 
   @override
@@ -835,8 +851,6 @@ class _$ProjectDataEntityImpl implements _ProjectDataEntity {
             (identical(other.machineryWorkingHourImage,
                     machineryWorkingHourImage) ||
                 other.machineryWorkingHourImage == machineryWorkingHourImage) &&
-            (identical(other.stopsImage, stopsImage) ||
-                other.stopsImage == stopsImage) &&
             (identical(other.stopImage, stopImage) ||
                 other.stopImage == stopImage) &&
             const DeepCollectionEquality().equals(other._workers, _workers) &&
@@ -872,7 +886,11 @@ class _$ProjectDataEntityImpl implements _ProjectDataEntity {
             (identical(other.localMachineryWorkingHourImage,
                     localMachineryWorkingHourImage) ||
                 other.localMachineryWorkingHourImage ==
-                    localMachineryWorkingHourImage));
+                    localMachineryWorkingHourImage) &&
+            (identical(other.stopsImage, stopsImage) ||
+                other.stopsImage == stopsImage) &&
+            (identical(other.lassSyncError, lassSyncError) ||
+                other.lassSyncError == lassSyncError));
   }
 
   @JsonKey(ignore: true)
@@ -893,7 +911,6 @@ class _$ProjectDataEntityImpl implements _ProjectDataEntity {
         finalMeter,
         machineryWorkingHour,
         machineryWorkingHourImage,
-        stopsImage,
         stopImage,
         const DeepCollectionEquality().hash(_workers),
         description,
@@ -913,7 +930,9 @@ class _$ProjectDataEntityImpl implements _ProjectDataEntity {
         hasStop,
         hasMachineryServices,
         hasMachineryPartConsumes,
-        localMachineryWorkingHourImage
+        localMachineryWorkingHourImage,
+        stopsImage,
+        lassSyncError
       ]);
 
   @JsonKey(ignore: true)
@@ -933,50 +952,50 @@ class _$ProjectDataEntityImpl implements _ProjectDataEntity {
 
 abstract class _ProjectDataEntity implements ProjectDataEntity {
   const factory _ProjectDataEntity(
-          {required final String id,
-          @JsonKey(name: 'project_id') required final String projectId,
-          @JsonKey(name: 'user_id') final String? userId,
-          @JsonKey(name: 'supervisor_id') final String? supervisorId,
-          @JsonKey(name: 'indicator_id') final String? indicatorId,
-          @GenericDateJsonParserToMilliSec() final DateTime? date,
-          @JsonKey(name: 'head_digger_id') final String? headDiggerId,
-          @JsonKey(name: 'machinery_id') final String? machineryId,
-          @JsonKey(name: 'digger_id') final String? diggerId,
-          @JsonKey(name: 'shift') final String? shift,
-          @JsonKey(name: 'initial_meter') final double initialMeter,
-          @JsonKey(name: 'final_meter') final double finalMeter,
-          @JsonKey(name: 'machinery_working_hour')
-          final String machineryWorkingHour,
-          @JsonKey(name: 'machinery_working_hour_image')
-          final String? machineryWorkingHourImage,
-          final DocumentEntity? stopsImage,
-          @JsonKey(name: 'stop_image') final String stopImage,
-          final List<String> workers,
-          final String description,
-          final String status,
-          @JsonKey(name: 'created_at')
-          @GenericDateJsonParserToMilliSec()
-          final DateTime? createdAt,
-          @JsonKey(name: 'updated_at')
-          @GenericDateJsonParserToMilliSec()
-          final DateTime? updatedAt,
-          final String user,
-          final String headDigger,
-          final String digger,
-          final String machinery,
-          final String supervisor,
-          final List<DocumentEntity> images,
-          final List<StopDataEntity> stops,
-          @JsonKey(name: 'machinery_services')
-          final List<MachineryServiceDataEntity> machineryServices,
-          @JsonKey(name: 'machinery_part_consumes')
-          final List<MachineryPartDataEntity> machineryPartConsumes,
-          final DataSyncStatus syncStatus,
-          final bool? hasStop,
-          final bool? hasMachineryServices,
-          final bool? hasMachineryPartConsumes,
-          final DocumentEntity? localMachineryWorkingHourImage}) =
-      _$ProjectDataEntityImpl;
+      {required final String id,
+      @JsonKey(name: 'project_id') required final String projectId,
+      @JsonKey(name: 'user_id') final String? userId,
+      @JsonKey(name: 'supervisor_id') final String? supervisorId,
+      @JsonKey(name: 'indicator_id') final String? indicatorId,
+      @GenericDateJsonParserToMilliSec() final DateTime? date,
+      @JsonKey(name: 'head_digger_id') final String? headDiggerId,
+      @JsonKey(name: 'machinery_id') final String? machineryId,
+      @JsonKey(name: 'digger_id') final String? diggerId,
+      @JsonKey(name: 'shift') final String? shift,
+      @JsonKey(name: 'initial_meter') final double initialMeter,
+      @JsonKey(name: 'final_meter') final double finalMeter,
+      @JsonKey(name: 'machinery_working_hour')
+      final String machineryWorkingHour,
+      @JsonKey(name: 'machinery_working_hour_image')
+      final String? machineryWorkingHourImage,
+      @JsonKey(name: 'stop_image') final String stopImage,
+      final List<String> workers,
+      final String description,
+      final String status,
+      @JsonKey(name: 'created_at')
+      @GenericDateJsonParserToMilliSec()
+      final DateTime? createdAt,
+      @JsonKey(name: 'updated_at')
+      @GenericDateJsonParserToMilliSec()
+      final DateTime? updatedAt,
+      final String user,
+      final String headDigger,
+      final String digger,
+      final String machinery,
+      final String supervisor,
+      final List<DocumentEntity> images,
+      final List<StopDataEntity> stops,
+      @JsonKey(name: 'machinery_services')
+      final List<MachineryServiceDataEntity> machineryServices,
+      @JsonKey(name: 'machinery_part_consumes')
+      final List<MachineryPartDataEntity> machineryPartConsumes,
+      final DataSyncStatus syncStatus,
+      final bool? hasStop,
+      final bool? hasMachineryServices,
+      final bool? hasMachineryPartConsumes,
+      final DocumentEntity? localMachineryWorkingHourImage,
+      final DocumentEntity? stopsImage,
+      final String? lassSyncError}) = _$ProjectDataEntityImpl;
 
   factory _ProjectDataEntity.fromJson(Map<String, dynamic> json) =
       _$ProjectDataEntityImpl.fromJson;
@@ -1022,8 +1041,6 @@ abstract class _ProjectDataEntity implements ProjectDataEntity {
   @override
   @JsonKey(name: 'machinery_working_hour_image')
   String? get machineryWorkingHourImage;
-  @override
-  DocumentEntity? get stopsImage;
   @override
   @JsonKey(name: 'stop_image')
   String get stopImage;
@@ -1071,6 +1088,10 @@ abstract class _ProjectDataEntity implements ProjectDataEntity {
   bool? get hasMachineryPartConsumes;
   @override
   DocumentEntity? get localMachineryWorkingHourImage;
+  @override
+  DocumentEntity? get stopsImage;
+  @override
+  String? get lassSyncError;
   @override
   @JsonKey(ignore: true)
   _$$ProjectDataEntityImplCopyWith<_$ProjectDataEntityImpl> get copyWith =>

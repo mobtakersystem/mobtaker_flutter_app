@@ -24,9 +24,6 @@ _$ProjectDataEntityImpl _$$ProjectDataEntityImplFromJson(
       machineryWorkingHour: json['machinery_working_hour'] as String? ?? "",
       machineryWorkingHourImage:
           json['machinery_working_hour_image'] as String?,
-      stopsImage: json['stopsImage'] == null
-          ? null
-          : DocumentEntity.fromJson(json['stopsImage'] as Map<String, dynamic>),
       stopImage: json['stop_image'] as String? ?? "",
       workers: (json['workers'] as List<dynamic>?)
               ?.map((e) => e as String)
@@ -72,6 +69,10 @@ _$ProjectDataEntityImpl _$$ProjectDataEntityImplFromJson(
           ? null
           : DocumentEntity.fromJson(
               json['localMachineryWorkingHourImage'] as Map<String, dynamic>),
+      stopsImage: json['stopsImage'] == null
+          ? null
+          : DocumentEntity.fromJson(json['stopsImage'] as Map<String, dynamic>),
+      lassSyncError: json['lassSyncError'] as String?,
     );
 
 Map<String, dynamic> _$$ProjectDataEntityImplToJson(
@@ -91,7 +92,6 @@ Map<String, dynamic> _$$ProjectDataEntityImplToJson(
       'final_meter': instance.finalMeter,
       'machinery_working_hour': instance.machineryWorkingHour,
       'machinery_working_hour_image': instance.machineryWorkingHourImage,
-      'stopsImage': instance.stopsImage?.toJson(),
       'stop_image': instance.stopImage,
       'workers': instance.workers,
       'description': instance.description,
@@ -117,6 +117,8 @@ Map<String, dynamic> _$$ProjectDataEntityImplToJson(
       'hasMachineryPartConsumes': instance.hasMachineryPartConsumes,
       'localMachineryWorkingHourImage':
           instance.localMachineryWorkingHourImage?.toJson(),
+      'stopsImage': instance.stopsImage?.toJson(),
+      'lassSyncError': instance.lassSyncError,
     };
 
 const _$DataSyncStatusEnumMap = {

@@ -5,10 +5,16 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mpm/common/sl_config.dart';
+import 'package:mpm/common/work_manager_config.dart';
 import 'package:mpm/presentation/splash_page.dart';
+import 'package:workmanager/workmanager.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  Workmanager().initialize(
+    callbackDispatcher,
+    isInDebugMode: true,
+  );
   await slConfig(GetIt.instance);
   runApp(Phoenix(child: const ProviderScope(child: MyApp())));
 }

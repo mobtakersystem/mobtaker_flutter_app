@@ -13,14 +13,15 @@ class ProjectLocalDataProvider implements ProjectDataProvider {
   final StoreRef<String, Map<String, Object?>> _projectsStore;
   final StoreRef<String, Map<String, Object?>> _projectPropertyStore;
   final StoreRef<String, Map<String, Object?>> _projectDataStore;
+
   final DB _db;
 
-  ProjectLocalDataProvider(
-      {required StoreRef<String, Map<String, Object?>> projectsStore,
-      required DB db,
-      required StoreRef<String, Map<String, Object?>> projectPropertyStore,
-      required StoreRef<String, Map<String, Object?>> projectDataStore})
-      : _projectsStore = projectsStore,
+  ProjectLocalDataProvider({
+    required StoreRef<String, Map<String, Object?>> projectsStore,
+    required DB db,
+    required StoreRef<String, Map<String, Object?>> projectPropertyStore,
+    required StoreRef<String, Map<String, Object?>> projectDataStore,
+  })  : _projectsStore = projectsStore,
         _projectPropertyStore = projectPropertyStore,
         _projectDataStore = projectDataStore,
         _db = db;
@@ -156,9 +157,7 @@ class ProjectLocalDataProvider implements ProjectDataProvider {
 
   @override
   Future<void> storeProjectData(ProjectDataEntity projectData) async {
-    print("STORE");
-    print(projectData.id);
-    final result = await _projectDataStore.record(projectData.id).put(
+    await _projectDataStore.record(projectData.id).put(
           _db,
           projectData
               .copyWith(
@@ -168,7 +167,6 @@ class ProjectLocalDataProvider implements ProjectDataProvider {
               )
               .toJson(),
         );
-    print(result['id']);
     return;
   }
 
