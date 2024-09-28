@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:get_it/get_it.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:mpm/common/extention/context.dart';
+import 'package:mpm/common/widget/dialog/confirm_dialog.dart';
 import 'package:mpm/common/widget/error.dart';
+import 'package:mpm/data/entities/project/project_data_entity.dart';
+import 'package:mpm/domain/use_case/delete_project_data.dart';
 import 'package:mpm/presentation/project_data/project_data_item_widget.dart';
-import 'package:mpm/presentation/project_data_store/list_local_data_buttne_widget.dart';
 import 'package:mpm/presentation/project_data_store/sync_provider/get_local_sync_data_provider.dart';
 
 class LocalsProjectDataPage extends ConsumerWidget {
@@ -24,7 +29,7 @@ class LocalsProjectDataPage extends ConsumerWidget {
           }
           return ListView.separated(
             padding: const EdgeInsets.all(16),
-            itemBuilder: (context, index) => ProjectDataItemWidget(
+            itemBuilder: (context, index) => _ItemWidget(
               projectData: projectData[index],
             ),
             separatorBuilder: (context, index) => const SizedBox.square(
@@ -42,6 +47,54 @@ class LocalsProjectDataPage extends ConsumerWidget {
         loading: () => const Center(
           child: CircularProgressIndicator(),
         ),
+      ),
+    );
+  }
+}
+
+class _ItemWidget extends StatelessWidget {
+  final ProjectDataEntity projectData;
+
+  const _ItemWidget({
+    super.key,
+    required this.projectData,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Slidable(
+      key: Key(projectData.id.toString()),
+      endActionPane: ActionPane(
+        // A motion is a widget used to control how the pane animates.
+        motion: const ScrollMotion(),
+        openThreshold: 0.15,
+        children: [
+          SlidableAction(
+            borderRadius: BorderRadius.circular(16),
+            padding: const EdgeInsets.symmetric(horizontal: 24,vertical: 10),
+
+            onPressed: (ctx) {
+              ConfirmDialog.show(
+                ctx,
+                message: 'آیا از حذف این داده اطمینان دارید؟',
+                confirmCallBack: () {
+                  GetIt.I<DeleteProjectDataUseCase>()
+                      .execute(projectData.id)
+                      .catchError((error) {
+                    context.showErrorMessage(error);
+                  });
+                },
+              );
+            },
+            backgroundColor: context.colorScheme.error,
+            foregroundColor: context.colorScheme.onError,
+            icon: Icons.delete,
+            label: 'حذف',
+          ),
+        ],
+      ),
+      child: ProjectDataItemWidget(
+        projectData: projectData,
       ),
     );
   }

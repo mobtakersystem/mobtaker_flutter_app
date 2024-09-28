@@ -76,15 +76,22 @@ class GetAndSyncLocalProjectDataUseCase {
     if (runningItem != null) return;
     final pendingItem = currentData.firstWhereOrNull(
         (element) => element.syncStatus == DataSyncStatus.pending);
-    final failedItem = currentData.firstWhereOrNull(
-        (element) => element.syncStatus == DataSyncStatus.failed);
+    final syncedItem = currentData.firstWhereOrNull(
+        (element) => element.syncStatus == DataSyncStatus.synced);
     debugPrint('PENDING: $pendingItem');
-    debugPrint('FAILED: $failedItem');
-    if (pendingItem != null) {
+    debugPrint('SYNCED: $syncedItem');
+    if (syncedItem != null) {
+      await _deleteItem(syncedItem);
+      return;
+    } else if (pendingItem != null) {
       await _storeItem(pendingItem);
       return;
     }
     return;
+  }
+
+  _deleteItem(ProjectDataEntity item) async {
+    await _localRepository.deleteProjectData(item.id);
   }
 
   _storeItem(ProjectDataEntity item) async {

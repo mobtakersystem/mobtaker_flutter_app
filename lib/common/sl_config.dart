@@ -15,6 +15,7 @@ import 'package:mpm/domain/repository/auth/auth_impl.dart';
 import 'package:mpm/domain/repository/auth/auth_interface.dart';
 import 'package:mpm/domain/repository/project/project_repository.dart';
 import 'package:mpm/domain/repository/storage.dart';
+import 'package:mpm/domain/use_case/delete_project_data.dart';
 import 'package:mpm/domain/use_case/get_and_sync_local_project_data.dart';
 import 'package:mpm/domain/use_case/image_picker_usecase.dart';
 import 'package:mpm/domain/use_case/project_data_index.dart';
@@ -75,6 +76,12 @@ slConfig(GetIt getIt) async {
     () => AuthRepositoryImpl(
       dataProvider: getIt(),
       secureStorage: getIt(),
+    ),
+  );
+  getIt.registerLazySingleton<DeleteProjectDataUseCase>(
+    () => DeleteProjectDataUseCase(
+      apiRepository: getIt(instanceName: ProviderType.api.name),
+      localRepository: getIt(instanceName: ProviderType.local.name),
     ),
   );
   //
