@@ -40,7 +40,7 @@ class ProjectItemWidget extends StatelessWidget {
                   children: [
                     const TextSpan(text: 'نوع: '),
                     TextSpan(
-                      text: project.type,
+                      text: project.typeTitle(),
                     ),
                   ],
                 ),

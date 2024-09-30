@@ -3,6 +3,7 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:mpm/common/sl_config.dart';
 import 'package:mpm/data/entities/stop_data/stop_data.dart';
 
@@ -45,9 +46,6 @@ class StopFormBuilder extends ConsumerWidget {
                 child: Column(
                   children: [
                     ...?(field.value)?.map((e) {
-                      print("e.id");
-                      print(e.id);
-                      print(e.reason);
                       return Column(
                         key: ValueKey(e.id),
                         children: [
@@ -60,7 +58,9 @@ class StopFormBuilder extends ConsumerWidget {
                             onChanged: (value) {
                               final index = field.value?.indexOf(e) ?? 0;
                               final newValue = field.value;
-                              newValue?[index] = e.copyWith(reason: value,displayReason: data[value] ?? "");
+                              newValue?[index] = e.copyWith(
+                                  reason: value,
+                                  displayReason: data[value] ?? "");
                               field.didChange(newValue);
                             },
                             items: data.keys
@@ -78,36 +78,57 @@ class StopFormBuilder extends ConsumerWidget {
                           Row(
                             children: [
                               Expanded(
-                                child: TextFormField(
+                                child: FormBuilderDateTimePicker(
                                   key: ValueKey("${e.id}_start"),
                                   decoration: const InputDecoration(
                                       labelText: 'از ساعت'),
                                   onChanged: (value) {
+                                    if (value == null) return;
                                     final index = field.value?.indexOf(e) ?? 0;
                                     final newValue = field.value;
-                                    newValue?[index] = e.copyWith(start: value);
+                                    newValue?[index] = e.copyWith(
+                                        start: DateFormat.Hms().format(value));
                                     field.didChange(newValue);
                                   },
+                                  format: DateFormat.Hm(),
                                   keyboardType: TextInputType.datetime,
+                                  timePickerInitialEntryMode:
+                                      TimePickerEntryMode.dial,
+                                  inputType: InputType.time,
                                   validator: FormBuilderValidators.required(),
-                                  initialValue: e.start,
+                                  // initialValue: e.start != null
+                                  //     ? DateTime.parse(e.start!)
+                                  //     : null,
+                                  name: '"${e.id}_start"',
+                                  valueTransformer: (value) => value != null
+                                      ? DateFormat.Hms().format(value)
+                                      : null,
                                 ),
                               ),
                               _space,
                               Expanded(
-                                child: TextFormField(
+                                child: FormBuilderDateTimePicker(
                                   key: ValueKey("${e.id}_end"),
+                                  name: "${e.id}_end",
                                   onChanged: (value) {
+                                    if (value == null) return;
                                     final index = field.value?.indexOf(e) ?? 0;
                                     final newValue = field.value;
-                                    newValue?[index] = e.copyWith(end: value);
+                                    newValue?[index] = e.copyWith(
+                                        end: DateFormat.Hms().format(value));
                                     field.didChange(newValue);
                                   },
+                                  timePickerInitialEntryMode:
+                                      TimePickerEntryMode.dial,
+                                  inputType: InputType.time,
+                                  format: DateFormat.Hm(),
                                   decoration: const InputDecoration(
                                       labelText: 'تا ساعت'),
                                   keyboardType: TextInputType.datetime,
                                   validator: FormBuilderValidators.required(),
-                                  initialValue: e.end,
+                                  // initialValue: e.end != null
+                                  //     ? DateTime.parse(e.end!)
+                                  //     : null,
                                 ),
                               ),
                             ],

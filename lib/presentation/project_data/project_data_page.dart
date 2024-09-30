@@ -62,16 +62,20 @@ class ProjectDataPage extends ConsumerWidget {
                       return const Center(
                           child: Text("داده‌ای برای نمایش یافت نشد."));
                     }
-                    return ListView.separated(
-                      padding: const EdgeInsets.all(16),
-                      itemBuilder: (context, index) => ProjectDataItemWidget(
-                        projectData: projectData.data[index],
+                    return RefreshIndicator(
+                      onRefresh: () =>
+                          ref.refresh(projectDataProvider(projectID).future),
+                      child: ListView.separated(
+                        padding: const EdgeInsets.all(16),
+                        itemBuilder: (context, index) => ProjectDataItemWidget(
+                          projectData: projectData.data[index],
+                        ),
+                        separatorBuilder: (context, index) =>
+                            const SizedBox.square(
+                          dimension: 10,
+                        ),
+                        itemCount: projectData.data.length,
                       ),
-                      separatorBuilder: (context, index) =>
-                          const SizedBox.square(
-                        dimension: 10,
-                      ),
-                      itemCount: projectData.data.length,
                     );
                   },
                   tryAgain: () {

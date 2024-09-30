@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:intl/intl.dart';
 import 'package:mpm/common/extention/context.dart';
 import 'package:mpm/common/riverpod_helper.dart';
 import 'package:mpm/common/sl_config.dart';
@@ -182,19 +182,15 @@ class _ProjectDataStorePageState extends ConsumerState<ProjectDataStorePage> {
                       children: [
                         Expanded(
                           flex: 6,
-                          child: FormBuilderDateTimePicker(
+                          child: FormBuilderTextField(
                             name: 'machinery_working_hour',
-                            //todo convert initial value
                             decoration: const InputDecoration(
                                 labelText: 'ساعت کاری ماشین'),
-                            timePickerInitialEntryMode:
-                                TimePickerEntryMode.dial,
-                            inputType: InputType.time,
+                            inputFormatters: [
+                              FilteringTextInputFormatter.digitsOnly,
+                            ],
                             keyboardType: TextInputType.number,
                             validator: FormBuilderValidators.required(),
-                            valueTransformer: (value) => value != null
-                                ? DateFormat.Hms().format(value)
-                                : null,
                           ),
                         ),
                         Expanded(
@@ -207,8 +203,6 @@ class _ProjectDataStorePageState extends ConsumerState<ProjectDataStorePage> {
                               final res = (value?.isEmpty ?? true)
                                   ? null
                                   : value?.firstOrNull?.toJson();
-                              print("DATA");
-                              print(res);
                               return res;
                             },
                           ),
