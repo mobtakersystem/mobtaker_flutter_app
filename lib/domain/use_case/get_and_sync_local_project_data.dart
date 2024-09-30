@@ -99,6 +99,9 @@ class GetAndSyncLocalProjectDataUseCase {
       final changeStatus = await _localRepository
           .updateProjectData(item.copyWith(syncStatus: DataSyncStatus.running));
       if (changeStatus.isLeft()) return;
+
+      ///NOTICE: always use copyWith to update the item after each local update
+      item = item.copyWith(syncStatus: DataSyncStatus.running);
       debugPrint("STATUS CHANGED TO RUNNING");
 
       /// This is the place where the image is not uploaded to the storage
