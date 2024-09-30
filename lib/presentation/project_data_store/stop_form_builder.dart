@@ -60,7 +60,7 @@ class StopFormBuilder extends ConsumerWidget {
                             onChanged: (value) {
                               final index = field.value?.indexOf(e) ?? 0;
                               final newValue = field.value;
-                              newValue?[index] = e.copyWith(reason: value);
+                              newValue?[index] = e.copyWith(reason: value,displayReason: data[value] ?? "");
                               field.didChange(newValue);
                             },
                             items: data.keys

@@ -23,3 +23,9 @@ class DocumentEntity with _$DocumentEntity {
   factory DocumentEntity.fromJson(Map<String, Object?> json) =>
       _$DocumentEntityFromJson(json);
 }
+
+extension DocumentEntityX on DocumentEntity {
+  String get fileName => isLocal() ? "" : "$id.$mimeType";
+
+  bool isLocal() => path != null;
+}

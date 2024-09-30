@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
@@ -69,7 +70,13 @@ class MachineryPartConsumesFormBuilder extends ConsumerWidget {
                             if (value != null) {
                               final index = field.value?.indexOf(e) ?? 0;
                               final newValue = field.value;
-                              newValue?[index] = e.copyWith(partId: value);
+                              newValue?[index] = e.copyWith(
+                                  partId: value,
+                                  part: data
+                                          .firstWhereOrNull(
+                                              (element) => element.id == value)
+                                          ?.name ??
+                                      '');
                               field.didChange(newValue);
                             }
                           },

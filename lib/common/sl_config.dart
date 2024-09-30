@@ -17,6 +17,7 @@ import 'package:mpm/domain/repository/project/project_repository.dart';
 import 'package:mpm/domain/repository/storage.dart';
 import 'package:mpm/domain/use_case/delete_project_data.dart';
 import 'package:mpm/domain/use_case/get_and_sync_local_project_data.dart';
+import 'package:mpm/domain/use_case/get_storage_image_link.dart';
 import 'package:mpm/domain/use_case/image_picker_usecase.dart';
 import 'package:mpm/domain/use_case/project_data_index.dart';
 import 'package:mpm/domain/use_case/project_property.dart';
@@ -56,6 +57,11 @@ slConfig(GetIt getIt) async {
       contentPadding: EdgeInsets.zero,
     ),
     instanceName: 'noBorder',
+  );
+  getIt.registerFactoryParam<SizedBox, double?, void>(
+    (size, _) => SizedBox.square(
+      dimension: size ?? 16,
+    ),
   );
   getIt.registerLazySingleton<Uuid>(
     () => const Uuid(),
@@ -120,6 +126,9 @@ _storageSl(GetIt getIt) {
       getIt(),
       getIt(),
     ),
+  );
+  getIt.registerLazySingleton<GetStorageImageLinkUseCase>(
+    () => getIt<StorageRepository>().downloadLink,
   );
 }
 

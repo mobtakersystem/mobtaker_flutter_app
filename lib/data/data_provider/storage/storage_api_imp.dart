@@ -94,7 +94,7 @@ class StorageApiImpl implements StorageDataProvider {
             "file_name": objectName,
           })),
       parser: (jsonParam) {
-        return jsonParam!['object_url'];
+        return jsonParam!['url'];
       },
     );
   }
