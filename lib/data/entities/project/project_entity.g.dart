@@ -21,7 +21,7 @@ _$ProjectEntityImpl _$$ProjectEntityImplFromJson(Map<String, dynamic> json) =>
           const GenericDateJsonParserToMilliSec().fromJson(json['end_date']),
       code: json['code'] as String? ?? "",
       percentOfWhole: (json['percent_of_whole'] as num?)?.toInt() ?? 0,
-      budget: (json['budget'] as num?)?.toInt(),
+      budget: json['budget'] as String?,
       quantity: (json['quantity'] as num?)?.toInt(),
       description: json['description'] as String?,
       status: json['status'] as String,

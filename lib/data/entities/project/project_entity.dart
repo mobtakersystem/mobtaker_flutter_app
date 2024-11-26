@@ -24,7 +24,7 @@ class ProjectEntity with _$ProjectEntity {
     DateTime? endDate,
     @Default("") String code,
     @JsonKey(name: 'percent_of_whole') @Default(0) int percentOfWhole,
-    int? budget,
+    String? budget,
     int? quantity,
     String? description,
     required String status,

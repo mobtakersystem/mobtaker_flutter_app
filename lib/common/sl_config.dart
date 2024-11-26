@@ -38,7 +38,7 @@ slConfig(GetIt getIt) async {
   await databaseConfig(getIt);
   getIt.registerLazySingleton<NetworkService>(
     () => NetworkService(
-      baseUrl: 'https://mpm.mobtakersystem.com/api/',
+      baseUrl: 'https://demoapi.minebi.com/api/',
       httpHeaders: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',

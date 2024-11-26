@@ -96,7 +96,7 @@ class ProjectApiDataProvider implements ProjectDataProvider {
     return _networkService.execute(
       NetworkRequest(
         type: NetworkRequestType.post,
-        path: 'projects/drilling/data/store',
+        path: 'projects/drilling/data/store/meter-indicator',
         data: NetworkRequestBody.formData(FormData.fromMap(
           {
             'project_id': projectData.projectId,
@@ -106,7 +106,11 @@ class ProjectApiDataProvider implements ProjectDataProvider {
             'supervisor_id': projectData.supervisorId,
             'shift': projectData.shift,
             'digger_id': projectData.diggerId,
-            'workers': projectData.workers,
+            'workers': projectData.workers
+                .map(
+                  (e) => e.firstOrNull,
+                )
+                .toList(),
             'initial_meter': projectData.initialMeter,
             'final_meter': projectData.finalMeter,
             "machinery_working_hour": projectData.machineryWorkingHour,
@@ -197,6 +201,12 @@ class ProjectApiDataProvider implements ProjectDataProvider {
   @override
   Future<void> updateProjectData(ProjectDataEntity newData) {
     // TODO: implement updateProjectData
+    throw UnimplementedError();
+  }
+
+  @override
+  Stream<ProjectDataEntity> listenToLocalProjectItem(String id) {
+    // TODO: implement listenToLocalProjectItem
     throw UnimplementedError();
   }
 }

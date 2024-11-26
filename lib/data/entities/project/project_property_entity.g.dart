@@ -17,11 +17,10 @@ _$ProjectPropertyEntityImpl _$$ProjectPropertyEntityImplFromJson(
               ?.map((e) => MachineryEntity.fromJson(e as Map<String, dynamic>))
               .toList() ??
           const [],
-      machineryServiceTypes:
-          (json['machineryServiceTypes'] as Map<String, dynamic>?)?.map(
-                (k, e) => MapEntry(k, e as String),
-              ) ??
-              const {},
+      machineryServiceTypes: (json['machineryServiceTypes'] as List<dynamic>?)
+              ?.map((e) => IdValueEntity.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
       machineryParts: (json['machineryParts'] as List<dynamic>?)
               ?.map((e) =>
                   MachineryPartEntity.fromJson(e as Map<String, dynamic>))
@@ -43,10 +42,10 @@ _$ProjectPropertyEntityImpl _$$ProjectPropertyEntityImplFromJson(
               ?.map((e) => IndicatorEntity.fromJson(e as Map<String, dynamic>))
               .toList() ??
           const [],
-      stopReasons: (json['stopReasons'] as Map<String, dynamic>?)?.map(
-            (k, e) => MapEntry(k, e as String),
-          ) ??
-          const {},
+      stopReasons: (json['stopReasons'] as List<dynamic>?)
+              ?.map((e) => IdValueEntity.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
     );
 
 Map<String, dynamic> _$$ProjectPropertyEntityImplToJson(
@@ -54,11 +53,12 @@ Map<String, dynamic> _$$ProjectPropertyEntityImplToJson(
     <String, dynamic>{
       'workers': instance.workers.map((e) => e.toJson()).toList(),
       'machineries': instance.machineries.map((e) => e.toJson()).toList(),
-      'machineryServiceTypes': instance.machineryServiceTypes,
+      'machineryServiceTypes':
+          instance.machineryServiceTypes.map((e) => e.toJson()).toList(),
       'machineryParts': instance.machineryParts.map((e) => e.toJson()).toList(),
       'diggers': instance.diggers.map((e) => e.toJson()).toList(),
       'headDiggers': instance.headDiggers.map((e) => e.toJson()).toList(),
       'supervisors': instance.supervisors.map((e) => e.toJson()).toList(),
       'indicators': instance.indicators.map((e) => e.toJson()).toList(),
-      'stopReasons': instance.stopReasons,
+      'stopReasons': instance.stopReasons.map((e) => e.toJson()).toList(),
     };

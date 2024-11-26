@@ -31,7 +31,7 @@ class ProjectDataEntity with _$ProjectDataEntity {
     @JsonKey(name: 'machinery_working_hour_image')
     String? machineryWorkingHourImage,
     @JsonKey(name: 'stop_image') @Default("") String stopImage,
-    @Default([]) List<String> workers,
+    @Default([]) List<List<String>> workers,
     @Default("") String description,
     @Default("") String status,
     @JsonKey(name: 'created_at')
@@ -90,16 +90,10 @@ enum DataSyncStatus {
   pending,
   running,
   failed,
-  synced,
-}
+  synced;
 
-extension PrDataExt on ProjectDataEntity {
-  bool isLocalRecord() {
-    return id.startsWith("LOCAL_");
-  }
-
-  String getSyncStatusText() {
-    switch (syncStatus) {
+  String getText() {
+    switch (this) {
       case DataSyncStatus.none:
         return '';
       case DataSyncStatus.pending:
@@ -111,5 +105,11 @@ extension PrDataExt on ProjectDataEntity {
       case DataSyncStatus.synced:
         return 'بارگزاری شده';
     }
+  }
+}
+
+extension PrDataExt on ProjectDataEntity {
+  bool isLocalRecord() {
+    return id.startsWith("LOCAL_");
   }
 }

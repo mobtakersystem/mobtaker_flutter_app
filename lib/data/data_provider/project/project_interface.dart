@@ -23,15 +23,15 @@ abstract class ProjectDataProvider {
   Future<void> writeProjectsData(
       List<ProjectDataEntity> projectData, String projectId);
 
-  Future<void> storeProjectData(
-      ProjectDataEntity projectData);
+  Future<void> storeProjectData(ProjectDataEntity projectData);
 
   Future<void> deleteProjectData(String projectDataId);
 
-  Future<void> updateProjectData(
-      ProjectDataEntity newData);
+  Future<void> updateProjectData(ProjectDataEntity newData);
 
   Stream<DataSyncStatus> projectSyncStatus(String projectDataId);
 
   Stream<List<ProjectDataEntity>> listenToLocalProjectData();
+
+  Stream<ProjectDataEntity?> listenToLocalProjectItem(String id);
 }

@@ -8,8 +8,9 @@ class SelectWorkersFormBuilder extends ConsumerWidget {
   final String name;
   final String label;
   final String projectId;
-  final List<String>? initialValue;
-  final FormFieldValidator<List<String>>? validator;
+  final List<WorkerEntity>? initialValue;
+  final FormFieldValidator<List<WorkerEntity>>? validator;
+  final ValueTransformer<List<WorkerEntity>?>? valueTransformer;
 
   const SelectWorkersFormBuilder({
     super.key,
@@ -18,6 +19,7 @@ class SelectWorkersFormBuilder extends ConsumerWidget {
     required this.label,
     this.initialValue,
     this.validator,
+    this.valueTransformer,
   });
 
   @override
@@ -27,12 +29,13 @@ class SelectWorkersFormBuilder extends ConsumerWidget {
               orElse: () => [],
               data: (data) => data.getRight().toNullable()?.workers ?? [],
             );
-    return FormBuilderField<List<String>>(
+    return FormBuilderField<List<WorkerEntity>>(
       name: name,
       initialValue: initialValue,
       validator: validator,
+      valueTransformer: valueTransformer,
       builder: (field) {
-        return DropdownButtonFormField<String>(
+        return DropdownButtonFormField<WorkerEntity>(
           value: null,
           decoration: InputDecoration(
             labelText: (field.value?.isEmpty ?? true) ? null : label,
@@ -51,7 +54,7 @@ class SelectWorkersFormBuilder extends ConsumerWidget {
           },
           selectedItemBuilder: (context) {
             final selected = workersData.where(
-              (element) => field.value?.contains(element.id) ?? false,
+              (element) => field.value?.contains(element) ?? false,
             );
             return workersData
                 .map(
@@ -68,11 +71,11 @@ class SelectWorkersFormBuilder extends ConsumerWidget {
           items: workersData
               .map(
                 (e) => DropdownMenuItem(
-                  value: e.id,
+                  value: e,
                   child: Row(
                     children: [
                       Icon(
-                        (field.value?.contains(e.id) ?? false)
+                        (field.value?.contains(e) ?? false)
                             ? Icons.check_circle_outline
                             : Icons.circle_outlined,
                         size: 20,

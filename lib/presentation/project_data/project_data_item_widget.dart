@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mpm/common/extention/context.dart';
 import 'package:mpm/data/entities/project/project_data_entity.dart';
 import 'package:mpm/domain/use_case/get_and_sync_local_project_data.dart';
+import 'package:mpm/presentation/project_data/project_data_item_provider.dart';
 import 'package:mpm/presentation/project_data_show/project_data_show_page.dart';
 import 'package:persian_number_utility/persian_number_utility.dart';
 
@@ -14,6 +15,7 @@ class ProjectDataItemWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final sync = ref.watch(projectItemSyncStatusProvider(projectData.id));
     return GestureDetector(
       onTap: () {
         context.push(ProjectDataShowPage(projectData: projectData));
@@ -34,33 +36,38 @@ class ProjectDataItemWidget extends ConsumerWidget {
                       valueStyle: const TextStyle(fontWeight: FontWeight.bold),
                     ),
                   ),
-                  Expanded(
-                      child: Row(
-                    children: [
-                      Flexible(
-                        child: Text(
-                          projectData.isLocalRecord()
-                              ? projectData.getSyncStatusText()
-                              : '',
-                          style: TextStyle(
-                            color: context.errorColor,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                      if (projectData.syncStatus == DataSyncStatus.failed)
-                        IconButton(
-                            onPressed: () {
-                              GetIt.I<SetTryAgainSyncItemUseCase>()
-                                  .call(projectData);
-                            },
-                            icon: const Icon(
-                              Icons.sync_problem,
-                              color: Colors.red,
-                              size: 16,
-                            )),
-                    ],
-                  ))
+                  sync.maybeWhen(
+                    data: (syncData) => syncData == null
+                        ? const SizedBox()
+                        : Expanded(
+                            child: Row(
+                            children: [
+                              Flexible(
+                                child: Text(
+                                  projectData.isLocalRecord()
+                                      ? syncData.getText()
+                                      : '',
+                                  style: TextStyle(
+                                    color: context.errorColor,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                              if (syncData == DataSyncStatus.failed)
+                                IconButton(
+                                    onPressed: () {
+                                      GetIt.I<SetTryAgainSyncItemUseCase>()
+                                          .call(projectData);
+                                    },
+                                    icon: const Icon(
+                                      Icons.sync_problem,
+                                      color: Colors.red,
+                                      size: 16,
+                                    )),
+                            ],
+                          )),
+                    orElse: () => const SizedBox.shrink(),
+                  ),
                 ],
               ),
               const SizedBox.square(dimension: 8),

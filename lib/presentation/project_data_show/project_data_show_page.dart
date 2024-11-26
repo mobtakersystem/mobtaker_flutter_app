@@ -58,12 +58,9 @@ class ProjectDataShowPage extends ConsumerWidget {
               const SizedBox.square(dimension: _dividerSize),
               _ItemValue(
                   title: "کارگران",
-                  value: properties.workers
-                      .where(
-                        (element) => projectData.workers.contains(element.id),
-                      )
+                  value: projectData.workers
                       .map(
-                        (e) => e.fullName,
+                        (e) => e.lastOrNull,
                       )
                       .join(", ")),
               const SizedBox.square(dimension: _dividerSize),

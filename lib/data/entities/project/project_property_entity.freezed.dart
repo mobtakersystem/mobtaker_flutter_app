@@ -23,7 +23,7 @@ ProjectPropertyEntity _$ProjectPropertyEntityFromJson(
 mixin _$ProjectPropertyEntity {
   List<WorkerEntity> get workers => throw _privateConstructorUsedError;
   List<MachineryEntity> get machineries => throw _privateConstructorUsedError;
-  Map<String, String> get machineryServiceTypes =>
+  List<IdValueEntity> get machineryServiceTypes =>
       throw _privateConstructorUsedError;
   List<MachineryPartEntity> get machineryParts =>
       throw _privateConstructorUsedError;
@@ -31,7 +31,7 @@ mixin _$ProjectPropertyEntity {
   List<WorkerEntity> get headDiggers => throw _privateConstructorUsedError;
   List<SupervisorEntity> get supervisors => throw _privateConstructorUsedError;
   List<IndicatorEntity> get indicators => throw _privateConstructorUsedError;
-  Map<String, String> get stopReasons => throw _privateConstructorUsedError;
+  List<IdValueEntity> get stopReasons => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -48,13 +48,13 @@ abstract class $ProjectPropertyEntityCopyWith<$Res> {
   $Res call(
       {List<WorkerEntity> workers,
       List<MachineryEntity> machineries,
-      Map<String, String> machineryServiceTypes,
+      List<IdValueEntity> machineryServiceTypes,
       List<MachineryPartEntity> machineryParts,
       List<WorkerEntity> diggers,
       List<WorkerEntity> headDiggers,
       List<SupervisorEntity> supervisors,
       List<IndicatorEntity> indicators,
-      Map<String, String> stopReasons});
+      List<IdValueEntity> stopReasons});
 }
 
 /// @nodoc
@@ -93,7 +93,7 @@ class _$ProjectPropertyEntityCopyWithImpl<$Res,
       machineryServiceTypes: null == machineryServiceTypes
           ? _value.machineryServiceTypes
           : machineryServiceTypes // ignore: cast_nullable_to_non_nullable
-              as Map<String, String>,
+              as List<IdValueEntity>,
       machineryParts: null == machineryParts
           ? _value.machineryParts
           : machineryParts // ignore: cast_nullable_to_non_nullable
@@ -117,7 +117,7 @@ class _$ProjectPropertyEntityCopyWithImpl<$Res,
       stopReasons: null == stopReasons
           ? _value.stopReasons
           : stopReasons // ignore: cast_nullable_to_non_nullable
-              as Map<String, String>,
+              as List<IdValueEntity>,
     ) as $Val);
   }
 }
@@ -134,13 +134,13 @@ abstract class _$$ProjectPropertyEntityImplCopyWith<$Res>
   $Res call(
       {List<WorkerEntity> workers,
       List<MachineryEntity> machineries,
-      Map<String, String> machineryServiceTypes,
+      List<IdValueEntity> machineryServiceTypes,
       List<MachineryPartEntity> machineryParts,
       List<WorkerEntity> diggers,
       List<WorkerEntity> headDiggers,
       List<SupervisorEntity> supervisors,
       List<IndicatorEntity> indicators,
-      Map<String, String> stopReasons});
+      List<IdValueEntity> stopReasons});
 }
 
 /// @nodoc
@@ -177,7 +177,7 @@ class __$$ProjectPropertyEntityImplCopyWithImpl<$Res>
       machineryServiceTypes: null == machineryServiceTypes
           ? _value._machineryServiceTypes
           : machineryServiceTypes // ignore: cast_nullable_to_non_nullable
-              as Map<String, String>,
+              as List<IdValueEntity>,
       machineryParts: null == machineryParts
           ? _value._machineryParts
           : machineryParts // ignore: cast_nullable_to_non_nullable
@@ -201,7 +201,7 @@ class __$$ProjectPropertyEntityImplCopyWithImpl<$Res>
       stopReasons: null == stopReasons
           ? _value._stopReasons
           : stopReasons // ignore: cast_nullable_to_non_nullable
-              as Map<String, String>,
+              as List<IdValueEntity>,
     ));
   }
 }
@@ -213,13 +213,13 @@ class _$ProjectPropertyEntityImpl implements _ProjectPropertyEntity {
   const _$ProjectPropertyEntityImpl(
       {final List<WorkerEntity> workers = const [],
       final List<MachineryEntity> machineries = const [],
-      final Map<String, String> machineryServiceTypes = const {},
+      final List<IdValueEntity> machineryServiceTypes = const [],
       final List<MachineryPartEntity> machineryParts = const [],
       final List<WorkerEntity> diggers = const [],
       final List<WorkerEntity> headDiggers = const [],
       final List<SupervisorEntity> supervisors = const [],
       final List<IndicatorEntity> indicators = const [],
-      final Map<String, String> stopReasons = const {}})
+      final List<IdValueEntity> stopReasons = const []})
       : _workers = workers,
         _machineries = machineries,
         _machineryServiceTypes = machineryServiceTypes,
@@ -251,14 +251,14 @@ class _$ProjectPropertyEntityImpl implements _ProjectPropertyEntity {
     return EqualUnmodifiableListView(_machineries);
   }
 
-  final Map<String, String> _machineryServiceTypes;
+  final List<IdValueEntity> _machineryServiceTypes;
   @override
   @JsonKey()
-  Map<String, String> get machineryServiceTypes {
-    if (_machineryServiceTypes is EqualUnmodifiableMapView)
+  List<IdValueEntity> get machineryServiceTypes {
+    if (_machineryServiceTypes is EqualUnmodifiableListView)
       return _machineryServiceTypes;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableMapView(_machineryServiceTypes);
+    return EqualUnmodifiableListView(_machineryServiceTypes);
   }
 
   final List<MachineryPartEntity> _machineryParts;
@@ -306,13 +306,13 @@ class _$ProjectPropertyEntityImpl implements _ProjectPropertyEntity {
     return EqualUnmodifiableListView(_indicators);
   }
 
-  final Map<String, String> _stopReasons;
+  final List<IdValueEntity> _stopReasons;
   @override
   @JsonKey()
-  Map<String, String> get stopReasons {
-    if (_stopReasons is EqualUnmodifiableMapView) return _stopReasons;
+  List<IdValueEntity> get stopReasons {
+    if (_stopReasons is EqualUnmodifiableListView) return _stopReasons;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableMapView(_stopReasons);
+    return EqualUnmodifiableListView(_stopReasons);
   }
 
   @override
@@ -376,13 +376,13 @@ abstract class _ProjectPropertyEntity implements ProjectPropertyEntity {
   const factory _ProjectPropertyEntity(
       {final List<WorkerEntity> workers,
       final List<MachineryEntity> machineries,
-      final Map<String, String> machineryServiceTypes,
+      final List<IdValueEntity> machineryServiceTypes,
       final List<MachineryPartEntity> machineryParts,
       final List<WorkerEntity> diggers,
       final List<WorkerEntity> headDiggers,
       final List<SupervisorEntity> supervisors,
       final List<IndicatorEntity> indicators,
-      final Map<String, String> stopReasons}) = _$ProjectPropertyEntityImpl;
+      final List<IdValueEntity> stopReasons}) = _$ProjectPropertyEntityImpl;
 
   factory _ProjectPropertyEntity.fromJson(Map<String, dynamic> json) =
       _$ProjectPropertyEntityImpl.fromJson;
@@ -392,7 +392,7 @@ abstract class _ProjectPropertyEntity implements ProjectPropertyEntity {
   @override
   List<MachineryEntity> get machineries;
   @override
-  Map<String, String> get machineryServiceTypes;
+  List<IdValueEntity> get machineryServiceTypes;
   @override
   List<MachineryPartEntity> get machineryParts;
   @override
@@ -404,7 +404,7 @@ abstract class _ProjectPropertyEntity implements ProjectPropertyEntity {
   @override
   List<IndicatorEntity> get indicators;
   @override
-  Map<String, String> get stopReasons;
+  List<IdValueEntity> get stopReasons;
   @override
   @JsonKey(ignore: true)
   _$$ProjectPropertyEntityImplCopyWith<_$ProjectPropertyEntityImpl>

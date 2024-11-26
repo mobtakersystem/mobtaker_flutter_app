@@ -214,4 +214,18 @@ class ProjectLocalDataProvider implements ProjectDataProvider {
     }
     return;
   }
+
+  @override
+  Stream<ProjectDataEntity?> listenToLocalProjectItem(String id) {
+    final filter = Finder(
+      filter: Filter.equals('id', id),
+    );
+    return _projectDataStore
+        .query(finder: filter)
+        .onSnapshot(_db)
+        .asyncMap((event) {
+      if (event == null) return null;
+      return ProjectDataEntity.fromJson(event.value);
+    });
+  }
 }

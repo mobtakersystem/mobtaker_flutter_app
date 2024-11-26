@@ -18,13 +18,10 @@ class ProjectDataIndexUseCase {
     final localResult =
         await _localRepository.getProjectData(projectId: projectId);
     if (localResult.isRight()) {
-      print("GET LOCAL");
       yield localResult;
       final apiResult =
           await _apiRepository.getProjectData(projectId: projectId);
-      print("GET API");
       if (apiResult.isRight()) {
-        print("GET API SUCCESS");
         final List<ProjectDataEntity> apiList =
             (apiResult.getRight().toNullable()?.data ?? []);
         final List<ProjectDataEntity> localList =
@@ -45,23 +42,16 @@ class ProjectDataIndexUseCase {
         final update = await _localRepository.writeProjectData(
             apiResult.getRight().toNullable()?.data ?? [], projectId);
         update.fold(
-          (l) {
-            print("UPDATE LOCAL FAILED");
-          },
-          (r) {
-            print("UPDATE LOCAL SUCCESS");
-          },
+          (l) {},
+          (r) {},
         );
       } else if (apiResult.getLeft().toNullable() is AccessDeniedFailure ||
           apiResult.getLeft().toNullable() is UnAuthorizedFailure) {
-        print("API ACCESS DENIED");
         yield apiResult;
       }
     } else {
-      print("GET API 2");
       final apiResult =
           await _apiRepository.getProjectData(projectId: projectId);
-      print("GET API 2 SUCCESS");
       if (apiResult.isLeft() &&
           localResult.isLeft() &&
           localResult.getLeft().toNullable() is NotFoundFailure) {
@@ -77,10 +67,8 @@ class ProjectDataIndexUseCase {
             apiResult.getRight().toNullable()?.data ?? [], projectId);
         update.fold(
           (l) {
-            print("UPDATE LOCAL 2 FAILED");
           },
           (r) {
-            print("UPDATE LOCAL 2 SUCCESS");
           },
         );
       }

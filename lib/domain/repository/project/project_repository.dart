@@ -45,8 +45,7 @@ class ProjectRepository {
         .mapToEither();
   }
 
-  Future<ResultData<void>> storeProjectData(
-      ProjectDataEntity projectData) {
+  Future<ResultData<void>> storeProjectData(ProjectDataEntity projectData) {
     return _dataProvider.storeProjectData(projectData).mapToEither();
   }
 
@@ -54,14 +53,15 @@ class ProjectRepository {
     return _dataProvider.deleteProjectData(projectDataId).mapToEither();
   }
 
-  Future<ResultData<void>> updateProjectData(
-      ProjectDataEntity projectData) {
-    return _dataProvider
-        .updateProjectData(projectData)
-        .mapToEither();
+  Future<ResultData<void>> updateProjectData(ProjectDataEntity projectData) {
+    return _dataProvider.updateProjectData(projectData).mapToEither();
   }
 
   Stream<List<ProjectDataEntity>> listenToLocalProjectData() {
     return _dataProvider.listenToLocalProjectData();
+  }
+
+  Stream<ProjectDataEntity?> listenToLocalProjectItem(String id) {
+    return _dataProvider.listenToLocalProjectItem(id);
   }
 }

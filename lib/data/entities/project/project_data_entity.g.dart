@@ -26,7 +26,8 @@ _$ProjectDataEntityImpl _$$ProjectDataEntityImplFromJson(
           json['machinery_working_hour_image'] as String?,
       stopImage: json['stop_image'] as String? ?? "",
       workers: (json['workers'] as List<dynamic>?)
-              ?.map((e) => e as String)
+              ?.map(
+                  (e) => (e as List<dynamic>).map((e) => e as String).toList())
               .toList() ??
           const [],
       description: json['description'] as String? ?? "",

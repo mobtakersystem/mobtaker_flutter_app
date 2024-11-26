@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
@@ -5,6 +6,7 @@ import 'package:get_it/get_it.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mpm/common/sl_config.dart';
 import 'package:mpm/common/widget/image_picker_form_widget.dart';
+import 'package:mpm/data/entities/machinery/id_value_entity.dart';
 import 'package:mpm/data/entities/machinery/machinery_data_entity.dart';
 import 'package:mpm/presentation/project_data/project_property_provider.dart';
 
@@ -27,11 +29,11 @@ class MachineryServiceFormBuilder extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final Map<String, String> data =
+    List<IdValueEntity> data =
         ref.watch(getProjectPropertyProvider(projectId)).maybeWhen(
-              orElse: () => {},
+              orElse: () => [],
               data: (data) =>
-                  data.getRight().toNullable()?.machineryServiceTypes ?? {},
+                  data.getRight().toNullable()?.machineryServiceTypes ?? [],
             );
     return FormBuilderField<List<MachineryServiceDataEntity>>(
       name: name,
@@ -59,9 +61,11 @@ class MachineryServiceFormBuilder extends ConsumerWidget {
                     return Column(
                       key: ValueKey(e.id),
                       children: [
-                        DropdownButtonFormField<String>(
+                        DropdownButtonFormField<IdValueEntity>(
                           key: ValueKey("${e.id}_type"),
-                          value: e.serviceType?.toString(),
+                          value: data.firstWhereOrNull(
+                            (element) => element.id == e.serviceType,
+                          ),
                           decoration: const InputDecoration(
                             labelText: 'نوع سرویس',
                           ),
@@ -70,16 +74,15 @@ class MachineryServiceFormBuilder extends ConsumerWidget {
                               final index = field.value?.indexOf(e) ?? 0;
                               final newValue = field.value;
                               newValue?[index] = e.copyWith(
-                                  serviceType: int.tryParse(value),
-                                  type: data[value] ?? "");
+                                  serviceType: value.id, type: value.title);
                               field.didChange(newValue);
                             }
                           },
-                          items: data.keys
+                          items: data
                               .map(
                                 (key) => DropdownMenuItem(
                                   value: key,
-                                  child: Text(data[key] ?? ""),
+                                  child: Text(key.title),
                                 ),
                               )
                               .toList(),

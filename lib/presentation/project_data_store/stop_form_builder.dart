@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
@@ -5,13 +6,14 @@ import 'package:get_it/get_it.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:mpm/common/sl_config.dart';
+import 'package:mpm/data/entities/machinery/id_value_entity.dart';
 import 'package:mpm/data/entities/stop_data/stop_data.dart';
 
 const _space = SizedBox.square(dimension: 16);
 
 class StopFormBuilder extends ConsumerWidget {
   final String name;
-  final Map<String, String> data;
+  final List<IdValueEntity> data;
   final FormFieldValidator<List<StopDataEntity>>? validator;
   final List<StopDataEntity>? initialValue;
 
@@ -49,26 +51,28 @@ class StopFormBuilder extends ConsumerWidget {
                       return Column(
                         key: ValueKey(e.id),
                         children: [
-                          DropdownButtonFormField<String>(
+                          DropdownButtonFormField<IdValueEntity>(
                             key: ValueKey("${e.id}_name"),
-                            value: e.reason,
+                            value: data.firstWhereOrNull(
+                              (element) => element.id.toString() == e.reason,
+                            ),
                             decoration: const InputDecoration(
                               labelText: 'دلیل توقف',
                             ),
-                            onChanged: (value) {
+                            onChanged: (stopReason) {
                               final index = field.value?.indexOf(e) ?? 0;
                               final newValue = field.value;
                               newValue?[index] = e.copyWith(
-                                  reason: value,
-                                  displayReason: data[value] ?? "");
+                                reason: stopReason?.id.toString(),
+                                displayReason: stopReason?.title,
+                              );
                               field.didChange(newValue);
                             },
-                            items: data.keys
+                            items: data
                                 .map(
-                                  (key) => DropdownMenuItem(
-                                    key: ValueKey(e.id + key),
-                                    value: key,
-                                    child: Text(data[key] ?? ""),
+                                  (item) => DropdownMenuItem(
+                                    value: item,
+                                    child: Text(item.title),
                                   ),
                                 )
                                 .toList(),

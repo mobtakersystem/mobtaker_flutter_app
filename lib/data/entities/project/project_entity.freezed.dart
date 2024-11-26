@@ -39,7 +39,7 @@ mixin _$ProjectEntity {
   String get code => throw _privateConstructorUsedError;
   @JsonKey(name: 'percent_of_whole')
   int get percentOfWhole => throw _privateConstructorUsedError;
-  int? get budget => throw _privateConstructorUsedError;
+  String? get budget => throw _privateConstructorUsedError;
   int? get quantity => throw _privateConstructorUsedError;
   String? get description => throw _privateConstructorUsedError;
   String get status => throw _privateConstructorUsedError;
@@ -83,7 +83,7 @@ abstract class $ProjectEntityCopyWith<$Res> {
       DateTime? endDate,
       String code,
       @JsonKey(name: 'percent_of_whole') int percentOfWhole,
-      int? budget,
+      String? budget,
       int? quantity,
       String? description,
       String status,
@@ -184,7 +184,7 @@ class _$ProjectEntityCopyWithImpl<$Res, $Val extends ProjectEntity>
       budget: freezed == budget
           ? _value.budget
           : budget // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as String?,
       quantity: freezed == quantity
           ? _value.quantity
           : quantity // ignore: cast_nullable_to_non_nullable
@@ -253,7 +253,7 @@ abstract class _$$ProjectEntityImplCopyWith<$Res>
       DateTime? endDate,
       String code,
       @JsonKey(name: 'percent_of_whole') int percentOfWhole,
-      int? budget,
+      String? budget,
       int? quantity,
       String? description,
       String status,
@@ -352,7 +352,7 @@ class __$$ProjectEntityImplCopyWithImpl<$Res>
       budget: freezed == budget
           ? _value.budget
           : budget // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as String?,
       quantity: freezed == quantity
           ? _value.quantity
           : quantity // ignore: cast_nullable_to_non_nullable
@@ -471,7 +471,7 @@ class _$ProjectEntityImpl implements _ProjectEntity {
   @JsonKey(name: 'percent_of_whole')
   final int percentOfWhole;
   @override
-  final int? budget;
+  final String? budget;
   @override
   final int? quantity;
   @override
@@ -612,7 +612,7 @@ abstract class _ProjectEntity implements ProjectEntity {
       final DateTime? endDate,
       final String code,
       @JsonKey(name: 'percent_of_whole') final int percentOfWhole,
-      final int? budget,
+      final String? budget,
       final int? quantity,
       final String? description,
       required final String status,
@@ -662,7 +662,7 @@ abstract class _ProjectEntity implements ProjectEntity {
   @JsonKey(name: 'percent_of_whole')
   int get percentOfWhole;
   @override
-  int? get budget;
+  String? get budget;
   @override
   int? get quantity;
   @override

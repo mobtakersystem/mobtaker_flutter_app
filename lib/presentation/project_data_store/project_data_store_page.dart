@@ -143,6 +143,15 @@ class _ProjectDataStorePageState extends ConsumerState<ProjectDataStorePage> {
                       projectId: widget.projectId,
                       label: 'کارگران',
                       validator: FormBuilderValidators.required(),
+                      valueTransformer: (value) {
+                        final test = value
+                            ?.map<List<String>>((item) => [
+                                  item.id,
+                                  item.fullName,
+                                ])
+                            .toList();
+                        return test;
+                      },
                     ),
                     _space,
                     Row(
@@ -304,6 +313,9 @@ class _ProjectDataStorePageState extends ConsumerState<ProjectDataStorePage> {
                           final map = {...?_formKey.currentState?.value};
                           map['id'] = GetIt.I<LocalID>();
                           map['project_id'] = widget.projectId;
+                          print("map['workers']");
+                          print(map['workers']);
+                          print(map['workers'].runtimeType);
                           final data = ProjectDataEntity.fromJson(map).copyWith(
                             syncStatus: DataSyncStatus.pending,
                             headDigger: properties.headDiggers
