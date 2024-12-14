@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
@@ -8,14 +9,16 @@ import 'package:mpm/common/sl_config.dart';
 import 'package:mpm/common/work_manager_config.dart';
 import 'package:mpm/presentation/splash_page.dart';
 import 'package:workmanager/workmanager.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Workmanager().initialize(
     callbackDispatcher,
-    isInDebugMode: true,
+    isInDebugMode: kDebugMode,
   );
   await slConfig(GetIt.instance);
+  timeago.setLocaleMessages('fa', timeago.FaMessages());
   runApp(Phoenix(child: const ProviderScope(child: MyApp())));
 }
 

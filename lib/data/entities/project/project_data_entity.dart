@@ -4,6 +4,7 @@ import 'package:mpm/data/entities/document/document_entity.dart';
 import 'package:mpm/data/entities/machinery/machinery_data_entity.dart';
 import 'package:mpm/data/entities/machinery/machinery_part_data_entity.dart';
 import 'package:mpm/data/entities/stop_data/stop_data.dart';
+import 'package:mpm/data/entities/worker/worker_entity.dart';
 
 part 'project_data_entity.freezed.dart';
 
@@ -31,7 +32,7 @@ class ProjectDataEntity with _$ProjectDataEntity {
     @JsonKey(name: 'machinery_working_hour_image')
     String? machineryWorkingHourImage,
     @JsonKey(name: 'stop_image') @Default("") String stopImage,
-    @Default([]) List<List<String>> workers,
+    @Default([]) List<ProjectWorkerEntity> workers,
     @Default("") String description,
     @Default("") String status,
     @JsonKey(name: 'created_at')

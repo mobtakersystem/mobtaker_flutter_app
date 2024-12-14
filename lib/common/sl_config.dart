@@ -5,6 +5,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 import 'package:mpm/data/data_provider/auth/auth_impl.dart';
 import 'package:mpm/data/data_provider/auth/auth_interface.dart';
+import 'package:mpm/data/data_provider/local_handler/locaLhandler_data.dart';
 import 'package:mpm/data/data_provider/project/project_api_imp.dart';
 import 'package:mpm/data/data_provider/project/project_interface.dart';
 import 'package:mpm/data/data_provider/project/project_loca_imp.dart';
@@ -13,6 +14,7 @@ import 'package:mpm/data/data_provider/storage/storage_interface.dart';
 import 'package:mpm/data/network/network_service.dart';
 import 'package:mpm/domain/repository/auth/auth_impl.dart';
 import 'package:mpm/domain/repository/auth/auth_interface.dart';
+import 'package:mpm/domain/repository/local_handler/locaLhandler_data.dart';
 import 'package:mpm/domain/repository/project/project_repository.dart';
 import 'package:mpm/domain/repository/storage.dart';
 import 'package:mpm/domain/use_case/delete_project_data.dart';
@@ -91,6 +93,7 @@ slConfig(GetIt getIt) async {
     ),
   );
   //
+  _localHandler(getIt);
   _projectSl(getIt);
   _storageSl(getIt);
   _filePickerSl(getIt);
@@ -194,10 +197,12 @@ _projectSl(GetIt getIt) {
   getIt.registerLazySingleton<GetAndSyncLocalProjectDataUseCase>(
     () {
       return GetAndSyncLocalProjectDataUseCase(
-          localRepository: getIt(instanceName: ProviderType.local.name),
-          apiRepository: getIt(instanceName: ProviderType.api.name),
-          uploadImageToStorageUseCase: getIt(),
-          internetConnection: InternetConnection());
+        localRepository: getIt(instanceName: ProviderType.local.name),
+        apiRepository: getIt(instanceName: ProviderType.api.name),
+        uploadImageToStorageUseCase: getIt(),
+        internetConnection: InternetConnection(),
+        localHandlerRepository: getIt(),
+      );
     },
     dispose: (param) {
       param.internetListener?.cancel();
@@ -225,6 +230,17 @@ Future<DB> getDataBase() async {
 // open the database
   final db = await databaseFactoryIo.openDatabase(dbPath);
   return db;
+}
+
+_localHandler(GetIt getIt) {
+  getIt.registerLazySingleton<LocalHandlerData>(() => LocalHandlerData(
+      dataSetUpdateLog: stringMapStoreFactory.store('time_logs'),
+      db: getIt.get()));
+  getIt.registerLazySingleton<LocalHandlerRepository>(
+    () => LocalHandlerRepository(
+      getIt<LocalHandlerData>(),
+    ),
+  );
 }
 
 enum ProviderType {

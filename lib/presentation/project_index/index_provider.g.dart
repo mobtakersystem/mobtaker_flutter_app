@@ -22,5 +22,22 @@ final projectIndexProvider = AutoDisposeStreamProvider<
 
 typedef ProjectIndexRef
     = AutoDisposeStreamProviderRef<ResultData<PaginationEntity<ProjectEntity>>>;
+String _$projectIndexLastUpdateHash() =>
+    r'514481d8de5f5d62121d502fe501b02ea5903918';
+
+/// See also [projectIndexLastUpdate].
+@ProviderFor(projectIndexLastUpdate)
+final projectIndexLastUpdateProvider =
+    AutoDisposeStreamProvider<DateTime?>.internal(
+  projectIndexLastUpdate,
+  name: r'projectIndexLastUpdateProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$projectIndexLastUpdateHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef ProjectIndexLastUpdateRef = AutoDisposeStreamProviderRef<DateTime?>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

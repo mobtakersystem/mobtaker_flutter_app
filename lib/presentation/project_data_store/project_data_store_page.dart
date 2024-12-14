@@ -145,10 +145,12 @@ class _ProjectDataStorePageState extends ConsumerState<ProjectDataStorePage> {
                       validator: FormBuilderValidators.required(),
                       valueTransformer: (value) {
                         final test = value
-                            ?.map<List<String>>((item) => [
-                                  item.id,
-                                  item.fullName,
-                                ])
+                            ?.map<Map<String, dynamic>>(
+                              (item) => {
+                                "id": item.id,
+                                "name": item.fullName,
+                              },
+                            )
                             .toList();
                         return test;
                       },

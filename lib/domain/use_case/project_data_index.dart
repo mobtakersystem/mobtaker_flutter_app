@@ -1,6 +1,8 @@
+import 'package:get_it/get_it.dart';
 import 'package:mpm/data/entities/pagination/pagination.dart';
 import 'package:mpm/data/entities/project/project_data_entity.dart';
 import 'package:mpm/domain/failure_model.dart';
+import 'package:mpm/domain/repository/local_handler/locaLhandler_data.dart';
 import 'package:mpm/domain/repository/project/project_repository.dart';
 
 class ProjectDataIndexUseCase {
@@ -39,12 +41,8 @@ class ProjectDataIndexUseCase {
               );
         yield ResultData.right(
             apiResult.getRight().toNullable()!.copyWith(data: combinedList));
-        final update = await _localRepository.writeProjectData(
+        await _updateLocal(
             apiResult.getRight().toNullable()?.data ?? [], projectId);
-        update.fold(
-          (l) {},
-          (r) {},
-        );
       } else if (apiResult.getLeft().toNullable() is AccessDeniedFailure ||
           apiResult.getLeft().toNullable() is UnAuthorizedFailure) {
         yield apiResult;
@@ -63,15 +61,22 @@ class ProjectDataIndexUseCase {
         yield apiResult;
       }
       if (apiResult.isRight()) {
-        final update = await _localRepository.writeProjectData(
+        await _updateLocal(
             apiResult.getRight().toNullable()?.data ?? [], projectId);
-        update.fold(
-          (l) {
-          },
-          (r) {
-          },
-        );
       }
     }
+  }
+
+  Future<void> _updateLocal(
+      List<ProjectDataEntity> projectData, String projectId) async {
+    final update =
+        await _localRepository.writeProjectData(projectData, projectId);
+    update.fold(
+      (l) {},
+      (r) {
+        GetIt.I<LocalHandlerRepository>()
+            .setLastUpdateProjectData(DateTime.now());
+      },
+    );
   }
 }

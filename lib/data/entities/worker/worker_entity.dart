@@ -16,3 +16,13 @@ class WorkerEntity with _$WorkerEntity {
   factory WorkerEntity.fromJson(Map<String, dynamic> json) =>
       _$WorkerEntityFromJson(json);
 }
+@freezed
+class ProjectWorkerEntity with _$ProjectWorkerEntity {
+  const factory ProjectWorkerEntity({
+    required String id,
+    @JsonKey(name: 'name') @Default("") String name,
+  }) = _ProjectWorkerEntity;
+
+  factory ProjectWorkerEntity.fromJson(Map<String, dynamic> json) =>
+      _$ProjectWorkerEntityFromJson(json);
+}

@@ -21,3 +21,17 @@ Map<String, dynamic> _$$WorkerEntityImplToJson(_$WorkerEntityImpl instance) =>
       'last_name': instance.lastName,
       'full_name': instance.fullName,
     };
+
+_$ProjectWorkerEntityImpl _$$ProjectWorkerEntityImplFromJson(
+        Map<String, dynamic> json) =>
+    _$ProjectWorkerEntityImpl(
+      id: json['id'] as String,
+      name: json['name'] as String? ?? "",
+    );
+
+Map<String, dynamic> _$$ProjectWorkerEntityImplToJson(
+        _$ProjectWorkerEntityImpl instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'name': instance.name,
+    };

@@ -226,3 +226,162 @@ abstract class _WorkerEntity implements WorkerEntity {
   _$$WorkerEntityImplCopyWith<_$WorkerEntityImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
+
+ProjectWorkerEntity _$ProjectWorkerEntityFromJson(Map<String, dynamic> json) {
+  return _ProjectWorkerEntity.fromJson(json);
+}
+
+/// @nodoc
+mixin _$ProjectWorkerEntity {
+  String get id => throw _privateConstructorUsedError;
+  @JsonKey(name: 'name')
+  String get name => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $ProjectWorkerEntityCopyWith<ProjectWorkerEntity> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ProjectWorkerEntityCopyWith<$Res> {
+  factory $ProjectWorkerEntityCopyWith(
+          ProjectWorkerEntity value, $Res Function(ProjectWorkerEntity) then) =
+      _$ProjectWorkerEntityCopyWithImpl<$Res, ProjectWorkerEntity>;
+  @useResult
+  $Res call({String id, @JsonKey(name: 'name') String name});
+}
+
+/// @nodoc
+class _$ProjectWorkerEntityCopyWithImpl<$Res, $Val extends ProjectWorkerEntity>
+    implements $ProjectWorkerEntityCopyWith<$Res> {
+  _$ProjectWorkerEntityCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? name = null,
+  }) {
+    return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$ProjectWorkerEntityImplCopyWith<$Res>
+    implements $ProjectWorkerEntityCopyWith<$Res> {
+  factory _$$ProjectWorkerEntityImplCopyWith(_$ProjectWorkerEntityImpl value,
+          $Res Function(_$ProjectWorkerEntityImpl) then) =
+      __$$ProjectWorkerEntityImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String id, @JsonKey(name: 'name') String name});
+}
+
+/// @nodoc
+class __$$ProjectWorkerEntityImplCopyWithImpl<$Res>
+    extends _$ProjectWorkerEntityCopyWithImpl<$Res, _$ProjectWorkerEntityImpl>
+    implements _$$ProjectWorkerEntityImplCopyWith<$Res> {
+  __$$ProjectWorkerEntityImplCopyWithImpl(_$ProjectWorkerEntityImpl _value,
+      $Res Function(_$ProjectWorkerEntityImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? name = null,
+  }) {
+    return _then(_$ProjectWorkerEntityImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ProjectWorkerEntityImpl implements _ProjectWorkerEntity {
+  const _$ProjectWorkerEntityImpl(
+      {required this.id, @JsonKey(name: 'name') this.name = ""});
+
+  factory _$ProjectWorkerEntityImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ProjectWorkerEntityImplFromJson(json);
+
+  @override
+  final String id;
+  @override
+  @JsonKey(name: 'name')
+  final String name;
+
+  @override
+  String toString() {
+    return 'ProjectWorkerEntity(id: $id, name: $name)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ProjectWorkerEntityImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.name, name) || other.name == name));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, id, name);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ProjectWorkerEntityImplCopyWith<_$ProjectWorkerEntityImpl> get copyWith =>
+      __$$ProjectWorkerEntityImplCopyWithImpl<_$ProjectWorkerEntityImpl>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ProjectWorkerEntityImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _ProjectWorkerEntity implements ProjectWorkerEntity {
+  const factory _ProjectWorkerEntity(
+      {required final String id,
+      @JsonKey(name: 'name') final String name}) = _$ProjectWorkerEntityImpl;
+
+  factory _ProjectWorkerEntity.fromJson(Map<String, dynamic> json) =
+      _$ProjectWorkerEntityImpl.fromJson;
+
+  @override
+  String get id;
+  @override
+  @JsonKey(name: 'name')
+  String get name;
+  @override
+  @JsonKey(ignore: true)
+  _$$ProjectWorkerEntityImplCopyWith<_$ProjectWorkerEntityImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}

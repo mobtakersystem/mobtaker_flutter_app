@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:mpm/common/extention/context.dart';
+import 'package:mpm/common/extention/date_time.dart';
 import 'package:mpm/common/riverpod_helper.dart';
 import 'package:mpm/presentation/project_data_store/list_local_data_buttne_widget.dart';
 import 'package:mpm/presentation/project_index/project_item_widget.dart';
@@ -11,9 +13,25 @@ class ProjectsIndex extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final lastUpdateState = ref.watch(projectIndexLastUpdateProvider);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('پروژه ها'),
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text('پروژه ها'),
+            const SizedBox.square(
+              dimension: 2,
+            ),
+            lastUpdateState.maybeWhen(
+              data: (lastUpdate) => Text(
+                lastUpdate?.getTimeAgo() ?? "-",
+                style: context.textTheme.bodySmall,
+              ),
+              orElse: () => const SizedBox.shrink(),
+            )
+          ],
+        ),
         actions: const [ListLocalDataButtonWidget()],
       ),
       body: RiverPodConnectionHelperWidget(

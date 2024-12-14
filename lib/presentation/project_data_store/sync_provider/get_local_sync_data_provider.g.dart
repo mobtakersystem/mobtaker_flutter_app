@@ -7,7 +7,7 @@ part of 'get_local_sync_data_provider.dart';
 // **************************************************************************
 
 String _$getLocalSndSyncDataHash() =>
-    r'83c2363e26b634b21d78d7420b2ea57492d99cb3';
+    r'a006e34600c3fb5757f3557ba59c927d92f8c159';
 
 /// See also [getLocalSndSyncData].
 @ProviderFor(getLocalSndSyncData)
@@ -24,5 +24,20 @@ final getLocalSndSyncDataProvider =
 
 typedef GetLocalSndSyncDataRef
     = AutoDisposeStreamProviderRef<List<ProjectDataEntity>>;
+String _$lastSyncUpdateHash() => r'6a112340e27e9b51ff844499c2a7bcad88241e60';
+
+/// See also [lastSyncUpdate].
+@ProviderFor(lastSyncUpdate)
+final lastSyncUpdateProvider = AutoDisposeStreamProvider<DateTime?>.internal(
+  lastSyncUpdate,
+  name: r'lastSyncUpdateProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$lastSyncUpdateHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef LastSyncUpdateRef = AutoDisposeStreamProviderRef<DateTime?>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

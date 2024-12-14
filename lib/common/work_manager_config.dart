@@ -1,11 +1,13 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 import 'package:mpm/common/sl_config.dart';
+import 'package:mpm/data/data_provider/local_handler/locaLhandler_data.dart';
 import 'package:mpm/data/data_provider/project/project_api_imp.dart';
 import 'package:mpm/data/data_provider/project/project_loca_imp.dart';
 import 'package:mpm/data/data_provider/storage/storage_api_imp.dart';
 import 'package:mpm/data/network/network_service.dart';
 import 'package:mpm/domain/repository/auth/auth_impl.dart';
+import 'package:mpm/domain/repository/local_handler/locaLhandler_data.dart';
 import 'package:mpm/domain/repository/project/project_repository.dart';
 import 'package:mpm/domain/repository/storage.dart';
 import 'package:mpm/domain/use_case/get_and_sync_local_project_data.dart';
@@ -39,7 +41,7 @@ syncProjectData() async {
   }
   final db = await getDataBase();
   final networkService = NetworkService(
-    baseUrl: 'https://mpm.mobtakersystem.com/api/',
+    baseUrl: 'https://demoapi.minebi.com/api/',
     httpHeaders: {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
@@ -65,6 +67,10 @@ syncProjectData() async {
       const Uuid(),
     ),
     internetConnection: InternetConnection(),
+    localHandlerRepository: LocalHandlerRepository(
+      LocalHandlerData(
+          dataSetUpdateLog: stringMapStoreFactory.store('time_logs'), db: db),
+    ),
   );
 
   await syncModel.manualSync();

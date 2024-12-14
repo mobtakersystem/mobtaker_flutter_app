@@ -60,7 +60,7 @@ class ProjectDataShowPage extends ConsumerWidget {
                   title: "کارگران",
                   value: projectData.workers
                       .map(
-                        (e) => e.lastOrNull,
+                        (e) => e.name,
                       )
                       .join(", ")),
               const SizedBox.square(dimension: _dividerSize),

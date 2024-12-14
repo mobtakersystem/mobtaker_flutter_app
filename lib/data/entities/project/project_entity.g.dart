@@ -9,7 +9,7 @@ part of 'project_entity.dart';
 _$ProjectEntityImpl _$$ProjectEntityImplFromJson(Map<String, dynamic> json) =>
     _$ProjectEntityImpl(
       id: json['id'] as String,
-      type: json['type'] as String,
+      type: json['type'] as String?,
       parentId: json['parent_id'] as String?,
       title: json['title'] as String? ?? "",
       lft: (json['_lft'] as num?)?.toInt(),

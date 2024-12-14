@@ -49,7 +49,7 @@ mixin _$ProjectDataEntity {
   String? get machineryWorkingHourImage => throw _privateConstructorUsedError;
   @JsonKey(name: 'stop_image')
   String get stopImage => throw _privateConstructorUsedError;
-  List<List<String>> get workers => throw _privateConstructorUsedError;
+  List<ProjectWorkerEntity> get workers => throw _privateConstructorUsedError;
   String get description => throw _privateConstructorUsedError;
   String get status => throw _privateConstructorUsedError;
   @JsonKey(name: 'created_at')
@@ -109,7 +109,7 @@ abstract class $ProjectDataEntityCopyWith<$Res> {
       @JsonKey(name: 'machinery_working_hour_image')
       String? machineryWorkingHourImage,
       @JsonKey(name: 'stop_image') String stopImage,
-      List<List<String>> workers,
+      List<ProjectWorkerEntity> workers,
       String description,
       String status,
       @JsonKey(name: 'created_at')
@@ -255,7 +255,7 @@ class _$ProjectDataEntityCopyWithImpl<$Res, $Val extends ProjectDataEntity>
       workers: null == workers
           ? _value.workers
           : workers // ignore: cast_nullable_to_non_nullable
-              as List<List<String>>,
+              as List<ProjectWorkerEntity>,
       description: null == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
@@ -391,7 +391,7 @@ abstract class _$$ProjectDataEntityImplCopyWith<$Res>
       @JsonKey(name: 'machinery_working_hour_image')
       String? machineryWorkingHourImage,
       @JsonKey(name: 'stop_image') String stopImage,
-      List<List<String>> workers,
+      List<ProjectWorkerEntity> workers,
       String description,
       String status,
       @JsonKey(name: 'created_at')
@@ -537,7 +537,7 @@ class __$$ProjectDataEntityImplCopyWithImpl<$Res>
       workers: null == workers
           ? _value._workers
           : workers // ignore: cast_nullable_to_non_nullable
-              as List<List<String>>,
+              as List<ProjectWorkerEntity>,
       description: null == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
@@ -643,7 +643,7 @@ class _$ProjectDataEntityImpl implements _ProjectDataEntity {
       @JsonKey(name: 'machinery_working_hour_image')
       this.machineryWorkingHourImage,
       @JsonKey(name: 'stop_image') this.stopImage = "",
-      final List<List<String>> workers = const [],
+      final List<ProjectWorkerEntity> workers = const [],
       this.description = "",
       this.status = "",
       @JsonKey(name: 'created_at')
@@ -723,10 +723,10 @@ class _$ProjectDataEntityImpl implements _ProjectDataEntity {
   @override
   @JsonKey(name: 'stop_image')
   final String stopImage;
-  final List<List<String>> _workers;
+  final List<ProjectWorkerEntity> _workers;
   @override
   @JsonKey()
-  List<List<String>> get workers {
+  List<ProjectWorkerEntity> get workers {
     if (_workers is EqualUnmodifiableListView) return _workers;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_workers);
@@ -969,7 +969,7 @@ abstract class _ProjectDataEntity implements ProjectDataEntity {
       @JsonKey(name: 'machinery_working_hour_image')
       final String? machineryWorkingHourImage,
       @JsonKey(name: 'stop_image') final String stopImage,
-      final List<List<String>> workers,
+      final List<ProjectWorkerEntity> workers,
       final String description,
       final String status,
       @JsonKey(name: 'created_at')
@@ -1045,7 +1045,7 @@ abstract class _ProjectDataEntity implements ProjectDataEntity {
   @JsonKey(name: 'stop_image')
   String get stopImage;
   @override
-  List<List<String>> get workers;
+  List<ProjectWorkerEntity> get workers;
   @override
   String get description;
   @override

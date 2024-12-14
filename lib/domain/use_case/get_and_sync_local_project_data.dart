@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 import 'package:mpm/data/entities/project/project_data_entity.dart';
 import 'package:mpm/domain/failure_model.dart';
+import 'package:mpm/domain/repository/local_handler/locaLhandler_data.dart';
 import 'package:mpm/domain/repository/project/project_repository.dart';
 import 'package:collection/collection.dart';
 import 'package:mpm/domain/use_case/upload_image_to_storage.dart';
@@ -13,6 +14,7 @@ class GetAndSyncLocalProjectDataUseCase {
   final ProjectRepository _localRepository;
   final ProjectRepository _apiRepository;
   final UploadImageToStorageUseCase _uploadImageToStorageUseCase;
+  final LocalHandlerRepository _localHandlerRepository;
   final InternetConnection _internetConnection;
   StreamSubscription<InternetStatus>? internetListener;
   List<ProjectDataEntity> currentData = [];
@@ -22,10 +24,12 @@ class GetAndSyncLocalProjectDataUseCase {
     required ProjectRepository apiRepository,
     required UploadImageToStorageUseCase uploadImageToStorageUseCase,
     required InternetConnection internetConnection,
+    required LocalHandlerRepository localHandlerRepository,
   })  : _localRepository = localRepository,
         _apiRepository = apiRepository,
         _uploadImageToStorageUseCase = uploadImageToStorageUseCase,
-        _internetConnection = internetConnection;
+        _internetConnection = internetConnection,
+        _localHandlerRepository = localHandlerRepository;
 
   Stream<List<ProjectDataEntity>> call() async* {
     final stream = _localRepository.listenToLocalProjectData();
@@ -69,6 +73,7 @@ class GetAndSyncLocalProjectDataUseCase {
   }
 
   _syncProcess(List<ProjectDataEntity> currentData) async {
+    await _localHandlerRepository.setLastRunSync(DateTime.now());
     if (currentData.isEmpty) return;
     final runningItem = currentData.firstWhereOrNull(
         (element) => element.syncStatus == DataSyncStatus.running);

@@ -3,6 +3,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mpm/common/extention/context.dart';
+import 'package:mpm/common/extention/date_time.dart';
 import 'package:mpm/common/widget/dialog/confirm_dialog.dart';
 import 'package:mpm/common/widget/error.dart';
 import 'package:mpm/data/entities/project/project_data_entity.dart';
@@ -18,9 +19,25 @@ class LocalsProjectDataPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final localsProjectData = ref.watch(getLocalSndSyncDataProvider);
+    final lastUpdateState = ref.watch(lastSyncUpdateProvider);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('داده های محلی پروژها'),
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text('داده های محلی پروژها'),
+            const SizedBox.square(
+              dimension: 2,
+            ),
+            lastUpdateState.maybeWhen(
+              data: (lastUpdate) => Text(
+                lastUpdate?.getTimeAgo() ?? "-",
+                style: context.textTheme.bodySmall,
+              ),
+              orElse: () => const SizedBox.shrink(),
+            )
+          ],
+        ),
       ),
       body: localsProjectData.when(
         data: (projectData) {
@@ -71,8 +88,7 @@ class _ItemWidget extends StatelessWidget {
         children: [
           SlidableAction(
             borderRadius: BorderRadius.circular(16),
-            padding: const EdgeInsets.symmetric(horizontal: 24,vertical: 10),
-
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 10),
             onPressed: (ctx) {
               ConfirmDialog.show(
                 ctx,

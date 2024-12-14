@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mpm/common/extention/context.dart';
+import 'package:mpm/common/extention/date_time.dart';
 import 'package:mpm/common/riverpod_helper.dart';
 import 'package:mpm/presentation/project_data/project_data_index_provider.dart';
 import 'package:mpm/presentation/project_data/project_data_item_widget.dart';
@@ -18,9 +19,25 @@ class ProjectDataPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final lastUpdateState = ref.watch(projectDataLastUpdateProvider);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('داده پروژه'),
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text('داده پروژه'),
+            const SizedBox.square(
+              dimension: 2,
+            ),
+            lastUpdateState.maybeWhen(
+              data: (lastUpdate) => Text(
+                lastUpdate?.getTimeAgo() ?? "-",
+                style: context.textTheme.bodySmall,
+              ),
+              orElse: () => const SizedBox.shrink(),
+            )
+          ],
+        ),
         actions: const [ListLocalDataButtonWidget()],
       ),
       body: RiverPodConnectionHelperWidget(

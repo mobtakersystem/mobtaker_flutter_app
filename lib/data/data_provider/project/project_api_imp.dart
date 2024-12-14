@@ -108,7 +108,7 @@ class ProjectApiDataProvider implements ProjectDataProvider {
             'digger_id': projectData.diggerId,
             'workers': projectData.workers
                 .map(
-                  (e) => e.firstOrNull,
+                  (e) => e.id,
                 )
                 .toList(),
             'initial_meter': projectData.initialMeter,

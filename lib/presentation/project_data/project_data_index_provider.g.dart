@@ -160,5 +160,23 @@ class _ProjectDataProviderElement extends AutoDisposeStreamProviderElement<
   @override
   String get projectId => (origin as ProjectDataProvider).projectId;
 }
+
+String _$projectDataLastUpdateHash() =>
+    r'4a12174a2487ab2259f099f0fff399b227b36103';
+
+/// See also [projectDataLastUpdate].
+@ProviderFor(projectDataLastUpdate)
+final projectDataLastUpdateProvider =
+    AutoDisposeStreamProvider<DateTime?>.internal(
+  projectDataLastUpdate,
+  name: r'projectDataLastUpdateProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$projectDataLastUpdateHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef ProjectDataLastUpdateRef = AutoDisposeStreamProviderRef<DateTime?>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

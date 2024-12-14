@@ -1,5 +1,6 @@
 import 'package:get_it/get_it.dart';
 import 'package:mpm/data/entities/project/project_data_entity.dart';
+import 'package:mpm/domain/repository/local_handler/locaLhandler_data.dart';
 import 'package:mpm/domain/use_case/get_and_sync_local_project_data.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -11,7 +12,11 @@ Stream<List<ProjectDataEntity>> getLocalSndSyncData(
   final listener = GetIt.I<GetAndSyncLocalProjectDataUseCase>().call();
   await for (final event in listener) {
     yield event;
-    print("event.length");
-    print(event.length);
   }
 }
+
+@riverpod
+Stream<DateTime?> lastSyncUpdate(LastSyncUpdateRef ref) {
+  return GetIt.I<LocalHandlerRepository>().lastRunSyncStream();
+}
+

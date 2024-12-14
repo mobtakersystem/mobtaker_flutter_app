@@ -21,7 +21,7 @@ ProjectEntity _$ProjectEntityFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$ProjectEntity {
   String get id => throw _privateConstructorUsedError;
-  String get type => throw _privateConstructorUsedError;
+  String? get type => throw _privateConstructorUsedError;
   @JsonKey(name: 'parent_id')
   String? get parentId => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
@@ -69,7 +69,7 @@ abstract class $ProjectEntityCopyWith<$Res> {
   @useResult
   $Res call(
       {String id,
-      String type,
+      String? type,
       @JsonKey(name: 'parent_id') String? parentId,
       String title,
       @JsonKey(name: '_lft') int? lft,
@@ -114,7 +114,7 @@ class _$ProjectEntityCopyWithImpl<$Res, $Val extends ProjectEntity>
   @override
   $Res call({
     Object? id = null,
-    Object? type = null,
+    Object? type = freezed,
     Object? parentId = freezed,
     Object? title = null,
     Object? lft = freezed,
@@ -141,10 +141,10 @@ class _$ProjectEntityCopyWithImpl<$Res, $Val extends ProjectEntity>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
-      type: null == type
+      type: freezed == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       parentId: freezed == parentId
           ? _value.parentId
           : parentId // ignore: cast_nullable_to_non_nullable
@@ -239,7 +239,7 @@ abstract class _$$ProjectEntityImplCopyWith<$Res>
   @useResult
   $Res call(
       {String id,
-      String type,
+      String? type,
       @JsonKey(name: 'parent_id') String? parentId,
       String title,
       @JsonKey(name: '_lft') int? lft,
@@ -282,7 +282,7 @@ class __$$ProjectEntityImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = null,
-    Object? type = null,
+    Object? type = freezed,
     Object? parentId = freezed,
     Object? title = null,
     Object? lft = freezed,
@@ -309,10 +309,10 @@ class __$$ProjectEntityImplCopyWithImpl<$Res>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
-      type: null == type
+      type: freezed == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       parentId: freezed == parentId
           ? _value.parentId
           : parentId // ignore: cast_nullable_to_non_nullable
@@ -403,7 +403,7 @@ class __$$ProjectEntityImplCopyWithImpl<$Res>
 class _$ProjectEntityImpl implements _ProjectEntity {
   const _$ProjectEntityImpl(
       {required this.id,
-      required this.type,
+      this.type,
       @JsonKey(name: 'parent_id') this.parentId,
       this.title = "",
       @JsonKey(name: '_lft') this.lft,
@@ -441,7 +441,7 @@ class _$ProjectEntityImpl implements _ProjectEntity {
   @override
   final String id;
   @override
-  final String type;
+  final String? type;
   @override
   @JsonKey(name: 'parent_id')
   final String? parentId;
@@ -598,7 +598,7 @@ class _$ProjectEntityImpl implements _ProjectEntity {
 abstract class _ProjectEntity implements ProjectEntity {
   const factory _ProjectEntity(
       {required final String id,
-      required final String type,
+      final String? type,
       @JsonKey(name: 'parent_id') final String? parentId,
       final String title,
       @JsonKey(name: '_lft') final int? lft,
@@ -634,7 +634,7 @@ abstract class _ProjectEntity implements ProjectEntity {
   @override
   String get id;
   @override
-  String get type;
+  String? get type;
   @override
   @JsonKey(name: 'parent_id')
   String? get parentId;

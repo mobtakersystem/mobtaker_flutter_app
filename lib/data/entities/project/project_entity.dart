@@ -10,7 +10,7 @@ class ProjectEntity with _$ProjectEntity {
   @JsonSerializable(explicitToJson: true)
   const factory ProjectEntity({
     required String id,
-    required String type,
+     String? type,
     @JsonKey(name: 'parent_id') String? parentId,
     @Default("") String title,
     @JsonKey(name: '_lft') int? lft,
@@ -47,6 +47,7 @@ class ProjectEntity with _$ProjectEntity {
 
 extension ProjectEntityX on ProjectEntity {
   String typeTitle() {
+    return 'حفاری';
     switch (type) {
       case 'drilling':
         return 'حفاری';
