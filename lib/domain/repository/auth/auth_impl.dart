@@ -11,7 +11,7 @@ import 'package:workmanager/workmanager.dart';
 import 'auth_interface.dart';
 
 const tokenKey = "tokenK";
-const duration = 30;
+const duration = 15;
 
 class AuthRepositoryImpl extends AuthRepository {
   final AuthDataProvider _dataProvider;
@@ -32,14 +32,7 @@ class AuthRepositoryImpl extends AuthRepository {
       final data = result.getRight().toNullable()!;
       await _secureStorage.write(key: tokenKey, value: data.token);
       GetIt.I<NetworkService>().addAuthToken(data.token);
-      Workmanager().registerPeriodicTask(
-        syncProjectDataTaskID,
-        syncProjectDataTaskID,
-        frequency: const Duration(minutes: duration),
-        constraints: Constraints(
-          networkType: NetworkType.connected,
-        ),
-      );
+      _registerWorkManager();
       return ResultData.right(data.userEntity);
     }
   }
@@ -62,6 +55,11 @@ class AuthRepositoryImpl extends AuthRepository {
       return false;
     }
     GetIt.I<NetworkService>().addAuthToken(token!);
+    _registerWorkManager();
+    return true;
+  }
+
+  _registerWorkManager() {
     Workmanager().registerPeriodicTask(
       syncProjectDataTaskID,
       syncProjectDataTaskID,
@@ -70,7 +68,6 @@ class AuthRepositoryImpl extends AuthRepository {
         networkType: NetworkType.connected,
       ),
     );
-    return true;
   }
 
   @override
