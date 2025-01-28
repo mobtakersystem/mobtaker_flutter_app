@@ -315,11 +315,9 @@ class _ProjectDataStorePageState extends ConsumerState<ProjectDataStorePage> {
                           final map = {...?_formKey.currentState?.value};
                           map['id'] = GetIt.I<LocalID>();
                           map['project_id'] = widget.projectId;
-                          print("map['workers']");
-                          print(map['workers']);
-                          print(map['workers'].runtimeType);
                           final data = ProjectDataEntity.fromJson(map).copyWith(
                             syncStatus: DataSyncStatus.pending,
+                            syncType: DataSyncType.create,
                             headDigger: properties.headDiggers
                                 .firstWhere((element) =>
                                     element.id == map['head_digger_id'])

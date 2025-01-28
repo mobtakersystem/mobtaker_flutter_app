@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:mpm/data/data_provider/project/project_interface.dart';
+import 'package:mpm/data/entities/document/document_entity.dart';
 import 'package:mpm/data/entities/pagination/pagination.dart';
 import 'package:mpm/data/entities/project/project_data_entity.dart';
 import 'package:mpm/data/entities/project/project_entity.dart';
@@ -115,6 +116,7 @@ class ProjectApiDataProvider implements ProjectDataProvider {
             'final_meter': projectData.finalMeter,
             "machinery_working_hour": projectData.machineryWorkingHour,
             'indicator_id': projectData.indicatorId,
+            "description": projectData.description,
             if (projectData.localMachineryWorkingHourImage != null)
               'machinery_working_hour_image':
                   projectData.localMachineryWorkingHourImage!.preSignedName,
@@ -181,7 +183,6 @@ class ProjectApiDataProvider implements ProjectDataProvider {
 
   @override
   Future<void> deleteProjectData(String projectDataId) {
-    // TODO: implement deleteProjectData
     throw UnimplementedError();
   }
 
@@ -194,19 +195,119 @@ class ProjectApiDataProvider implements ProjectDataProvider {
   }
 
   @override
-  Stream<List<ProjectDataEntity>> listenToLocalProjectData() async* {
+  Stream<List<ProjectDataEntity>> listenToUnSyncProjectData() async* {
     throw UnimplementedError();
   }
 
   @override
   Future<void> updateProjectData(ProjectDataEntity newData) {
-    // TODO: implement updateProjectData
-    throw UnimplementedError();
+    return _networkService.execute(
+      NetworkRequest(
+        type: NetworkRequestType.post,
+        path: 'projects/drilling/data/edit/meter-indicator',
+        data: NetworkRequestBody.formData(FormData.fromMap(
+          {
+            "id": newData.id,
+            'project_id': newData.projectId,
+            'date': newData.date?.toString().split(" ").firstOrNull,
+            'head_digger_id': newData.headDiggerId,
+            'machinery_id': newData.machineryId,
+            'supervisor_id': newData.supervisorId,
+            'shift': newData.shift,
+            'digger_id': newData.diggerId,
+            'deleted_images': newData.updatedDeletedImages,
+            'workers': newData.workers
+                .map(
+                  (e) => e.id,
+                )
+                .toList(),
+            'initial_meter': newData.initialMeter,
+            'final_meter': newData.finalMeter,
+            "machinery_working_hour": newData.machineryWorkingHour,
+            'indicator_id': newData.indicatorId,
+            "description": newData.description,
+            if (newData.localMachineryWorkingHourImage == null)
+              'machinery_working_hour_image': null,
+            if (newData.localMachineryWorkingHourImage != null)
+              'machinery_working_hour_image':
+                  newData.localMachineryWorkingHourImage!.preSignedName ??
+                      newData.localMachineryWorkingHourImage!.fileName,
+            if (newData.images.isNotEmpty)
+              'images': newData.images
+                  .map((e) => e.documentableId != null
+                      ? {
+                          "id": e.id,
+                          "mime_type": e.mimeType,
+                        }
+                      : {
+                          "id": e.preSignedName!.split(".").first,
+                          "mime_type": e.preSignedName!.split(".").last,
+                        })
+                  .toList(),
+            'hasMachineryServices':
+                (newData.hasMachineryServices ?? false) ? 1 : 0,
+            if (newData.hasMachineryServices!)
+              'machineryServices': newData.machineryServices.map((e) {
+                final json = <String, dynamic>{
+                  "type": e.serviceType,
+                  "description": e.description,
+                };
+                if (e.images.isNotEmpty) {
+                  if (e.images.first.documentableId != null) {
+                    json['image_id'] = e.images.first.id;
+                    json['mime_type'] = e.images.first.mimeType;
+                  } else {
+                    json['image_id'] =
+                        e.images.first.preSignedName?.split(".").first;
+                    json['mime_type'] =
+                        e.images.first.preSignedName?.split(".").last;
+                  }
+                }
+                return json;
+              }).toList(),
+            'hasMachineryPartConsumes':
+                (newData.hasMachineryPartConsumes ?? false) ? 1 : 0,
+            if (newData.hasMachineryPartConsumes!)
+              'machineryPartConsumes': newData.machineryPartConsumes.map((e) {
+                final json = {
+                  "part_id": e.partId,
+                  "description": e.description,
+                };
+                if (e.images.isNotEmpty) {
+                  if (e.images.first.documentableId != null) {
+                    json['image_id'] = e.images.first.id;
+                    json['mime_type'] = e.images.first.mimeType;
+                  } else {
+                    json['image_id'] =
+                        e.images.first.preSignedName?.split(".").first;
+                    json['mime_type'] =
+                        e.images.first.preSignedName?.split(".").last;
+                  }
+                }
+                return json;
+              }).toList(),
+            "stops": newData.stops
+                .map((e) => {
+                      "reason": e.reason,
+                      "start": e.start,
+                      "end": e.end,
+                      "description": e.description
+                    })
+                .toList(),
+            if ((newData.hasStop ?? false) && newData.stopsImage != null)
+              "stopsImage": newData.stopsImage?.preSignedName??newData.stopsImage?.fileName
+          },
+          ListFormat.multiCompatible,
+        )),
+      ),
+      parser: (jsonParam) {
+        return;
+      },
+    );
   }
 
   @override
   Stream<ProjectDataEntity> listenToLocalProjectItem(String id) {
-    // TODO: implement listenToLocalProjectItem
     throw UnimplementedError();
   }
 }

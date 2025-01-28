@@ -31,7 +31,7 @@ abstract class ProjectDataProvider {
 
   Stream<DataSyncStatus> projectSyncStatus(String projectDataId);
 
-  Stream<List<ProjectDataEntity>> listenToLocalProjectData();
+  Stream<List<ProjectDataEntity>> listenToUnSyncProjectData();
 
   Stream<ProjectDataEntity?> listenToLocalProjectItem(String id);
 }

@@ -72,6 +72,7 @@ mixin _$ProjectDataEntity {
   List<MachineryPartDataEntity> get machineryPartConsumes =>
       throw _privateConstructorUsedError; //local fields
   DataSyncStatus get syncStatus => throw _privateConstructorUsedError;
+  DataSyncType get syncType => throw _privateConstructorUsedError;
   bool? get hasStop => throw _privateConstructorUsedError;
   bool? get hasMachineryServices => throw _privateConstructorUsedError;
   bool? get hasMachineryPartConsumes => throw _privateConstructorUsedError;
@@ -79,6 +80,7 @@ mixin _$ProjectDataEntity {
       throw _privateConstructorUsedError;
   DocumentEntity? get stopsImage => throw _privateConstructorUsedError;
   String? get lassSyncError => throw _privateConstructorUsedError;
+  List<String>? get updatedDeletedImages => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -130,12 +132,14 @@ abstract class $ProjectDataEntityCopyWith<$Res> {
       @JsonKey(name: 'machinery_part_consumes')
       List<MachineryPartDataEntity> machineryPartConsumes,
       DataSyncStatus syncStatus,
+      DataSyncType syncType,
       bool? hasStop,
       bool? hasMachineryServices,
       bool? hasMachineryPartConsumes,
       DocumentEntity? localMachineryWorkingHourImage,
       DocumentEntity? stopsImage,
-      String? lassSyncError});
+      String? lassSyncError,
+      List<String>? updatedDeletedImages});
 
   $DocumentEntityCopyWith<$Res>? get localMachineryWorkingHourImage;
   $DocumentEntityCopyWith<$Res>? get stopsImage;
@@ -184,12 +188,14 @@ class _$ProjectDataEntityCopyWithImpl<$Res, $Val extends ProjectDataEntity>
     Object? machineryServices = null,
     Object? machineryPartConsumes = null,
     Object? syncStatus = null,
+    Object? syncType = null,
     Object? hasStop = freezed,
     Object? hasMachineryServices = freezed,
     Object? hasMachineryPartConsumes = freezed,
     Object? localMachineryWorkingHourImage = freezed,
     Object? stopsImage = freezed,
     Object? lassSyncError = freezed,
+    Object? updatedDeletedImages = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -312,6 +318,10 @@ class _$ProjectDataEntityCopyWithImpl<$Res, $Val extends ProjectDataEntity>
           ? _value.syncStatus
           : syncStatus // ignore: cast_nullable_to_non_nullable
               as DataSyncStatus,
+      syncType: null == syncType
+          ? _value.syncType
+          : syncType // ignore: cast_nullable_to_non_nullable
+              as DataSyncType,
       hasStop: freezed == hasStop
           ? _value.hasStop
           : hasStop // ignore: cast_nullable_to_non_nullable
@@ -336,6 +346,10 @@ class _$ProjectDataEntityCopyWithImpl<$Res, $Val extends ProjectDataEntity>
           ? _value.lassSyncError
           : lassSyncError // ignore: cast_nullable_to_non_nullable
               as String?,
+      updatedDeletedImages: freezed == updatedDeletedImages
+          ? _value.updatedDeletedImages
+          : updatedDeletedImages // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
     ) as $Val);
   }
 
@@ -412,12 +426,14 @@ abstract class _$$ProjectDataEntityImplCopyWith<$Res>
       @JsonKey(name: 'machinery_part_consumes')
       List<MachineryPartDataEntity> machineryPartConsumes,
       DataSyncStatus syncStatus,
+      DataSyncType syncType,
       bool? hasStop,
       bool? hasMachineryServices,
       bool? hasMachineryPartConsumes,
       DocumentEntity? localMachineryWorkingHourImage,
       DocumentEntity? stopsImage,
-      String? lassSyncError});
+      String? lassSyncError,
+      List<String>? updatedDeletedImages});
 
   @override
   $DocumentEntityCopyWith<$Res>? get localMachineryWorkingHourImage;
@@ -466,12 +482,14 @@ class __$$ProjectDataEntityImplCopyWithImpl<$Res>
     Object? machineryServices = null,
     Object? machineryPartConsumes = null,
     Object? syncStatus = null,
+    Object? syncType = null,
     Object? hasStop = freezed,
     Object? hasMachineryServices = freezed,
     Object? hasMachineryPartConsumes = freezed,
     Object? localMachineryWorkingHourImage = freezed,
     Object? stopsImage = freezed,
     Object? lassSyncError = freezed,
+    Object? updatedDeletedImages = freezed,
   }) {
     return _then(_$ProjectDataEntityImpl(
       id: null == id
@@ -594,6 +612,10 @@ class __$$ProjectDataEntityImplCopyWithImpl<$Res>
           ? _value.syncStatus
           : syncStatus // ignore: cast_nullable_to_non_nullable
               as DataSyncStatus,
+      syncType: null == syncType
+          ? _value.syncType
+          : syncType // ignore: cast_nullable_to_non_nullable
+              as DataSyncType,
       hasStop: freezed == hasStop
           ? _value.hasStop
           : hasStop // ignore: cast_nullable_to_non_nullable
@@ -618,6 +640,10 @@ class __$$ProjectDataEntityImplCopyWithImpl<$Res>
           ? _value.lassSyncError
           : lassSyncError // ignore: cast_nullable_to_non_nullable
               as String?,
+      updatedDeletedImages: freezed == updatedDeletedImages
+          ? _value._updatedDeletedImages
+          : updatedDeletedImages // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
     ));
   }
 }
@@ -664,17 +690,20 @@ class _$ProjectDataEntityImpl implements _ProjectDataEntity {
       @JsonKey(name: 'machinery_part_consumes')
       final List<MachineryPartDataEntity> machineryPartConsumes = const [],
       this.syncStatus = DataSyncStatus.none,
+      this.syncType = DataSyncType.none,
       this.hasStop,
       this.hasMachineryServices,
       this.hasMachineryPartConsumes,
       this.localMachineryWorkingHourImage,
       this.stopsImage,
-      this.lassSyncError})
+      this.lassSyncError,
+      final List<String>? updatedDeletedImages})
       : _workers = workers,
         _images = images,
         _stops = stops,
         _machineryServices = machineryServices,
-        _machineryPartConsumes = machineryPartConsumes;
+        _machineryPartConsumes = machineryPartConsumes,
+        _updatedDeletedImages = updatedDeletedImages;
 
   factory _$ProjectDataEntityImpl.fromJson(Map<String, dynamic> json) =>
       _$$ProjectDataEntityImplFromJson(json);
@@ -804,6 +833,9 @@ class _$ProjectDataEntityImpl implements _ProjectDataEntity {
   @JsonKey()
   final DataSyncStatus syncStatus;
   @override
+  @JsonKey()
+  final DataSyncType syncType;
+  @override
   final bool? hasStop;
   @override
   final bool? hasMachineryServices;
@@ -815,10 +847,20 @@ class _$ProjectDataEntityImpl implements _ProjectDataEntity {
   final DocumentEntity? stopsImage;
   @override
   final String? lassSyncError;
+  final List<String>? _updatedDeletedImages;
+  @override
+  List<String>? get updatedDeletedImages {
+    final value = _updatedDeletedImages;
+    if (value == null) return null;
+    if (_updatedDeletedImages is EqualUnmodifiableListView)
+      return _updatedDeletedImages;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
 
   @override
   String toString() {
-    return 'ProjectDataEntity(id: $id, projectId: $projectId, userId: $userId, supervisorId: $supervisorId, indicatorId: $indicatorId, date: $date, headDiggerId: $headDiggerId, machineryId: $machineryId, diggerId: $diggerId, shift: $shift, initialMeter: $initialMeter, finalMeter: $finalMeter, machineryWorkingHour: $machineryWorkingHour, machineryWorkingHourImage: $machineryWorkingHourImage, stopImage: $stopImage, workers: $workers, description: $description, status: $status, createdAt: $createdAt, updatedAt: $updatedAt, user: $user, headDigger: $headDigger, digger: $digger, machinery: $machinery, supervisor: $supervisor, images: $images, stops: $stops, machineryServices: $machineryServices, machineryPartConsumes: $machineryPartConsumes, syncStatus: $syncStatus, hasStop: $hasStop, hasMachineryServices: $hasMachineryServices, hasMachineryPartConsumes: $hasMachineryPartConsumes, localMachineryWorkingHourImage: $localMachineryWorkingHourImage, stopsImage: $stopsImage, lassSyncError: $lassSyncError)';
+    return 'ProjectDataEntity(id: $id, projectId: $projectId, userId: $userId, supervisorId: $supervisorId, indicatorId: $indicatorId, date: $date, headDiggerId: $headDiggerId, machineryId: $machineryId, diggerId: $diggerId, shift: $shift, initialMeter: $initialMeter, finalMeter: $finalMeter, machineryWorkingHour: $machineryWorkingHour, machineryWorkingHourImage: $machineryWorkingHourImage, stopImage: $stopImage, workers: $workers, description: $description, status: $status, createdAt: $createdAt, updatedAt: $updatedAt, user: $user, headDigger: $headDigger, digger: $digger, machinery: $machinery, supervisor: $supervisor, images: $images, stops: $stops, machineryServices: $machineryServices, machineryPartConsumes: $machineryPartConsumes, syncStatus: $syncStatus, syncType: $syncType, hasStop: $hasStop, hasMachineryServices: $hasMachineryServices, hasMachineryPartConsumes: $hasMachineryPartConsumes, localMachineryWorkingHourImage: $localMachineryWorkingHourImage, stopsImage: $stopsImage, lassSyncError: $lassSyncError, updatedDeletedImages: $updatedDeletedImages)';
   }
 
   @override
@@ -877,11 +919,12 @@ class _$ProjectDataEntityImpl implements _ProjectDataEntity {
                 .equals(other._machineryPartConsumes, _machineryPartConsumes) &&
             (identical(other.syncStatus, syncStatus) ||
                 other.syncStatus == syncStatus) &&
+            (identical(other.syncType, syncType) ||
+                other.syncType == syncType) &&
             (identical(other.hasStop, hasStop) || other.hasStop == hasStop) &&
             (identical(other.hasMachineryServices, hasMachineryServices) ||
                 other.hasMachineryServices == hasMachineryServices) &&
-            (identical(
-                    other.hasMachineryPartConsumes, hasMachineryPartConsumes) ||
+            (identical(other.hasMachineryPartConsumes, hasMachineryPartConsumes) ||
                 other.hasMachineryPartConsumes == hasMachineryPartConsumes) &&
             (identical(other.localMachineryWorkingHourImage,
                     localMachineryWorkingHourImage) ||
@@ -890,7 +933,9 @@ class _$ProjectDataEntityImpl implements _ProjectDataEntity {
             (identical(other.stopsImage, stopsImage) ||
                 other.stopsImage == stopsImage) &&
             (identical(other.lassSyncError, lassSyncError) ||
-                other.lassSyncError == lassSyncError));
+                other.lassSyncError == lassSyncError) &&
+            const DeepCollectionEquality()
+                .equals(other._updatedDeletedImages, _updatedDeletedImages));
   }
 
   @JsonKey(ignore: true)
@@ -927,12 +972,14 @@ class _$ProjectDataEntityImpl implements _ProjectDataEntity {
         const DeepCollectionEquality().hash(_machineryServices),
         const DeepCollectionEquality().hash(_machineryPartConsumes),
         syncStatus,
+        syncType,
         hasStop,
         hasMachineryServices,
         hasMachineryPartConsumes,
         localMachineryWorkingHourImage,
         stopsImage,
-        lassSyncError
+        lassSyncError,
+        const DeepCollectionEquality().hash(_updatedDeletedImages)
       ]);
 
   @JsonKey(ignore: true)
@@ -990,12 +1037,14 @@ abstract class _ProjectDataEntity implements ProjectDataEntity {
       @JsonKey(name: 'machinery_part_consumes')
       final List<MachineryPartDataEntity> machineryPartConsumes,
       final DataSyncStatus syncStatus,
+      final DataSyncType syncType,
       final bool? hasStop,
       final bool? hasMachineryServices,
       final bool? hasMachineryPartConsumes,
       final DocumentEntity? localMachineryWorkingHourImage,
       final DocumentEntity? stopsImage,
-      final String? lassSyncError}) = _$ProjectDataEntityImpl;
+      final String? lassSyncError,
+      final List<String>? updatedDeletedImages}) = _$ProjectDataEntityImpl;
 
   factory _ProjectDataEntity.fromJson(Map<String, dynamic> json) =
       _$ProjectDataEntityImpl.fromJson;
@@ -1081,6 +1130,8 @@ abstract class _ProjectDataEntity implements ProjectDataEntity {
   @override //local fields
   DataSyncStatus get syncStatus;
   @override
+  DataSyncType get syncType;
+  @override
   bool? get hasStop;
   @override
   bool? get hasMachineryServices;
@@ -1092,6 +1143,8 @@ abstract class _ProjectDataEntity implements ProjectDataEntity {
   DocumentEntity? get stopsImage;
   @override
   String? get lassSyncError;
+  @override
+  List<String>? get updatedDeletedImages;
   @override
   @JsonKey(ignore: true)
   _$$ProjectDataEntityImplCopyWith<_$ProjectDataEntityImpl> get copyWith =>

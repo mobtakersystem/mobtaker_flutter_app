@@ -56,12 +56,14 @@ class ProjectDataEntity with _$ProjectDataEntity {
     List<MachineryPartDataEntity> machineryPartConsumes,
     //local fields
     @Default(DataSyncStatus.none) DataSyncStatus syncStatus,
+    @Default(DataSyncType.none) DataSyncType syncType,
     bool? hasStop,
     bool? hasMachineryServices,
     bool? hasMachineryPartConsumes,
     DocumentEntity? localMachineryWorkingHourImage,
     DocumentEntity? stopsImage,
     String? lassSyncError,
+    List<String>? updatedDeletedImages,
   }) = _ProjectDataEntity;
 
   factory ProjectDataEntity.fromJson(Map<String, dynamic> json) =>
@@ -84,6 +86,13 @@ extension ShiftExt on ShiftStatus {
         return '';
     }
   }
+}
+
+enum DataSyncType {
+  none,
+  create,
+  update,
+  delete,
 }
 
 enum DataSyncStatus {
@@ -112,5 +121,9 @@ enum DataSyncStatus {
 extension PrDataExt on ProjectDataEntity {
   bool isLocalRecord() {
     return id.startsWith("LOCAL_");
+  }
+
+  bool isUnSync() {
+    return isLocalRecord() || syncType != DataSyncType.none;
   }
 }

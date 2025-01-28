@@ -159,5 +159,137 @@ class _ProjectItemSyncStatusProviderElement
   @override
   String get projectId => (origin as ProjectItemSyncStatusProvider).projectId;
 }
+
+String _$projectItemStreamHash() => r'74c07eec1ef2fb5444d40e1c28bb937a6880bedf';
+
+/// See also [projectItemStream].
+@ProviderFor(projectItemStream)
+const projectItemStreamProvider = ProjectItemStreamFamily();
+
+/// See also [projectItemStream].
+class ProjectItemStreamFamily extends Family<AsyncValue<ProjectDataEntity>> {
+  /// See also [projectItemStream].
+  const ProjectItemStreamFamily();
+
+  /// See also [projectItemStream].
+  ProjectItemStreamProvider call(
+    ProjectDataEntity projectData,
+  ) {
+    return ProjectItemStreamProvider(
+      projectData,
+    );
+  }
+
+  @override
+  ProjectItemStreamProvider getProviderOverride(
+    covariant ProjectItemStreamProvider provider,
+  ) {
+    return call(
+      provider.projectData,
+    );
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'projectItemStreamProvider';
+}
+
+/// See also [projectItemStream].
+class ProjectItemStreamProvider
+    extends AutoDisposeStreamProvider<ProjectDataEntity> {
+  /// See also [projectItemStream].
+  ProjectItemStreamProvider(
+    ProjectDataEntity projectData,
+  ) : this._internal(
+          (ref) => projectItemStream(
+            ref as ProjectItemStreamRef,
+            projectData,
+          ),
+          from: projectItemStreamProvider,
+          name: r'projectItemStreamProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$projectItemStreamHash,
+          dependencies: ProjectItemStreamFamily._dependencies,
+          allTransitiveDependencies:
+              ProjectItemStreamFamily._allTransitiveDependencies,
+          projectData: projectData,
+        );
+
+  ProjectItemStreamProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.projectData,
+  }) : super.internal();
+
+  final ProjectDataEntity projectData;
+
+  @override
+  Override overrideWith(
+    Stream<ProjectDataEntity> Function(ProjectItemStreamRef provider) create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: ProjectItemStreamProvider._internal(
+        (ref) => create(ref as ProjectItemStreamRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        projectData: projectData,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeStreamProviderElement<ProjectDataEntity> createElement() {
+    return _ProjectItemStreamProviderElement(this);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is ProjectItemStreamProvider &&
+        other.projectData == projectData;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, projectData.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+mixin ProjectItemStreamRef on AutoDisposeStreamProviderRef<ProjectDataEntity> {
+  /// The parameter `projectData` of this provider.
+  ProjectDataEntity get projectData;
+}
+
+class _ProjectItemStreamProviderElement
+    extends AutoDisposeStreamProviderElement<ProjectDataEntity>
+    with ProjectItemStreamRef {
+  _ProjectItemStreamProviderElement(super.provider);
+
+  @override
+  ProjectDataEntity get projectData =>
+      (origin as ProjectItemStreamProvider).projectData;
+}
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

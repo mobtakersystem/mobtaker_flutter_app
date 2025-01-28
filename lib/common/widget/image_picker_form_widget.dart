@@ -7,12 +7,14 @@ import 'package:image_picker/image_picker.dart';
 import 'package:mpm/common/sl_config.dart';
 import 'package:mpm/data/entities/document/document_entity.dart';
 import 'package:mpm/domain/use_case/image_picker_usecase.dart';
+import 'package:mpm/presentation/project_data_show/storage_item_image_widget.dart';
 
 class ImagePickerFormWidget extends StatelessWidget {
   final String name;
   final String? label;
   final bool singlePicker;
   final FormFieldValidator<List<DocumentEntity>>? validator;
+  final List<DocumentEntity>? initialValue;
   final ValueTransformer<List<DocumentEntity>?>? valueTransformer;
   final ValueChanged<List<DocumentEntity>?>? onChanged;
 
@@ -24,15 +26,19 @@ class ImagePickerFormWidget extends StatelessWidget {
     this.label,
     this.singlePicker = false,
     this.onChanged,
+    this.initialValue,
   });
 
   @override
   Widget build(BuildContext context) {
+    print("initialValue:$name");
+    print(initialValue);
     return FormBuilderField<List<DocumentEntity>>(
       name: name,
       valueTransformer: valueTransformer,
       validator: validator,
       onChanged: onChanged,
+      initialValue: initialValue,
       builder: (FormFieldState<List<DocumentEntity>> field) {
         return InputDecorator(
           decoration:
@@ -53,7 +59,7 @@ class ImagePickerFormWidget extends StatelessWidget {
                         .then(
                       (value) {
                         if (value != null) {
-                          final oldValue = field.value ?? [];
+                          final oldValue = [...?field.value];
                           field.didChange(
                             oldValue
                               ..addAll(
@@ -80,7 +86,7 @@ class ImagePickerFormWidget extends StatelessWidget {
                         .then(
                       (value) {
                         if (value != null) {
-                          final oldValue = field.value ?? [];
+                          final oldValue = [...?field.value];
                           field.didChange(
                             oldValue
                               ..add(
@@ -102,18 +108,26 @@ class ImagePickerFormWidget extends StatelessWidget {
               ...?field.value?.map(
                 (e) => Stack(
                   children: [
-                    Image.file(
-                      File(e.path!),
-                      height: 60,
-                      width: 60,
-                      fit: BoxFit.cover,
-                    ),
+                    if (e.isLocal())
+                      Image.file(
+                        File(e.path!),
+                        height: 60,
+                        width: 60,
+                        fit: BoxFit.cover,
+                      ),
+                    if (e.documentableId != null)
+                      StorageItemImageWidget(
+                        fileName: e.fileName,
+                        height: 60,
+                        width: 60,
+                        fit: BoxFit.cover,
+                      ),
                     Positioned(
                       right: 2,
                       top: 2,
                       child: GestureDetector(
                         onTap: () {
-                          final oldValue = field.value ?? [];
+                          final oldValue = [...?field.value];
                           field.didChange(
                             oldValue..remove(e),
                           );

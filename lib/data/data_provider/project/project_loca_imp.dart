@@ -147,10 +147,21 @@ class ProjectLocalDataProvider implements ProjectDataProvider {
         }
       }
       for (var item in projectData) {
-        await _projectDataStore.record(item.id).put(
-              txn,
-              item.toJson(),
-            );
+        bool putItem = true;
+        final localItem = await _projectDataStore.record(item.id).get(txn);
+        if (localItem != null) {
+          final localData = ProjectDataEntity.fromJson(localItem);
+          if (item.updatedAt != null &&
+              (localData.updatedAt?.compareTo(item.updatedAt!) ?? -1) > 0) {
+            putItem = false;
+          }
+        }
+        if (putItem) {
+          await _projectDataStore.record(item.id).put(
+                txn,
+                item.toJson(),
+              );
+        }
       }
     });
   }
@@ -172,6 +183,7 @@ class ProjectLocalDataProvider implements ProjectDataProvider {
 
   @override
   Future<void> deleteProjectData(String projectDataId) async {
+    print(projectDataId);
     final result = await _projectDataStore.record(projectDataId).delete(_db);
     if (result == null) {
       throw LocalDbException(errorMessage: 'خطا در حذف داده محلی');
@@ -190,9 +202,14 @@ class ProjectLocalDataProvider implements ProjectDataProvider {
   }
 
   @override
-  Stream<List<ProjectDataEntity>> listenToLocalProjectData() {
+  Stream<List<ProjectDataEntity>> listenToUnSyncProjectData() {
     final filter = Finder(
-      filter: Filter.matches('id', '^LOCAL_'),
+      filter: Filter.or(
+        [
+          Filter.matches('id', '^LOCAL_'),
+          Filter.equals('syncType', DataSyncType.update.name),
+        ],
+      ),
     );
     return _projectDataStore
         .query(finder: filter)

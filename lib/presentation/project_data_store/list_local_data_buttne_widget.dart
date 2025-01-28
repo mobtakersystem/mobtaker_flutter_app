@@ -3,6 +3,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mpm/common/extention/context.dart';
 import 'package:mpm/data/entities/project/project_data_entity.dart';
 import 'package:mpm/presentation/project_data/only_local_project_data_page.dart';
+import 'package:mpm/presentation/project_data/project_data_index_provider.dart';
 import 'package:mpm/presentation/project_data_store/sync_provider/get_local_sync_data_provider.dart';
 import 'package:persian_number_utility/persian_number_utility.dart';
 
@@ -12,6 +13,27 @@ class ListLocalDataButtonWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final data = ref.watch(getLocalSndSyncDataProvider);
+    ref.listen(
+      getLocalSndSyncDataProvider,
+      (previous, next) {
+        final prLength = previous?.value
+                ?.where(
+                  (element) => element.syncStatus != DataSyncStatus.synced,
+                )
+                .length ??
+            0;
+        final neLength = next.value
+                ?.where(
+                  (element) => element.syncStatus != DataSyncStatus.synced,
+                )
+                .length ??
+            0;
+        if (prLength > neLength) {
+          print('INVALIDATE');
+          ref.invalidate(projectDataProvider);
+        }
+      },
+    );
     return IconButton(
       icon: Badge(
           label: Text(

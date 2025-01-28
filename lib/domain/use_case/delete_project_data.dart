@@ -10,8 +10,8 @@ class DeleteProjectDataUseCase {
       : _apiRepository = apiRepository,
         _localRepository = localRepository;
 
-  Future<void> execute(String projectDataId) {
-    if (projectDataId.toLowerCase().startsWith('local_')) {
+  Future<void> execute(String projectDataId, [bool onlyLocal = false]) {
+    if (projectDataId.toLowerCase().startsWith('local_') || onlyLocal) {
       return _localRepository.deleteProjectData(projectDataId);
     } else {
       return _apiRepository.deleteProjectData(projectDataId);

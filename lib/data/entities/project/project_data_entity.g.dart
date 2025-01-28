@@ -62,6 +62,8 @@ _$ProjectDataEntityImpl _$$ProjectDataEntityImplFromJson(
       syncStatus:
           $enumDecodeNullable(_$DataSyncStatusEnumMap, json['syncStatus']) ??
               DataSyncStatus.none,
+      syncType: $enumDecodeNullable(_$DataSyncTypeEnumMap, json['syncType']) ??
+          DataSyncType.none,
       hasStop: json['hasStop'] as bool?,
       hasMachineryServices: json['hasMachineryServices'] as bool?,
       hasMachineryPartConsumes: json['hasMachineryPartConsumes'] as bool?,
@@ -74,6 +76,9 @@ _$ProjectDataEntityImpl _$$ProjectDataEntityImplFromJson(
           ? null
           : DocumentEntity.fromJson(json['stopsImage'] as Map<String, dynamic>),
       lassSyncError: json['lassSyncError'] as String?,
+      updatedDeletedImages: (json['updatedDeletedImages'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList(),
     );
 
 Map<String, dynamic> _$$ProjectDataEntityImplToJson(
@@ -113,6 +118,7 @@ Map<String, dynamic> _$$ProjectDataEntityImplToJson(
       'machinery_part_consumes':
           instance.machineryPartConsumes.map((e) => e.toJson()).toList(),
       'syncStatus': _$DataSyncStatusEnumMap[instance.syncStatus]!,
+      'syncType': _$DataSyncTypeEnumMap[instance.syncType]!,
       'hasStop': instance.hasStop,
       'hasMachineryServices': instance.hasMachineryServices,
       'hasMachineryPartConsumes': instance.hasMachineryPartConsumes,
@@ -120,6 +126,7 @@ Map<String, dynamic> _$$ProjectDataEntityImplToJson(
           instance.localMachineryWorkingHourImage?.toJson(),
       'stopsImage': instance.stopsImage?.toJson(),
       'lassSyncError': instance.lassSyncError,
+      'updatedDeletedImages': instance.updatedDeletedImages,
     };
 
 const _$DataSyncStatusEnumMap = {
@@ -128,4 +135,11 @@ const _$DataSyncStatusEnumMap = {
   DataSyncStatus.running: 'running',
   DataSyncStatus.failed: 'failed',
   DataSyncStatus.synced: 'synced',
+};
+
+const _$DataSyncTypeEnumMap = {
+  DataSyncType.none: 'none',
+  DataSyncType.create: 'create',
+  DataSyncType.update: 'update',
+  DataSyncType.delete: 'delete',
 };

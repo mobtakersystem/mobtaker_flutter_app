@@ -69,8 +69,8 @@ class MachineryPartConsumesFormBuilder extends ConsumerWidget {
                           onChanged: (value) {
                             if (value != null) {
                               final index = field.value?.indexOf(e) ?? 0;
-                              final newValue = field.value;
-                              newValue?[index] = e.copyWith(
+                              final newValue = [...?field.value];
+                              newValue[index] = e.copyWith(
                                   partId: value,
                                   part: data
                                           .firstWhereOrNull(
@@ -99,8 +99,8 @@ class MachineryPartConsumesFormBuilder extends ConsumerWidget {
                           initialValue: e.description,
                           onChanged: (value) {
                             final index = field.value?.indexOf(e) ?? 0;
-                            final newValue = field.value;
-                            newValue?[index] = e.copyWith(description: value);
+                            final newValue = [...?field.value];
+                            newValue[index] = e.copyWith(description: value);
                             field.didChange(newValue);
                           },
                         ),
@@ -110,12 +110,16 @@ class MachineryPartConsumesFormBuilder extends ConsumerWidget {
                             Expanded(
                               child: ImagePickerFormWidget(
                                 name: 'images${e.id}',
+                                initialValue: e.images,
                                 singlePicker: true,
                                 onChanged: (value) {
                                   final index = field.value?.indexOf(e) ?? 0;
-                                  final newValue = field.value;
-                                  newValue?[index] =
+                                  final newValue = [...?field.value];
+                                  newValue[index] =
                                       e.copyWith(images: value ?? []);
+                                  // /check it /
+                                  print("IMAGE");
+                                  print(newValue);
                                   field.didChange(newValue);
                                 },
                               ),
@@ -124,9 +128,8 @@ class MachineryPartConsumesFormBuilder extends ConsumerWidget {
                               IconButton(
                                 onPressed: () {
                                   field.didChange(
-                                    field.value
-                                      ?..removeWhere(
-                                          (element) => element.id == e.id),
+                                    [...?field.value]..removeWhere(
+                                        (element) => element.id == e.id),
                                   );
                                 },
                                 icon: const Icon(Icons.remove_circle_outline),

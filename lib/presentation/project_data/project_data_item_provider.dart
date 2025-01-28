@@ -18,3 +18,14 @@ Stream<DataSyncStatus?> projectItemSyncStatus(ref, String projectId) async* {
     yield event;
   }
 }
+
+@riverpod
+Stream<ProjectDataEntity> projectItemStream(
+    ref, ProjectDataEntity projectData) async* {
+  final result =
+      GetIt.I<ProjectRepository>(instanceName: ProviderType.local.name)
+          .listenToLocalProjectItem(projectData.id);
+  await for (final event in result) {
+    yield event ?? projectData;
+  }
+}

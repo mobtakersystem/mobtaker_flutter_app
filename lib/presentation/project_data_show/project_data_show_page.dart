@@ -5,6 +5,7 @@ import 'package:mpm/common/riverpod_helper.dart';
 import 'package:mpm/data/entities/project/project_data_entity.dart';
 import 'package:mpm/presentation/project_data/project_property_provider.dart';
 import 'package:mpm/presentation/project_data_show/images_viewer_page.dart';
+import 'package:mpm/presentation/project_data_store/project_data_edit_page.dart';
 import 'package:persian_number_utility/persian_number_utility.dart';
 import 'package:collection/collection.dart';
 
@@ -20,6 +21,20 @@ class ProjectDataShowPage extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('نمایش داده پروژه'),
+        actions: [
+          if (projectData.status == "draft")
+            IconButton(
+              onPressed: () {
+                context.push(ProjectDataEditPage(
+                  projectDataEntity: projectData,
+                  projectId: projectData.projectId,
+                ));
+              },
+              icon: const Icon(
+                Icons.edit,
+              ),
+            )
+        ],
       ),
       body: RiverPodConnectionHelperWidget(
         value: ref.watch(getProjectPropertyProvider(projectData.projectId)),

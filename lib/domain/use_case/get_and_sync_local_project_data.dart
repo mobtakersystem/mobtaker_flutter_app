@@ -32,7 +32,7 @@ class GetAndSyncLocalProjectDataUseCase {
         _localHandlerRepository = localHandlerRepository;
 
   Stream<List<ProjectDataEntity>> call() async* {
-    final stream = _localRepository.listenToLocalProjectData();
+    final stream = _localRepository.listenToUnSyncProjectData();
     debugPrint("#SYNC START");
     internetListener = _internetConnection.onStatusChange
         .listen((InternetStatus status) async {
@@ -62,7 +62,7 @@ class GetAndSyncLocalProjectDataUseCase {
   }
 
   manualSync() async {
-    final localData = await _localRepository.listenToLocalProjectData().first;
+    final localData = await _localRepository.listenToUnSyncProjectData().first;
     debugPrint("#SYNC MANUAL GET DATA");
     if (await _internetConnection.hasInternetAccess) {
       debugPrint("#SYNC MANUAL INTERNET CONNECTED");
@@ -236,7 +236,9 @@ class GetAndSyncLocalProjectDataUseCase {
         }
       }
 
-      final result = await _apiRepository.storeProjectData(item);
+      final result = await (item.syncType == DataSyncType.create
+          ? _apiRepository.storeProjectData(item)
+          : _apiRepository.updateProjectData(item));
       await result.fold(
         (l) async {
           debugPrint("STATUS CHANGED TO FAILED");

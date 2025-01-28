@@ -24,6 +24,7 @@ import 'package:mpm/domain/use_case/image_picker_usecase.dart';
 import 'package:mpm/domain/use_case/project_data_index.dart';
 import 'package:mpm/domain/use_case/project_property.dart';
 import 'package:mpm/domain/use_case/project_store.dart';
+import 'package:mpm/domain/use_case/project_update.dart';
 import 'package:mpm/domain/use_case/projects_index.dart';
 import 'package:mpm/domain/use_case/upload_image_to_storage.dart';
 
@@ -213,6 +214,22 @@ _projectSl(GetIt getIt) {
       localRepository: getIt(instanceName: ProviderType.local.name),
     );
   });
+
+  getIt.registerLazySingleton<UpdateProjectDataInServerUseCase>(
+    () {
+      return UpdateProjectDataInServerUseCase(
+        apiRepository: getIt(instanceName: ProviderType.api.name),
+      );
+    },
+  );
+
+  getIt.registerLazySingleton<UpdateProjectDataInLocalUseCase>(
+    () {
+      return UpdateProjectDataInLocalUseCase(
+        localRepository: getIt(instanceName: ProviderType.local.name),
+      );
+    },
+  );
 }
 
 Future<void> databaseConfig(GetIt getIt) async {

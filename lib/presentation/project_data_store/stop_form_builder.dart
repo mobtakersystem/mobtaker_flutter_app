@@ -61,8 +61,8 @@ class StopFormBuilder extends ConsumerWidget {
                             ),
                             onChanged: (stopReason) {
                               final index = field.value?.indexOf(e) ?? 0;
-                              final newValue = field.value;
-                              newValue?[index] = e.copyWith(
+                              final newValue = [...?field.value];
+                              newValue[index] = e.copyWith(
                                 reason: stopReason?.id.toString(),
                                 displayReason: stopReason?.title,
                               );
@@ -107,6 +107,7 @@ class StopFormBuilder extends ConsumerWidget {
                                   valueTransformer: (value) => value != null
                                       ? DateFormat.Hms().format(value)
                                       : null,
+                                  initialValue: DateFormat("Hms").tryParse(e.start??""),
                                 ),
                               ),
                               _space,
@@ -114,6 +115,7 @@ class StopFormBuilder extends ConsumerWidget {
                                 child: FormBuilderDateTimePicker(
                                   key: ValueKey("${e.id}_end"),
                                   name: "${e.id}_end",
+                                  initialValue: DateFormat("Hms").tryParse(e.end??""),
                                   onChanged: (value) {
                                     if (value == null) return;
                                     final index = field.value?.indexOf(e) ?? 0;
@@ -130,9 +132,6 @@ class StopFormBuilder extends ConsumerWidget {
                                       labelText: 'تا ساعت'),
                                   keyboardType: TextInputType.datetime,
                                   validator: FormBuilderValidators.required(),
-                                  // initialValue: e.end != null
-                                  //     ? DateTime.parse(e.end!)
-                                  //     : null,
                                 ),
                               ),
                             ],

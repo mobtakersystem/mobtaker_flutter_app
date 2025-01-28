@@ -8,6 +8,7 @@ class PersianFormDatePicker extends StatelessWidget {
   final String label;
   final FormFieldValidator<DateTime>? validator;
   final ValueTransformer<DateTime?>? valueTransformer;
+  final DateTime? initialValue;
 
   const PersianFormDatePicker({
     super.key,
@@ -15,6 +16,7 @@ class PersianFormDatePicker extends StatelessWidget {
     required this.label,
     this.validator,
     this.valueTransformer,
+    this.initialValue,
   });
 
   @override
@@ -23,6 +25,7 @@ class PersianFormDatePicker extends StatelessWidget {
       name: name,
       validator: validator,
       valueTransformer: valueTransformer,
+      initialValue: initialValue,
       builder: (FormFieldState<DateTime?> field) {
         return InputDecorator(
           decoration: InputDecoration(

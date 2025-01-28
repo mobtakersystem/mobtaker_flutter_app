@@ -57,8 +57,8 @@ class ProjectRepository {
     return _dataProvider.updateProjectData(projectData).mapToEither();
   }
 
-  Stream<List<ProjectDataEntity>> listenToLocalProjectData() {
-    return _dataProvider.listenToLocalProjectData();
+  Stream<List<ProjectDataEntity>> listenToUnSyncProjectData() {
+    return _dataProvider.listenToUnSyncProjectData();
   }
 
   Stream<ProjectDataEntity?> listenToLocalProjectItem(String id) {

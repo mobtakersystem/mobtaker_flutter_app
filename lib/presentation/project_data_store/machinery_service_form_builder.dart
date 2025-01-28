@@ -72,8 +72,8 @@ class MachineryServiceFormBuilder extends ConsumerWidget {
                           onChanged: (value) {
                             if (value != null) {
                               final index = field.value?.indexOf(e) ?? 0;
-                              final newValue = field.value;
-                              newValue?[index] = e.copyWith(
+                              final newValue = [...?field.value];
+                              newValue[index] = e.copyWith(
                                   serviceType: value.id, type: value.title);
                               field.didChange(newValue);
                             }
@@ -109,10 +109,11 @@ class MachineryServiceFormBuilder extends ConsumerWidget {
                               child: ImagePickerFormWidget(
                                 name: 'images${e.id}',
                                 singlePicker: true,
+                                initialValue: e.images,
                                 onChanged: (value) {
                                   final index = field.value?.indexOf(e) ?? 0;
-                                  final newValue = field.value;
-                                  newValue?[index] =
+                                  final newValue = [...?field.value];
+                                  newValue[index] =
                                       e.copyWith(images: value ?? []);
                                   field.didChange(newValue);
                                 },

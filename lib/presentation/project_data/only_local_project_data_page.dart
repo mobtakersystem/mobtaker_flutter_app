@@ -95,7 +95,7 @@ class _ItemWidget extends StatelessWidget {
                 message: 'آیا از حذف این داده اطمینان دارید؟',
                 confirmCallBack: () {
                   GetIt.I<DeleteProjectDataUseCase>()
-                      .execute(projectData.id)
+                      .execute(projectData.id, true)
                       .catchError((error) {
                     context.showErrorMessage(error);
                   });
