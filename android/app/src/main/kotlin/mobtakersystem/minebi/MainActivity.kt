@@ -1,4 +1,4 @@
-package mobtakersystem.mpm.mpm
+package mobtakersystem.minebi
 
 import io.flutter.embedding.android.FlutterActivity
 

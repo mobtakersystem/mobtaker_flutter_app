@@ -12,6 +12,7 @@ import 'package:workmanager/workmanager.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 void main() async {
+
   WidgetsFlutterBinding.ensureInitialized();
   Workmanager().initialize(
     callbackDispatcher,
@@ -29,7 +30,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'MineBi',
       locale: const Locale('fa', 'IR'),
       supportedLocales: const [
         Locale('fa', 'IR'),
@@ -44,7 +45,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         fontFamily: 'irYekan',
         colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.purple,
+          seedColor: const Color(0xFF1E3A5F),
         ),
         useMaterial3: true,
         elevatedButtonTheme: ElevatedButtonThemeData(

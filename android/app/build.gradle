@@ -30,7 +30,7 @@ if (keystorePropertiesFile.exists()) {
 
 
 android {
-    namespace = "mobtakersystem.mpm.mpm"
+    namespace = "mobtakersystem.minebi"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
@@ -41,7 +41,7 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId = "mobtakersystem.mpm.mpm"
+        applicationId = "mobtakersystem.minebi"
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
         minSdk = flutter.minSdkVersion
@@ -63,6 +63,24 @@ android {
         release {
             signingConfig signingConfigs.release
         }
+        debug {
+            applicationIdSuffix ".debug"
+            debuggable true
+        }
+    }
+    flavorDimensions "version"
+    productFlavors {
+        dev{
+            resValue "string", "app_name", "MineBi-Dev"
+            applicationIdSuffix ".dev"
+            versionNameSuffix "-dev"
+        }
+        folad{
+            resValue "string", "app_name", "MineBi-Folad"
+            applicationIdSuffix ".folad"
+            versionNameSuffix "-folad"
+        }
+
     }
 }
 

@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mpm/common/extention/context.dart';
 import 'package:mpm/common/validator.dart';
 import 'package:mpm/common/widget/text_form_field.dart';
+import 'package:mpm/common/widget/version_widget.dart';
 import 'package:mpm/presentation/auth/check_otp_page.dart';
 import 'package:mpm/presentation/auth/providers/login_provider.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -96,6 +97,8 @@ class LoginPage extends HookConsumerWidget {
                           ),
                       orElse: () => const Text('ورود')),
                 ),
+                const SizedBox(height: 48,),
+                const VersionWidget(),
               ],
             ),
           ),

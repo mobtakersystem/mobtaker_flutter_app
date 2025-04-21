@@ -3,8 +3,12 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mpm/common/extention/context.dart';
 import 'package:mpm/common/extention/date_time.dart';
 import 'package:mpm/common/riverpod_helper.dart';
+import 'package:mpm/common/widget/dialog/confirm_dialog.dart';
+import 'package:mpm/common/widget/version_widget.dart';
+import 'package:mpm/presentation/auth/providers/auth_provider.dart';
 import 'package:mpm/presentation/project_data_store/list_local_data_buttne_widget.dart';
 import 'package:mpm/presentation/project_index/project_item_widget.dart';
+import 'package:mpm/presentation/splash_page.dart';
 
 import 'index_provider.dart';
 
@@ -15,6 +19,43 @@ class ProjectsIndex extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final lastUpdateState = ref.watch(projectIndexLastUpdateProvider);
     return Scaffold(
+      drawer: SizedBox(
+        width: MediaQuery.of(context).size.width * .6,
+        child: Material(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 24),
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 24, left: 8, right: 8),
+                  child: Image.asset("assets/images/logo.png"),
+                ),
+                const Spacer(),
+                ListTile(
+                  title: const Text("خروج از برنامه"),
+                  onTap: () {
+                    ConfirmDialog.show(
+                      context,
+                      message: "آیا از خروج از برنامه اطمینان دارید؟",
+                      confirmCallBack: () {
+                        ref.read(authProvider.notifier).unAuthenticated().then(
+                          (value) {
+                            if (context.mounted) {
+                              context.popAllAndPush(const SplashPage());
+                            }
+                          },
+                        );
+                      },
+                    );
+                  },
+                  leading: const Icon(Icons.logout),
+                ),
+                const VersionWidget()
+              ],
+            ),
+          ),
+        ),
+      ),
       appBar: AppBar(
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
