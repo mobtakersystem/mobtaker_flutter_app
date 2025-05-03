@@ -1,0 +1,18 @@
+android {
+    flavorDimensions += "flavor-type"
+
+    productFlavors {
+        dev {
+            dimension "flavor-type"
+            applicationId "mobtakersystem.minebi.dev"
+            versionNameSuffix "-dev"
+            resValue "string", "app_name", "Minebi Dev"
+        }
+        folad {
+            dimension "flavor-type"
+            applicationId "mobtakersystem.minebi.folad"
+            versionNameSuffix "-folad"
+            resValue "string", "app_name", "Minebi Folad"
+        }
+    }
+}

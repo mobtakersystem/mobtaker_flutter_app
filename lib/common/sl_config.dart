@@ -27,6 +27,7 @@ import 'package:mpm/domain/use_case/project_store.dart';
 import 'package:mpm/domain/use_case/project_update.dart';
 import 'package:mpm/domain/use_case/projects_index.dart';
 import 'package:mpm/domain/use_case/upload_image_to_storage.dart';
+import 'package:mpm/flavors.dart';
 
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
@@ -41,11 +42,11 @@ slConfig(GetIt getIt) async {
   await databaseConfig(getIt);
   getIt.registerLazySingleton<NetworkService>(
     () => NetworkService(
-      baseUrl: 'https://demoapi.minebi.com/api/',
+      baseUrl: F.baseUrl,
       httpHeaders: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
-        'apiKey': '148d8d21-5e6c-4866-bce6-21b1a65eb831',
+        'apiKey': F.apiKey,
       },
     ),
   );

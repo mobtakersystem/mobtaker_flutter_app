@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
@@ -11,8 +12,12 @@ import 'package:mpm/presentation/splash_page.dart';
 import 'package:workmanager/workmanager.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
-void main() async {
+import 'flavors.dart';
 
+void main() async {
+  F.appFlavor = Flavor.values.firstWhere(
+        (element) => element.name == appFlavor,
+  );
   WidgetsFlutterBinding.ensureInitialized();
   Workmanager().initialize(
     callbackDispatcher,

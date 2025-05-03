@@ -1,0 +1,21 @@
+flavors:
+  dev:
+    app:
+      name: "Minebi Dev"
+
+    android:
+      applicationId: "mobtakersystem.minebi.dev"
+      customConfig:
+        versionNameSuffix: "\"-dev\""
+    ios:
+      bundleId: "mobtakersystem.minebi.dev"
+  folad:
+    app:
+      name: "Minebi Folad"
+
+    android:
+      applicationId: "mobtakersystem.minebi.folad"
+      customConfig:
+        versionNameSuffix: "\"-folad\""
+    ios:
+      bundleId: "mobtakersystem.minebi.folad"
