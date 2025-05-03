@@ -76,8 +76,8 @@ class LoginPage extends HookConsumerWidget {
                 const SizedBox.square(
                   dimension: 16,
                 ),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
+                FilledButton(
+                  style: FilledButton.styleFrom(
                     minimumSize: const Size(double.infinity, 48),
                   ),
                   onPressed: () {
