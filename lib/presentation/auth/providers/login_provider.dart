@@ -25,10 +25,52 @@ class LoginFlow extends _$LoginFlow {
     return const LoginStatus.initial();
   }
 
-  login(String cellPhone) async {
+  userPassLogin({required String userName, required String password}) async {
     state = const AsyncLoading();
     state = await AsyncValue.guard(() async {
-      final result = await GetIt.I.get<AuthRepository>().login(cellPhone);
+      final result = await GetIt.I.get<AuthRepository>().login(
+            userName: userName,
+            password: password,
+          );
+      return result.fold((l) {
+        throw l;
+      }, (r) {
+        return r.when(
+          otpToken: (loginToken) {
+            return LoginStatus.checkOtp(loginToken);
+          },
+          authUser: (authUser) {
+            return LoginStatus.success(authUser.userEntity);
+          },
+        );
+      });
+    });
+  }
+
+  biometricLogin() async {
+    state = const AsyncLoading();
+    state = await AsyncValue.guard(() async {
+      final result = await GetIt.I.get<AuthRepository>().biometricLogin();
+      return result.fold((l) {
+        throw l;
+      }, (r) {
+        return r.when(
+          otpToken: (loginToken) {
+            return LoginStatus.checkOtp(loginToken);
+          },
+          authUser: (authUser) {
+            return LoginStatus.success(authUser.userEntity);
+          },
+        );
+      });
+    });
+  }
+
+  phoneLogin(String cellPhone) async {
+    state = const AsyncLoading();
+    state = await AsyncValue.guard(() async {
+      final result =
+          await GetIt.I.get<AuthRepository>().loginCellphone(cellPhone);
       return result.fold((l) {
         throw l;
       }, (r) {
@@ -37,7 +79,7 @@ class LoginFlow extends _$LoginFlow {
     });
   }
 
-  checkOtp(String otp) async {
+  phoneCheckOtp(String otp) async {
     final previous = state;
     if (previous.requireValue is! CheclOtp) {
       return;

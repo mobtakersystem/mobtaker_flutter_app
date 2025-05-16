@@ -60,12 +60,19 @@ dependencies:
   cross_file: ^0.3.4+2
   flutter_image_compress: ^2.3.0
   internet_connection_checker_plus: ^2.5.2
-  workmanager: ^0.5.2
+  workmanager:
+    git:
+      url: https://github.com/fluttercommunity/flutter_workmanager.git
+      path: workmanager
+      ref: main
   flutter_slidable: ^4.0.0
   timeago: ^3.7.0
   dropdown_button2: ^2.3.9
   package_info_plus: ^8.1.4
   flex_color_scheme: ^8.2.0
+  local_auth: ^2.3.0
+  device_info_plus: ^11.4.0
+  fast_rsa: ^3.8.3
 
 
 dev_dependencies:

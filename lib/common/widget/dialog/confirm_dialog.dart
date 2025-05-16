@@ -30,8 +30,8 @@ class ConfirmDialog {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Expanded(
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
+                  child: FilledButton(
+                    style: FilledButton.styleFrom(
                       minimumSize: const Size(double.infinity, 40),
                     ),
                     onPressed: () {

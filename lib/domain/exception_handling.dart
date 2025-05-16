@@ -28,7 +28,7 @@ extension ExtensionToFailure<T> on Exception {
     if (this is NetworkException) {
       switch ((this as NetworkException).errorCode) {
         case 401:
-          return const UnAuthorizedFailure();
+          return  UnAuthorizedFailure(message: (this as NetworkException).errorMessage??"");
         case 403:
           return AccessDeniedFailure(
               message: (this as NetworkException).errorMessage);

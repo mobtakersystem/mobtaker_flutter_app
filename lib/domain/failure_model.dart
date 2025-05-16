@@ -12,7 +12,7 @@ sealed class FailureModel {
 }
 
 class UnAuthorizedFailure extends FailureModel {
-  const UnAuthorizedFailure({super.message = 'unauthorized'});
+  const UnAuthorizedFailure({super.message = 'خطا در احراز هویت'});
 }
 
 class AccessDeniedFailure extends FailureModel {

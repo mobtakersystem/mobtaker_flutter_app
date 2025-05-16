@@ -86,6 +86,8 @@ slConfig(GetIt getIt) async {
     () => AuthRepositoryImpl(
       dataProvider: getIt(),
       secureStorage: getIt(),
+      rsaPublicKey: F.rsaPublicKey,
+      isBackgroundServiceActive: false
     ),
   );
   getIt.registerLazySingleton<DeleteProjectDataUseCase>(

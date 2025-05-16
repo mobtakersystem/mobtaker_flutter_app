@@ -1,3 +1,4 @@
+import 'package:mpm/data/entities/auth/login_token_state.dart';
 import 'package:mpm/data/entities/user/user_entity.dart';
 import 'package:mpm/data/network/network_request.dart';
 import 'package:mpm/data/network/network_service.dart';
@@ -26,15 +27,15 @@ class AuthDataProviderImpl extends AuthDataProvider {
       ),
       parser: (jsonParam) {
         return (
-          userEntity: UserEntity.fromJson(jsonParam!['user']),
-          token: jsonParam!['token'] as String,
+          userEntity: UserEntity.fromJson({...jsonParam!}),
+          token: jsonParam['token'] as String,
         );
       },
     );
   }
 
   @override
-  Future<String> login(String cellPhone) {
+  Future<String> loginCellphone(String cellPhone) {
     return _networkService.execute(
       NetworkRequest(
         type: NetworkRequestType.post,
@@ -65,6 +66,42 @@ class AuthDataProviderImpl extends AuthDataProvider {
       ),
       parser: (jsonParam) {
         return jsonParam!['loginToken'] as String;
+      },
+    );
+  }
+
+  @override
+  Future<LoginTokenState> login({
+    required String userName,
+    required String password,
+    required String? deviceId,
+  }) {
+    return _networkService.execute(
+      NetworkRequest(
+        type: NetworkRequestType.post,
+        path: 'auth/login',
+        data: NetworkRequestBody.json(
+          {
+            "email": userName,
+            "password": password,
+            "mobileId": deviceId,
+          },
+        ),
+      ),
+      parser: (jsonParam) {
+        if (jsonParam!['loginToken'] != null) {
+          return LoginTokenState.otpToken(
+            jsonParam['loginToken'] as String,
+          );
+        } else if (jsonParam['token'] != null) {
+          return LoginTokenState.authUser(
+            (
+              userEntity: UserEntity.fromJson({}),
+              token: jsonParam['token'] as String,
+            ),
+          );
+        }
+        throw Exception('Invalid response from server');
       },
     );
   }
