@@ -23,7 +23,7 @@ final isLoginBiometricEnableProvider = AutoDisposeFutureProvider<bool>.internal(
 
 typedef IsLoginBiometricEnableRef = AutoDisposeFutureProviderRef<bool>;
 String _$setLoginBiometricEnableHash() =>
-    r'2efdeed894f28df11db34812b3c16e933d25c9ef';
+    r'658e29886e94e48e24562c9f016cb85fc32cd99f';
 
 /// Copied from Dart SDK
 class _SystemHash {

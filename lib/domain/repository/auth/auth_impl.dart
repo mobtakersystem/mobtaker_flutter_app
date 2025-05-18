@@ -43,7 +43,13 @@ class AuthRepositoryImpl extends AuthRepository {
 
   @override
   Future<ResultData<UserEntity>> checkOtp(String loginToken, String otp) async {
-    final result = await _dataProvider.checkOtp(loginToken, otp).mapToEither();
+    final result = await _dataProvider
+        .checkOtp(
+          loginToken,
+          otp,
+          deviceId: await getPersistentDeviceId(),
+        )
+        .mapToEither();
     if (result.isLeft()) {
       return ResultData.left(result.getLeft().toNullable()!);
     } else {

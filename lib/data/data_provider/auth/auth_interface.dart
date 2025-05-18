@@ -10,7 +10,7 @@ abstract class AuthDataProvider {
     required String? deviceId,
   });
 
-  Future<AuthUser> checkOtp(String loginToken, String otp);
+  Future<AuthUser> checkOtp(String loginToken, String otp, {String? deviceId});
 
   Future<String> resendOtp(String loginToken);
 }

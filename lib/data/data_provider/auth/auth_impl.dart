@@ -13,7 +13,7 @@ class AuthDataProviderImpl extends AuthDataProvider {
       : _networkService = networkService;
 
   @override
-  Future<AuthUser> checkOtp(String loginToken, String otp) {
+  Future<AuthUser> checkOtp(String loginToken, String otp, {String? deviceId}) {
     return _networkService.execute(
       NetworkRequest(
         type: NetworkRequestType.post,
@@ -22,6 +22,7 @@ class AuthDataProviderImpl extends AuthDataProvider {
           {
             "loginToken": loginToken,
             "otp": otp,
+            "mobileId": deviceId,
           },
         ),
       ),
@@ -96,11 +97,15 @@ class AuthDataProviderImpl extends AuthDataProvider {
         } else if (jsonParam['token'] != null) {
           return LoginTokenState.authUser(
             (
-              userEntity: UserEntity.fromJson({}),
+              userEntity: UserEntity.fromJson({
+                "userName": jsonParam['userName'],
+                ...jsonParam['user'],
+              }),
               token: jsonParam['token'] as String,
             ),
           );
         }
+        print("ECC");
         throw Exception('Invalid response from server');
       },
     );

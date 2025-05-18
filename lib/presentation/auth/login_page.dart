@@ -8,6 +8,7 @@ import 'package:mpm/presentation/auth/providers/biometrics_providers.dart';
 import 'package:mpm/presentation/auth/providers/login_provider.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:mpm/presentation/home_page.dart' show HomePage;
 
 class LoginPage extends HookConsumerWidget {
   LoginPage({super.key});
@@ -30,7 +31,11 @@ class LoginPage extends HookConsumerWidget {
                 context.push(CheckOtpPage());
               }
             },
-            success: (value) {},
+            success: (value) {
+              if (context.mounted) {
+                context.popAllAndPush(const HomePage());
+              }
+            },
           );
         } else if (previous != next &&
             next is AsyncError &&
