@@ -1,21 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:mpm/common/extention/context.dart';
-import 'package:mpm/data/entities/dashboard_chart/production_chart_entity.dart';
+import 'package:mpm/data/entities/dashboard_chart/sale_data_chart_entity.dart';
 import 'package:mpm/presentation/project_analytics_data/pin_title_widget.dart';
-import 'package:mpm/presentation/project_analytics_data/production_charts/production_chart_widget.dart';
-import 'package:mpm/presentation/project_analytics_data/production_charts/production_table_widget.dart';
+import 'package:mpm/presentation/project_analytics_data/sale_charts/sale_bar_chart_widget.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 
-class ProductionChartWidget extends StatelessWidget {
-  final ProductionChartEntity chartsData;
+class SaleChartsWidget extends StatelessWidget {
+  final SaleDataChartEntity chartsData;
 
-  const ProductionChartWidget({super.key, required this.chartsData});
+  const SaleChartsWidget({super.key, required this.chartsData});
 
   @override
   Widget build(BuildContext context) {
-    return MultiSliver(pushPinnedChildren: true, children: [
+    return MultiSliver(
+        pushPinnedChildren: true,
+        children: [
       const SliverPinnedHeader(
-        child: TitlePinWidget(title: "تولید"),
+        child: TitlePinWidget(title: "فروش"),
       ),
       SliverList.separated(
         itemBuilder: (context, index) => _ContentWidget(
@@ -33,7 +34,7 @@ class ProductionChartWidget extends StatelessWidget {
 class _ContentWidget extends StatelessWidget {
   final SchedulePerformanceComparisonCharts chartsData;
 
-  const _ContentWidget({required this.chartsData});
+  const _ContentWidget({super.key, required this.chartsData});
 
   @override
   Widget build(BuildContext context) {
@@ -47,27 +48,7 @@ class _ContentWidget extends StatelessWidget {
         const SizedBox(
           height: 16,
         ),
-        SizedBox(
-          height: 90,
-          child: ProductionTableWidget(
-            currentPerformanceList: chartsData.currentPerformance ?? [],
-          ),
-        ),
-        const SizedBox(
-          height: 16,
-        ),
-        Center(
-          child: Text(
-            "مقایسه عملکرد - برنامه ",
-            style: context.textTheme.titleMedium?.copyWith(
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
-        const SizedBox(
-          height: 16,
-        ),
-        ProductionBarChart(
+        SaleBarChart(
           data: chartsData.data ?? [],
         )
       ],

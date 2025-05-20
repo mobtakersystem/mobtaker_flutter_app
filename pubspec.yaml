@@ -76,6 +76,7 @@ dependencies:
   fast_rsa: ^3.8.3
   syncfusion_flutter_charts: ^29.2.4
   lottie: ^3.3.1
+  sliver_tools: ^0.2.12
 
 
 dev_dependencies:
