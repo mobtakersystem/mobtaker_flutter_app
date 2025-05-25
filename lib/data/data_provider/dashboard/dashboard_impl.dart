@@ -1,6 +1,7 @@
 import 'package:mpm/data/entities/dashboard_chart/enventory_chart_entity.dart';
 import 'package:mpm/data/entities/dashboard_chart/production_chart_entity.dart';
 import 'package:mpm/data/entities/dashboard_chart/sale_data_chart_entity.dart';
+import 'package:mpm/data/entities/dashboard_chart/stop_chart_entity.dart';
 import 'package:mpm/data/entities/dashboard_chart/utility_chart_entity.dart';
 import 'package:mpm/data/network/network_request.dart';
 import 'package:mpm/data/network/network_service.dart';
@@ -37,9 +38,14 @@ class DashboardApiDataProvider extends DashboardDataProvider {
   }
 
   @override
-  Future<void> productStops() {
-    // TODO: implement productStops
-    throw UnimplementedError();
+  Future<StopChartEntity> productStops() {
+    return _networkService.execute(
+      const NetworkRequest(
+          type: NetworkRequestType.post,
+          path: "dashboard/production-stops",
+          data: NetworkRequestBody.empty()),
+      parser: (jsonParam) => StopChartEntity.fromJson(jsonParam!),
+    );
   }
 
   @override
