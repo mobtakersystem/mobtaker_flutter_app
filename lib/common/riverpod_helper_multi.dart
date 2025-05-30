@@ -1,11 +1,13 @@
-
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart' show Phoenix;
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mpm/common/widget/error.dart';
 import 'package:mpm/domain/failure_model.dart';
+import 'package:mpm/presentation/auth/providers/auth_provider.dart'
+    show authProvider;
 
-class RiverPodConnectionHelperWidgetMulti extends StatelessWidget {
+class RiverPodConnectionHelperWidgetMulti extends ConsumerWidget {
   final List<AsyncValue<ResultData>> values;
   final Widget Function(List<dynamic>) successBuilder;
   final Widget Function()? loadingBuilder;
@@ -26,7 +28,7 @@ class RiverPodConnectionHelperWidgetMulti extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, ref) {
     //check loading
     final isLoading = values.any((v) => v.isLoading);
 
@@ -41,13 +43,21 @@ class RiverPodConnectionHelperWidgetMulti extends StatelessWidget {
       orElse: () => const AsyncValue.loading(), //
     );
     if (errorValue.hasError) {
+      if (errorValue is UnAuthorizedFailure) {
+        ref.read(authProvider.notifier).unAuthenticated().then(
+          (value) {
+            if (context.mounted) {
+              Phoenix.rebirth(context);
+            }
+          },
+        );
+      }
       return failureBuilder?.call(errorValue.error!) ??
           RetryFailureWidget(
             error: errorValue.error!,
             tryAgain: tryAgain,
           );
     }
-
 
     final resultDataList = values.map((e) => e.value!).toList();
 

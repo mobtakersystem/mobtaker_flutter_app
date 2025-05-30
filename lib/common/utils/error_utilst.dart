@@ -8,6 +8,8 @@ class ErrorUtils {
           "خطایی در ارتباط با سرور رخ داده است. لطفا دوباره تلاش کنید.";
     } else if (error is FailureModel) {
       return (error).message;
+    } else if (error is String) {
+      return error;
     }
     return "خطای ناشناخته رخ داده است. لطفا دوباره تلاش کنید.";
   }

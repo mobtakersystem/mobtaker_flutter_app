@@ -11,6 +11,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mpm/common/sl_config.dart';
 import 'package:mpm/common/work_manager_config.dart';
 import 'package:mpm/presentation/splash_page.dart';
+import 'package:persian_datetime_picker/persian_datetime_picker.dart';
 import 'package:workmanager/workmanager.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
@@ -44,12 +45,14 @@ class MyApp extends StatelessWidget {
       ],
       localizationsDelegates: const [
         // AppLocalizations.delegate,
+        PersianMaterialLocalizations.delegate,
+        PersianCupertinoLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
         FormBuilderLocalizations.delegate,
       ],
-      theme:  FlexThemeData.light(
+      theme: FlexThemeData.light(
         fontFamily: 'irYekan',
         // Using FlexColorScheme built-in FlexScheme enum based colors
         scheme: FlexScheme.indigoM3,

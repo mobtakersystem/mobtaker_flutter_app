@@ -15,8 +15,11 @@ class StopChartsWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiSliver(pushPinnedChildren: true, children: [
-      const SliverPinnedHeader(
-        child: TitlePinWidget(title: "گزارش توقفات"),
+      SliverPinnedHeader(
+        child: TitlePinWidget(
+          title: "گزارش توقفات",
+          onDateRangeSelected: (DateTimeRange value) {},
+        ),
       ),
       SliverList.separated(
         itemBuilder: (context, index) => _ContentWidget(

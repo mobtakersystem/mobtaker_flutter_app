@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:lottie/lottie.dart';
 import 'package:mpm/common/extention/context.dart';
-import 'package:mpm/data/entities/dashboard_chart/production_chart_entity.dart';
+import 'package:mpm/data/entities/dashboard_chart/utility_chart_entity.dart';
 import 'package:persian_number_utility/persian_number_utility.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-class ProductionBarChart extends HookConsumerWidget {
+class UtilityColumnChart extends HookConsumerWidget {
   final List<Data> data;
   final double height;
   final double width;
 
-  ProductionBarChart({
+  UtilityColumnChart({
     super.key,
     required this.data,
     this.height = 300,
@@ -43,7 +43,7 @@ class ProductionBarChart extends HookConsumerWidget {
             ),
           if (seriesIndex == 2)
             Text(
-              'درصد تحقق: ${data.deviation}%',
+              'انحراف: ${data.deviation}%',
               style: const TextStyle(
                 color: Colors.white,
               ),
@@ -94,9 +94,9 @@ class ProductionBarChart extends HookConsumerWidget {
           dataSource: data,
           xValueMapper: (Data data, _) => data.date ?? '',
           yValueMapper: (Data data, _) =>
-              (data.deviation ?? 0) + (data.deviationStartLine ?? 0),
+          (data.deviation ?? 0) + (data.deviation ?? 0),
           color: Colors.blueAccent,
-          name: 'درصد تحقق',
+          name: ' انحراف',
           markerSettings: const MarkerSettings(
             isVisible: true,
             height: 6,

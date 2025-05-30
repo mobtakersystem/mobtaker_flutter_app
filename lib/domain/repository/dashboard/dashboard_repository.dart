@@ -1,11 +1,19 @@
+import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:mpm/data/data_provider/dashboard/dashboard_interface.dart';
 import 'package:mpm/data/entities/dashboard_chart/enventory_chart_entity.dart';
 import 'package:mpm/data/entities/dashboard_chart/production_chart_entity.dart';
 import 'package:mpm/data/entities/dashboard_chart/sale_data_chart_entity.dart';
-import 'package:mpm/data/entities/dashboard_chart/stop_chart_entity.dart' show StopChartEntity;
+import 'package:mpm/data/entities/dashboard_chart/stop_chart_entity.dart'
+    show StopChartEntity;
 import 'package:mpm/data/entities/dashboard_chart/utility_chart_entity.dart';
 import 'package:mpm/domain/exception_handling.dart';
 import 'package:mpm/domain/failure_model.dart';
+import 'package:persian_number_utility/persian_number_utility.dart';
+
+import 'dashboard_slug_data.dart';
+
+part 'dashboard_repo_params.dart';
 
 class DashboardRepository {
   final DashboardDataProvider _dashboardDataProvider;
@@ -30,7 +38,7 @@ class DashboardRepository {
     return _dashboardDataProvider.inventoryData().mapToEither();
   }
 
-  Future<ResultData<UtilityChartEntity>> utilityData() {
-    return _dashboardDataProvider.utilityData().mapToEither();
+  Future<ResultData<UtilityChartEntity>> utilityData(UtilityParams params) {
+    return _dashboardDataProvider.utilityData(params.toJson()).mapToEither();
   }
 }

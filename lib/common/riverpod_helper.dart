@@ -12,26 +12,34 @@ class RiverPodConnectionHelperWidget<T> extends ConsumerWidget {
   final Widget Function()? loadingBuilder;
   final Widget Function(Object error)? failureBuilder;
   final Function() tryAgain;
+  final bool skipLoadingOnRefresh;
+  final bool skipLoadingOnReload;
 
-  const RiverPodConnectionHelperWidget(
-      {super.key,
-      required this.value,
-      required this.successBuilder,
-      required this.tryAgain,
-      this.loadingBuilder,
-      this.failureBuilder});
+  const RiverPodConnectionHelperWidget({
+    super.key,
+    required this.value,
+    required this.successBuilder,
+    required this.tryAgain,
+    this.loadingBuilder,
+    this.failureBuilder,
+    this.skipLoadingOnRefresh = true,
+    this.skipLoadingOnReload = false,
+  });
 
   @override
   Widget build(BuildContext context, ref) {
     return value.when(
-      skipLoadingOnRefresh: !value.hasError,
+      skipLoadingOnRefresh:
+          ((value.hasValue && (value.value?.isLeft() ?? false)) ||
+                  value.hasError)
+              ? false
+              : skipLoadingOnRefresh,
+      skipLoadingOnReload: skipLoadingOnReload,
       data: (data) => ResulFailureHandler<T>(
         data: data,
         tryAgain: tryAgain,
         onSuccess: (value) => successBuilder.call(value),
         onFailure: (value) {
-          print("FFFF");
-          print(value);
           if (value is UnAuthorizedFailure) {
             ref.read(authProvider.notifier).unAuthenticated().then(
               (value) {
@@ -54,8 +62,6 @@ class RiverPodConnectionHelperWidget<T> extends ConsumerWidget {
             child: CircularProgressIndicator(),
           ),
       error: (error, stack) {
-        print("FFFF");
-        print(error);
         if (error is UnAuthorizedFailure) {
           ref.read(authProvider.notifier).unAuthenticated().then(
             (value) {

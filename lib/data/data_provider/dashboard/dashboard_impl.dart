@@ -60,12 +60,14 @@ class DashboardApiDataProvider extends DashboardDataProvider {
   }
 
   @override
-  Future<UtilityChartEntity> utilityData() {
+  Future<UtilityChartEntity> utilityData(Map<String, dynamic> params) {
     return _networkService.execute(
-      const NetworkRequest(
+      NetworkRequest(
           type: NetworkRequestType.post,
           path: "dashboard/utility-data",
-          data: NetworkRequestBody.empty()),
+          data: NetworkRequestBody.json(
+            params,
+          )),
       parser: (jsonParam) => UtilityChartEntity.fromJson(jsonParam!),
     );
   }

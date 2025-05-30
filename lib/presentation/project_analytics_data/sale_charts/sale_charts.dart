@@ -12,11 +12,12 @@ class SaleChartsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiSliver(
-        pushPinnedChildren: true,
-        children: [
-      const SliverPinnedHeader(
-        child: TitlePinWidget(title: "فروش"),
+    return MultiSliver(pushPinnedChildren: true, children: [
+      SliverPinnedHeader(
+        child: TitlePinWidget(
+          title: "فروش",
+          onDateRangeSelected: (DateTimeRange value) {},
+        ),
       ),
       SliverList.separated(
         itemBuilder: (context, index) => _ContentWidget(

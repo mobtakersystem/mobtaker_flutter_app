@@ -13,8 +13,11 @@ class InventoryChartsWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiSliver(pushPinnedChildren: true, children: [
-      const SliverPinnedHeader(
-        child: TitlePinWidget(title: "گزارش موجودی"),
+      SliverPinnedHeader(
+        child: TitlePinWidget(
+          title: "گزارش موجودی",
+          onDateRangeSelected: (DateTimeRange value) {},
+        ),
       ),
       SliverList.separated(
         itemBuilder: (context, index) => _ContentWidget(

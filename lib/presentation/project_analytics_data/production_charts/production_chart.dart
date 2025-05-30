@@ -14,8 +14,11 @@ class ProductionChartWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiSliver(pushPinnedChildren: true, children: [
-      const SliverPinnedHeader(
-        child: TitlePinWidget(title: "تولید"),
+      SliverPinnedHeader(
+        child: TitlePinWidget(
+          title: "تولید",
+          onDateRangeSelected: (DateTimeRange value) {},
+        ),
       ),
       SliverList.separated(
         itemBuilder: (context, index) => _ContentWidget(
