@@ -6,7 +6,7 @@ part of 'stops_chart_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$stopsChartHash() => r'b81fdd2dc3054d0a1cc17e2032190149e766289c';
+String _$stopsChartHash() => r'78287559d543d1a7497bbd448291c1e099cc6776';
 
 /// See also [StopsChart].
 @ProviderFor(StopsChart)

@@ -6,13 +6,13 @@ import 'package:mpm/data/entities/dashboard_chart/stop_chart_entity.dart'
 import 'package:mpm/data/entities/dashboard_chart/utility_chart_entity.dart';
 
 abstract class DashboardDataProvider {
-  Future<ProductionChartEntity> productionData();
+  Future<ProductionChartEntity> productionData(Map<String, dynamic> params);
 
-  Future<StopChartEntity> productStops();
+  Future<StopChartEntity> productStops(Map<String, dynamic> params);
 
-  Future<SaleDataChartEntity> saleData();
+  Future<SaleDataChartEntity> saleData(Map<String, dynamic> params);
 
-  Future<InventoryChartEntity> inventoryData();
+  Future<InventoryChartEntity> inventoryData(Map<String, dynamic> params);
 
   Future<UtilityChartEntity> utilityData(Map<String, dynamic> params);
 }

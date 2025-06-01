@@ -22,20 +22,22 @@ class DashboardRepository {
       {required DashboardDataProvider dashboardDataProvider})
       : _dashboardDataProvider = dashboardDataProvider;
 
-  Future<ResultData<ProductionChartEntity>> productionData() {
-    return _dashboardDataProvider.productionData().mapToEither();
+  Future<ResultData<ProductionChartEntity>> productionData(
+      ProductionParams params) {
+    return _dashboardDataProvider.productionData(params.toJson()).mapToEither();
   }
 
-  Future<ResultData<StopChartEntity>> productStops() {
-    return _dashboardDataProvider.productStops().mapToEither();
+  Future<ResultData<StopChartEntity>> productStops(StopParams params) {
+    return _dashboardDataProvider.productStops(params.toJson()).mapToEither();
   }
 
-  Future<ResultData<SaleDataChartEntity>> saleData() {
-    return _dashboardDataProvider.saleData().mapToEither();
+  Future<ResultData<SaleDataChartEntity>> saleData(SalesParams params) {
+    return _dashboardDataProvider.saleData(params.toJson()).mapToEither();
   }
 
-  Future<ResultData<InventoryChartEntity>> inventoryData() {
-    return _dashboardDataProvider.inventoryData().mapToEither();
+  Future<ResultData<InventoryChartEntity>> inventoryData(
+      InventoryParams params) {
+    return _dashboardDataProvider.inventoryData(params.toJson()).mapToEither();
   }
 
   Future<ResultData<UtilityChartEntity>> utilityData(UtilityParams params) {

@@ -1,41 +1,52 @@
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mpm/common/extention/context.dart';
-import 'package:mpm/data/entities/dashboard_chart/enventory_chart_entity.dart';
+import 'package:mpm/common/riverpod_helper.dart';
+import 'package:mpm/data/entities/dashboard_chart/enventory_chart_entity.dart'
+    as entity;
 import 'package:mpm/presentation/project_analytics_data/inventory_charts/inventory_bar_chart_widget.dart';
+import 'package:mpm/presentation/project_analytics_data/inventory_charts/providers/inventory_chart_provider.dart';
+import 'package:mpm/presentation/project_analytics_data/inventory_charts/providers/inventory_filter_provider.dart';
 import 'package:mpm/presentation/project_analytics_data/pin_title_widget.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 
-class InventoryChartsWidget extends StatelessWidget {
-  final InventoryChartEntity chartsData;
-
-  const InventoryChartsWidget({super.key, required this.chartsData});
+class InventoryChartsWidget extends ConsumerWidget {
+  const InventoryChartsWidget({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, ref) {
     return MultiSliver(pushPinnedChildren: true, children: [
-      SliverPinnedHeader(
+      SliverToBoxAdapter(
         child: TitlePinWidget(
           title: "گزارش موجودی",
-          onDateRangeSelected: (DateTimeRange value) {},
+          onDateRangeSelected: (DateTimeRange value) {
+            ref.read(inventoryFilterProvider.notifier).setDateRange(value);
+          },
         ),
       ),
-      SliverList.separated(
-        itemBuilder: (context, index) => _ContentWidget(
-          chartsData: chartsData.inventoryChart![index],
+      SliverRiverPodConnectionHelperWidget(
+        value: ref.watch(inventoryChartProvider),
+        successBuilder: (chartsData) => SliverList.separated(
+          itemBuilder: (context, index) => _ContentWidget(
+            chartsData: chartsData.inventoryChart![index],
+          ),
+          separatorBuilder: (context, index) => const SizedBox(
+            height: 16,
+          ),
+          itemCount: chartsData.inventoryChart?.length ?? 0,
         ),
-        separatorBuilder: (context, index) => const SizedBox(
-          height: 16,
-        ),
-        itemCount: chartsData.inventoryChart?.length ?? 0,
+        tryAgain: () {
+          ref.refresh(inventoryChartProvider);
+        },
       ),
     ]);
   }
 }
 
 class _ContentWidget extends StatelessWidget {
-  final InventoryChart chartsData;
+  final entity.InventoryChart chartsData;
 
-  const _ContentWidget({super.key, required this.chartsData});
+  const _ContentWidget({required this.chartsData});
 
   @override
   Widget build(BuildContext context) {

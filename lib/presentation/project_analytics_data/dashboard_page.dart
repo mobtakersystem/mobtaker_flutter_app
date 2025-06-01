@@ -1,21 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mpm/common/riverpod_helper_multi.dart';
-import 'package:mpm/data/entities/dashboard_chart/enventory_chart_entity.dart'
-    show InventoryChartEntity;
-import 'package:mpm/data/entities/dashboard_chart/production_chart_entity.dart'
-    show ProductionChartEntity;
-import 'package:mpm/data/entities/dashboard_chart/sale_data_chart_entity.dart'
-    show SaleDataChartEntity;
-import 'package:mpm/data/entities/dashboard_chart/stop_chart_entity.dart'
-    show StopChartEntity;
 import 'package:mpm/data/entities/dashboard_chart/utility_chart_entity.dart';
 import 'package:mpm/presentation/project_analytics_data/inventory_charts/inventory_charts.dart';
 import 'package:mpm/presentation/project_analytics_data/production_charts/production_chart.dart';
-import 'package:mpm/presentation/project_analytics_data/provider/inventory_chart_provider.dart';
-import 'package:mpm/presentation/project_analytics_data/provider/production_chart_provider.dart';
-import 'package:mpm/presentation/project_analytics_data/provider/sale_chart_provider.dart';
-import 'package:mpm/presentation/project_analytics_data/provider/stops_chart_provider.dart';
+import 'package:mpm/presentation/project_analytics_data/inventory_charts/providers/inventory_chart_provider.dart';
+import 'package:mpm/presentation/project_analytics_data/production_charts/providers/production_chart_provider.dart';
+import 'package:mpm/presentation/project_analytics_data/sale_charts/providers/sale_chart_provider.dart';
+import 'package:mpm/presentation/project_analytics_data/stops_charts/providers/stops_chart_provider.dart';
 import 'package:mpm/presentation/project_analytics_data/sale_charts/sale_charts.dart';
 import 'package:mpm/presentation/project_analytics_data/stops_charts/stops_charts.dart';
 import 'package:mpm/presentation/project_analytics_data/utility_charts/providers/utility_chart_provider.dart';
@@ -55,17 +47,13 @@ class ProductionSection extends ConsumerWidget {
         utilityChart
       ],
       successBuilder: (data) {
-        final production = data[0] as ProductionChartEntity;
-        final sale = data[1] as SaleDataChartEntity;
-        final inventory = data[2] as InventoryChartEntity;
-        final stops = data[3] as StopChartEntity;
         final utility = data[4] as UtilityChartEntity;
         return CustomScrollView(
           slivers: [
-            ProductionChartWidget(chartsData: production),
-            SaleChartsWidget(chartsData: sale),
-            InventoryChartsWidget(chartsData: inventory),
-            StopChartsWidget(chartsData: stops),
+            const ProductionChartWidget(),
+            const SaleChartsWidget(),
+            const InventoryChartsWidget(),
+            const StopChartsWidget(),
             UtilityChartsWidget(chartsData: utility)
           ],
         );

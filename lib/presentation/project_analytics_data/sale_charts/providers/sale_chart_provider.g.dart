@@ -6,7 +6,7 @@ part of 'sale_chart_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$saleChartHash() => r'ab4a525f384f26e9ac3ebc9831c395488ddf9b2c';
+String _$saleChartHash() => r'c5401542a9b50cc84f2116f90cf9bc9041dc1899';
 
 /// See also [SaleChart].
 @ProviderFor(SaleChart)

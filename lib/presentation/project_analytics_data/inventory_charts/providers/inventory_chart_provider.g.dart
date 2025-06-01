@@ -1,27 +1,27 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'production_chart_provider.dart';
+part of 'inventory_chart_provider.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$productionChartHash() => r'4c76c63b045332801ce9cf3463300ca1d3379c5e';
+String _$inventoryChartHash() => r'892ccd899dd44d251cc4a9e0c328966153a42bea';
 
-/// See also [ProductionChart].
-@ProviderFor(ProductionChart)
-final productionChartProvider = AutoDisposeAsyncNotifierProvider<
-    ProductionChart, ResultData<ProductionChartEntity>>.internal(
-  ProductionChart.new,
-  name: r'productionChartProvider',
+/// See also [InventoryChart].
+@ProviderFor(InventoryChart)
+final inventoryChartProvider = AutoDisposeAsyncNotifierProvider<InventoryChart,
+    ResultData<InventoryChartEntity>>.internal(
+  InventoryChart.new,
+  name: r'inventoryChartProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$productionChartHash,
+      : _$inventoryChartHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$ProductionChart
-    = AutoDisposeAsyncNotifier<ResultData<ProductionChartEntity>>;
+typedef _$InventoryChart
+    = AutoDisposeAsyncNotifier<ResultData<InventoryChartEntity>>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

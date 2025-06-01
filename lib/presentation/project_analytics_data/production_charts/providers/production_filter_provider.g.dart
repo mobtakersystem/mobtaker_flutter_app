@@ -1,26 +1,26 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'utility_filter_provider.dart';
+part of 'production_filter_provider.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$utilityFilterHash() => r'1ffa73b51ddfbe3d8adad946dde5c9dba39596a8';
+String _$productionFilterHash() => r'c985f1112652826cfc0f700f96c9a5946ac3e9a8';
 
-/// See also [UtilityFilter].
-@ProviderFor(UtilityFilter)
-final utilityFilterProvider =
-    AutoDisposeNotifierProvider<UtilityFilter, UtilityParams>.internal(
-  UtilityFilter.new,
-  name: r'utilityFilterProvider',
+/// See also [ProductionFilter].
+@ProviderFor(ProductionFilter)
+final productionFilterProvider =
+    AutoDisposeNotifierProvider<ProductionFilter, ProductionParams>.internal(
+  ProductionFilter.new,
+  name: r'productionFilterProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$utilityFilterHash,
+      : _$productionFilterHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$UtilityFilter = AutoDisposeNotifier<UtilityParams>;
+typedef _$ProductionFilter = AutoDisposeNotifier<ProductionParams>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

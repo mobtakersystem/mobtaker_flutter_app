@@ -31,8 +31,10 @@ class RiverPodConnectionHelperWidgetMulti extends ConsumerWidget {
   Widget build(BuildContext context, ref) {
     //check loading
     final isLoading = values.any((v) => v.isLoading);
+    //check all have data , it means one of them is refreshing
+    final allHaveData = values.every((v) => v.hasValue && v.value != null);
 
-    if (isLoading) {
+    if (isLoading && !allHaveData) {
       return loadingBuilder?.call() ??
           const Center(child: CircularProgressIndicator());
     }
@@ -42,7 +44,7 @@ class RiverPodConnectionHelperWidgetMulti extends ConsumerWidget {
       (v) => v.hasError,
       orElse: () => const AsyncValue.loading(), //
     );
-    if (errorValue.hasError) {
+    if (errorValue.hasError && !allHaveData) {
       if (errorValue is UnAuthorizedFailure) {
         ref.read(authProvider.notifier).unAuthenticated().then(
           (value) {
@@ -69,6 +71,15 @@ class RiverPodConnectionHelperWidgetMulti extends ConsumerWidget {
           )
           ?.getLeft()
           .toNullable();
+      if (leftValue is UnAuthorizedFailure) {
+        ref.read(authProvider.notifier).unAuthenticated().then(
+              (value) {
+            if (context.mounted) {
+              Phoenix.rebirth(context);
+            }
+          },
+        );
+      }
       return failureBuilder?.call(
             leftValue ?? const UnexpectedFailure(),
           ) ??

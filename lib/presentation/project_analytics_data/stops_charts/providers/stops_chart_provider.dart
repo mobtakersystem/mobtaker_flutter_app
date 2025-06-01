@@ -6,12 +6,15 @@ import 'package:mpm/domain/use_case/dashboard_use_case.dart'
     show ProductStopsDashboardChartUseCase;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import 'stops_filter_provider.dart';
+
 part 'stops_chart_provider.g.dart';
 
 @riverpod
 class StopsChart extends _$StopsChart {
   @override
   FutureOr<ResultData<StopChartEntity>> build() async {
-    return GetIt.I<ProductStopsDashboardChartUseCase>().call();
+    final filterParams = ref.watch(stopsFilterProvider);
+    return GetIt.I<ProductStopsDashboardChartUseCase>().call(filterParams);
   }
 }

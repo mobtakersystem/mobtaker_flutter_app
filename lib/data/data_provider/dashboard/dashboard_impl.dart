@@ -16,45 +16,53 @@ class DashboardApiDataProvider extends DashboardDataProvider {
       : _networkService = networkService;
 
   @override
-  Future<InventoryChartEntity> inventoryData() {
+  Future<InventoryChartEntity> inventoryData(Map<String, dynamic> params) {
     return _networkService.execute(
-      const NetworkRequest(
+      NetworkRequest(
           type: NetworkRequestType.post,
           path: "dashboard/inventory-data",
-          data: NetworkRequestBody.empty()),
+          data: NetworkRequestBody.json(
+            params,
+          )),
       parser: (jsonParam) => InventoryChartEntity.fromJson(jsonParam!),
     );
   }
 
   @override
-  Future<ProductionChartEntity> productionData() {
+  Future<ProductionChartEntity> productionData(Map<String, dynamic> params) {
     return _networkService.execute(
-      const NetworkRequest(
+      NetworkRequest(
           type: NetworkRequestType.post,
           path: "dashboard/production-data",
-          data: NetworkRequestBody.empty()),
+          data: NetworkRequestBody.json(
+            params,
+          )),
       parser: (jsonParam) => ProductionChartEntity.fromJson(jsonParam!),
     );
   }
 
   @override
-  Future<StopChartEntity> productStops() {
+  Future<StopChartEntity> productStops(Map<String, dynamic> params) {
     return _networkService.execute(
-      const NetworkRequest(
+      NetworkRequest(
           type: NetworkRequestType.post,
           path: "dashboard/production-stops",
-          data: NetworkRequestBody.empty()),
+          data: NetworkRequestBody.json(
+            params,
+          )),
       parser: (jsonParam) => StopChartEntity.fromJson(jsonParam!),
     );
   }
 
   @override
-  Future<SaleDataChartEntity> saleData() {
+  Future<SaleDataChartEntity> saleData(Map<String, dynamic> params) {
     return _networkService.execute(
-      const NetworkRequest(
+      NetworkRequest(
           type: NetworkRequestType.post,
           path: "dashboard/sale-data",
-          data: NetworkRequestBody.empty()),
+          data: NetworkRequestBody.json(
+            params,
+          )),
       parser: (jsonParam) => SaleDataChartEntity.fromJson(jsonParam!),
     );
   }

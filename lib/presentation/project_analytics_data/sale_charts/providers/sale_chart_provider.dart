@@ -5,12 +5,15 @@ import 'package:mpm/domain/use_case/dashboard_use_case.dart'
     show SaleDataDashboardChartUseCase;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import 'sale_filter_provider.dart';
+
 part 'sale_chart_provider.g.dart';
 
 @riverpod
 class SaleChart extends _$SaleChart {
   @override
   FutureOr<ResultData<SaleDataChartEntity>> build() async {
-    return GetIt.I<SaleDataDashboardChartUseCase>().call();
+    final filterParams = ref.watch(saleFilterProvider);
+    return GetIt.I<SaleDataDashboardChartUseCase>().call(filterParams);
   }
 }

@@ -4,6 +4,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mpm/common/extention/context.dart';
 import 'package:mpm/common/riverpod_helper.dart';
 import 'package:mpm/common/widget/error.dart';
+import 'package:mpm/common/widget/select_period_widget.dart';
+import 'package:mpm/common/widget/switch_with_title_widget.dart';
 import 'package:mpm/data/entities/dashboard_chart/utility_chart_entity.dart'
     as entity;
 import 'package:mpm/domain/repository/dashboard/dashboard_slug_data.dart';
@@ -32,7 +34,7 @@ class UtilityChartsWidget extends HookConsumerWidget {
     }
     final filters = ref.watch(utilityFilterProvider);
     return MultiSliver(pushPinnedChildren: true, children: [
-      SliverPinnedHeader(
+      SliverToBoxAdapter(
         child: TitlePinWidget(
           title: "گزارش یوتیلیتی",
           initialDateRange: filters.dateRange,
@@ -170,128 +172,6 @@ class _ContentWidget extends ConsumerWidget {
           data: chartsData.data ?? [],
         )
       ],
-    );
-  }
-}
-
-class SelectPeriodWidget extends StatelessWidget {
-  final ChartPeriod? selectedPeriod;
-  final ValueChanged<ChartPeriod> onChanged;
-  final List<ChartPeriod> periods;
-
-  const SelectPeriodWidget(
-      {super.key,
-      this.selectedPeriod,
-      required this.onChanged,
-      required this.periods});
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      height: 60,
-      child: Center(
-        child: ListView.separated(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          scrollDirection: Axis.horizontal,
-          shrinkWrap: true,
-          itemBuilder: (context, index) {
-            if (index == 0) {
-              return const Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Icon(
-                    Icons.sort,
-                    size: 15,
-                  ),
-                  Text(" دوره زمانی :"),
-                ],
-              );
-            }
-            final period = periods[index - 1];
-            return ChoiceChip(
-              label: Text(_getPeriodName(period)),
-              selected: selectedPeriod == period,
-              onSelected: (value) {
-                if (value) {
-                  onChanged(period);
-                }
-              },
-              showCheckmark: false,
-              selectedColor: Colors.transparent,
-              backgroundColor: context.theme.scaffoldBackgroundColor,
-              labelStyle: context.textTheme.bodySmall?.copyWith(
-                color: selectedPeriod == period
-                    ? context.colorScheme.secondary
-                    : context.colorScheme.onSurface.withAlpha(150),
-                fontWeight: FontWeight.w600,
-              ),
-              side: const BorderSide(
-                color: Colors.transparent,
-                width: 0,
-              ),
-            );
-          },
-          separatorBuilder: (context, index) => const SizedBox.square(
-            dimension: 0,
-          ),
-          itemCount: periods.length + 1,
-        ),
-      ),
-    );
-  }
-
-  String _getPeriodName(ChartPeriod period) {
-    switch (period) {
-      case ChartPeriod.daily:
-        return "روزانه";
-      case ChartPeriod.monthly:
-        return "ماهانه";
-      case ChartPeriod.yearly:
-        return "سالانه";
-    }
-  }
-}
-
-class SwitchWithTitleWidget extends StatelessWidget {
-  final bool value;
-  final ValueChanged<bool> onChanged;
-  final String title;
-
-  const SwitchWithTitleWidget({
-    super.key,
-    required this.value,
-    required this.onChanged,
-    required this.title,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {
-        onChanged(!value);
-      },
-      borderRadius: BorderRadius.circular(16),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(
-            title,
-            style: context.textTheme.bodySmall,
-          ),
-          const SizedBox(
-            width: 8,
-          ),
-          Transform.scale(
-            scale: 0.5,
-            alignment: AlignmentDirectional.centerStart,
-            child: Switch(
-              value: value,
-              onChanged: onChanged,
-              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-            ),
-          ),
-        ],
-      ),
     );
   }
 }
