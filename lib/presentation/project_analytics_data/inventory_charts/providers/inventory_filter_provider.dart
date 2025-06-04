@@ -11,14 +11,14 @@ class InventoryFilter extends _$InventoryFilter {
     return const InventoryParams();
   }
 
-  void setDateRange(DateTimeRange? dateRange) {
+  void setDateRange(DateTimeRange dateRange) {
     state = state.copyWith(
       dateRange: dateRange,
     );
   }
 
   void clearDateRange() {
-    state = state.copyWith(
+    state = const InventoryParams(
       dateRange: null,
     );
   }

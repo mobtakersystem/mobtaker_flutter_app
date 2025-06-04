@@ -25,8 +25,12 @@ mixin _$IdValueEntity {
   @JsonKey(name: 'title')
   String get title => throw _privateConstructorUsedError;
 
+  /// Serializes this IdValueEntity to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of IdValueEntity
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $IdValueEntityCopyWith<IdValueEntity> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -51,6 +55,8 @@ class _$IdValueEntityCopyWithImpl<$Res, $Val extends IdValueEntity>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of IdValueEntity
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -90,6 +96,8 @@ class __$$IdValueEntityImplCopyWithImpl<$Res>
       _$IdValueEntityImpl _value, $Res Function(_$IdValueEntityImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of IdValueEntity
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -140,11 +148,13 @@ class _$IdValueEntityImpl implements _IdValueEntity {
             (identical(other.title, title) || other.title == title));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, id, title);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of IdValueEntity
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$IdValueEntityImplCopyWith<_$IdValueEntityImpl> get copyWith =>
@@ -172,8 +182,11 @@ abstract class _IdValueEntity implements IdValueEntity {
   @override
   @JsonKey(name: 'title')
   String get title;
+
+  /// Create a copy of IdValueEntity
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$IdValueEntityImplCopyWith<_$IdValueEntityImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

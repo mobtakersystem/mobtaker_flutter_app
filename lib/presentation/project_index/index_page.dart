@@ -1,3 +1,4 @@
+import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mpm/common/extention/context.dart';
@@ -7,56 +8,31 @@ import 'package:mpm/common/widget/dialog/confirm_dialog.dart';
 import 'package:mpm/common/widget/version_widget.dart';
 import 'package:mpm/presentation/auth/providers/auth_provider.dart';
 import 'package:mpm/presentation/project_data_store/list_local_data_buttne_widget.dart';
+import 'package:mpm/presentation/project_data_store/sync_provider/get_local_sync_data_provider.dart';
 import 'package:mpm/presentation/project_index/project_item_widget.dart';
 import 'package:mpm/presentation/splash_page.dart';
+import 'package:mpm/routes/app_router.gr.dart';
 
 import 'index_provider.dart';
 
-class ProjectsIndex extends ConsumerWidget {
-  const ProjectsIndex({super.key});
+@RoutePage()
+class ProjectsIndexPage extends ConsumerWidget {
+  const ProjectsIndexPage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    ref.watch(getLocalSndSyncDataProvider);
     final lastUpdateState = ref.watch(projectIndexLastUpdateProvider);
     return Scaffold(
-      drawer: SizedBox(
-        width: MediaQuery.of(context).size.width * .6,
-        child: Material(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 24),
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 24, left: 8, right: 8),
-                  child: Image.asset("assets/images/logo.png"),
-                ),
-                const Spacer(),
-                ListTile(
-                  title: const Text("خروج از برنامه"),
-                  onTap: () {
-                    ConfirmDialog.show(
-                      context,
-                      message: "آیا از خروج از برنامه اطمینان دارید؟",
-                      confirmCallBack: () {
-                        ref.read(authProvider.notifier).unAuthenticated().then(
-                          (value) {
-                            if (context.mounted) {
-                              context.popAllAndPush(const SplashPage());
-                            }
-                          },
-                        );
-                      },
-                    );
-                  },
-                  leading: const Icon(Icons.logout),
-                ),
-                const VersionWidget()
-              ],
-            ),
+      appBar: AppBar(
+        leading: IconButton(
+          onPressed: () {
+            Scaffold.of(context).openDrawer();
+          },
+          icon: const Icon(
+            Icons.menu,
           ),
         ),
-      ),
-      appBar: AppBar(
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

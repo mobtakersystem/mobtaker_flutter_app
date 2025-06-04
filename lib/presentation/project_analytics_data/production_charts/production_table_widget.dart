@@ -17,10 +17,10 @@ class ProductionTableWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.separated(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+      padding: const EdgeInsets.symmetric(horizontal: 8),
       scrollDirection: Axis.horizontal,
       itemBuilder: (context, index) => SizedBox(
-        width: min(((context.width - 48) / 3),200),
+        width: min(((context.width - 65) / 3),200),
         child: Container(
           clipBehavior: Clip.antiAlias,
           decoration: BoxDecoration(

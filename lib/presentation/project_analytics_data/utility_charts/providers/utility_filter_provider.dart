@@ -15,19 +15,18 @@ class UtilityFilter extends _$UtilityFilter {
     return const UtilityParams();
   }
 
-  void setDateRange(DateTimeRange? dateRange) {
-    if (dateRange == null) {
-      state = const UtilityParams();
-    } else {
-      state = state.copyWith(
-        dateRange: dateRange,
-      );
-    }
+  void setDateRange(DateTimeRange dateRange) {
+    state = state.copyWith(
+      dateRange: dateRange,
+    );
   }
 
   void clearDateRange() {
-    state = state.copyWith(
+    state = UtilityParams(
       dateRange: null,
+      showDetails: state.showDetails,
+      showChartCumulative: state.showChartCumulative,
+      chartPeriod: state.chartPeriod,
     );
   }
 

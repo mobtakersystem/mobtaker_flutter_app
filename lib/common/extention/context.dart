@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:mpm/common/utils/error_utilst.dart';
 import 'package:toastification/toastification.dart';
@@ -64,15 +65,10 @@ extension ContextUtils on BuildContext {
     );
   }
 
-  Future<dynamic> push(Widget page) =>
-      Navigator.of(this).push(MaterialPageRoute(builder: (context) => page));
+  Future<dynamic> push(PageRouteInfo page) => router.push(page);
 
-  popAllAndPush(Widget page) => Navigator.of(this).pushAndRemoveUntil(
-        MaterialPageRoute(builder: (context) => page),
-        (route) => false,
-      );
-
-  pushReplacement(Widget page) => Navigator.of(this).pushReplacement(
-        MaterialPageRoute(builder: (context) => page),
+  popAllAndPush(PageRouteInfo page) => router.pushAndPopUntil(
+        page,
+        predicate: (route) => false,
       );
 }

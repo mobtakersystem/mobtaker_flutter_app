@@ -6,7 +6,7 @@ part of 'stops_filter_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$stopsFilterHash() => r'f8e69080efd17bc66e57b5ba55db11765bc9ff98';
+String _$stopsFilterHash() => r'49a861337034edf5e2d9772d2cb8b79946e3dacf';
 
 /// See also [StopsFilter].
 @ProviderFor(StopsFilter)
@@ -22,4 +22,4 @@ final stopsFilterProvider =
 
 typedef _$StopsFilter = AutoDisposeNotifier<StopParams>;
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

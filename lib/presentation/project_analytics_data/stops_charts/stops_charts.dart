@@ -15,18 +15,25 @@ import 'package:persian_number_utility/persian_number_utility.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 
 class StopChartsWidget extends ConsumerWidget {
-  const StopChartsWidget({
-    super.key,
-  });
+  final Key? topWidgetKey;
+
+  const StopChartsWidget({super.key, this.topWidgetKey});
 
   @override
   Widget build(BuildContext context, ref) {
     final filters = ref.watch(stopsFilterProvider);
-    return MultiSliver(pushPinnedChildren: true, children: [
+    return MultiSliver(children: [
       SliverToBoxAdapter(
         child: TitlePinWidget(
+          key: topWidgetKey,
           title: "گزارش توقفات",
-          onDateRangeSelected: (DateTimeRange value) {},
+          onDateRangeSelected: (DateTimeRange value) {
+            ref.read(stopsFilterProvider.notifier).setDateRange(value);
+          },
+          onFilterCleared: () {
+            ref.read(stopsFilterProvider.notifier).clearDateRange();
+          },
+          initialDateRange: filters.dateRange,
         ),
       ),
       SliverToBoxAdapter(

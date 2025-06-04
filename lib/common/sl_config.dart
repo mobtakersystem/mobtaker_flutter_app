@@ -32,6 +32,7 @@ import 'package:mpm/domain/use_case/project_update.dart';
 import 'package:mpm/domain/use_case/projects_index.dart';
 import 'package:mpm/domain/use_case/upload_image_to_storage.dart';
 import 'package:mpm/flavors.dart';
+import 'package:mpm/routes/app_router.dart';
 
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
@@ -43,6 +44,7 @@ typedef DB = Database;
 typedef LocalID = String;
 
 slConfig(GetIt getIt) async {
+  getIt.registerSingleton<AppRouter>(AppRouter());
   await databaseConfig(getIt);
   getIt.registerLazySingleton<NetworkService>(
     () => NetworkService(

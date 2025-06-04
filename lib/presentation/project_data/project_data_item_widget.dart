@@ -5,7 +5,7 @@ import 'package:mpm/common/extention/context.dart';
 import 'package:mpm/data/entities/project/project_data_entity.dart';
 import 'package:mpm/domain/use_case/get_and_sync_local_project_data.dart';
 import 'package:mpm/presentation/project_data/project_data_item_provider.dart';
-import 'package:mpm/presentation/project_data_show/project_data_show_page.dart';
+import 'package:mpm/routes/app_router.gr.dart';
 import 'package:persian_number_utility/persian_number_utility.dart';
 
 class ProjectDataItemWidget extends ConsumerWidget {
@@ -21,7 +21,7 @@ class ProjectDataItemWidget extends ConsumerWidget {
         ref.watch(projectItemStreamProvider(item)).value ?? item;
     return GestureDetector(
       onTap: () {
-        context.push(ProjectDataShowPage(projectData: projectData));
+        context.push(ProjectDataShowRoute(projectData: projectData));
       },
       child: Card(
         child: Padding(

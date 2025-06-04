@@ -56,7 +56,9 @@ mixin _$CountDownState {
   }) =>
       throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of CountDownState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $CountDownStateCopyWith<CountDownState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -80,6 +82,8 @@ class _$CountDownStateCopyWithImpl<$Res, $Val extends CountDownState>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of CountDownState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -113,6 +117,8 @@ class __$$CountStartDownStateImplCopyWithImpl<$Res>
       $Res Function(_$CountStartDownStateImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of CountDownState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -152,7 +158,9 @@ class _$CountStartDownStateImpl implements _CountStartDownState {
   @override
   int get hashCode => Object.hash(runtimeType, formattedTime);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of CountDownState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$CountStartDownStateImplCopyWith<_$CountStartDownStateImpl> get copyWith =>
@@ -228,8 +236,11 @@ abstract class _CountStartDownState implements CountDownState {
 
   @override
   String get formattedTime;
+
+  /// Create a copy of CountDownState
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$CountStartDownStateImplCopyWith<_$CountStartDownStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -253,6 +264,8 @@ class __$$CountDownEndStateImplCopyWithImpl<$Res>
       $Res Function(_$CountDownEndStateImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of CountDownState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -292,7 +305,9 @@ class _$CountDownEndStateImpl implements _CountDownEndState {
   @override
   int get hashCode => Object.hash(runtimeType, formattedTime);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of CountDownState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$CountDownEndStateImplCopyWith<_$CountDownEndStateImpl> get copyWith =>
@@ -368,8 +383,11 @@ abstract class _CountDownEndState implements CountDownState {
 
   @override
   String get formattedTime;
+
+  /// Create a copy of CountDownState
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$CountDownEndStateImplCopyWith<_$CountDownEndStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

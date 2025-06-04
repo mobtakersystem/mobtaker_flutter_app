@@ -11,17 +11,24 @@ import 'package:mpm/presentation/project_analytics_data/pin_title_widget.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 
 class InventoryChartsWidget extends ConsumerWidget {
-  const InventoryChartsWidget({super.key});
+  final Key? topWidgetKey;
+
+  const InventoryChartsWidget({super.key, this.topWidgetKey});
 
   @override
   Widget build(BuildContext context, ref) {
-    return MultiSliver(pushPinnedChildren: true, children: [
+    return MultiSliver(children: [
       SliverToBoxAdapter(
         child: TitlePinWidget(
+          key: topWidgetKey,
           title: "گزارش موجودی",
           onDateRangeSelected: (DateTimeRange value) {
             ref.read(inventoryFilterProvider.notifier).setDateRange(value);
           },
+          onFilterCleared: () {
+            ref.read(inventoryFilterProvider.notifier).clearDateRange();
+          },
+          initialDateRange: ref.watch(inventoryFilterProvider).dateRange,
         ),
       ),
       SliverRiverPodConnectionHelperWidget(

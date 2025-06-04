@@ -12,9 +12,18 @@ class SaleFilter extends _$SaleFilter {
     return const SalesParams();
   }
 
-  void setDateRange(DateTimeRange? dateRange) {
+  void setDateRange(DateTimeRange dateRange) {
     state = state.copyWith(
       dateRange: dateRange,
+    );
+  }
+
+  void clearDateRange() {
+    state = SalesParams(
+      dateRange: null,
+      showDetails: state.showDetails,
+      showChartCumulative: state.showChartCumulative,
+      chartPeriod: state.chartPeriod,
     );
   }
 

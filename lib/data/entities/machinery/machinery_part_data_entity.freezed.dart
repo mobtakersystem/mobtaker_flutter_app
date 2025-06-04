@@ -63,8 +63,12 @@ mixin _$MachineryPartDataEntity {
   @JsonKey(name: 'images')
   List<DocumentEntity> get images => throw _privateConstructorUsedError;
 
+  /// Serializes this MachineryPartDataEntity to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of MachineryPartDataEntity
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $MachineryPartDataEntityCopyWith<MachineryPartDataEntity> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -112,6 +116,8 @@ class _$MachineryPartDataEntityCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of MachineryPartDataEntity
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -261,6 +267,8 @@ class __$$MachineryPartDataEntityImplCopyWithImpl<$Res>
       $Res Function(_$MachineryPartDataEntityImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of MachineryPartDataEntity
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -506,7 +514,7 @@ class _$MachineryPartDataEntityImpl implements _MachineryPartDataEntity {
             const DeepCollectionEquality().equals(other._images, _images));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hashAll([
         runtimeType,
@@ -531,7 +539,9 @@ class _$MachineryPartDataEntityImpl implements _MachineryPartDataEntity {
         const DeepCollectionEquality().hash(_images)
       ]);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of MachineryPartDataEntity
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$MachineryPartDataEntityImplCopyWith<_$MachineryPartDataEntityImpl>
@@ -638,8 +648,11 @@ abstract class _MachineryPartDataEntity implements MachineryPartDataEntity {
   @override
   @JsonKey(name: 'images')
   List<DocumentEntity> get images;
+
+  /// Create a copy of MachineryPartDataEntity
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$MachineryPartDataEntityImplCopyWith<_$MachineryPartDataEntityImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

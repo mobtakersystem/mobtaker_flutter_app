@@ -15,81 +15,106 @@ import 'package:persian_number_utility/persian_number_utility.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 
 class ProductionChartWidget extends HookConsumerWidget {
-  const ProductionChartWidget({super.key});
+  final Key? topWidgetKey;
+
+  const ProductionChartWidget({
+    super.key,
+    this.topWidgetKey,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final filters = ref.watch(productionFilterProvider);
     final productionChart = ref.watch(productionChartProvider);
-    return MultiSliver(pushPinnedChildren: true, children: [
-      SliverToBoxAdapter(
-        child: TitlePinWidget(
-          title: "تولید",
-          initialDateRange: filters.dateRange,
-          onDateRangeSelected: (DateTimeRange value) {
-            ref.read(productionFilterProvider.notifier).setDateRange(value);
-          },
-        ),
-      ),
-      SliverToBoxAdapter(
-        child: SelectPeriodWidget(
-          selectedPeriod: filters.chartPeriod,
-          onChanged: (value) {
-            ref.read(productionFilterProvider.notifier).setChartPeriod(value);
-          },
-          periods: ChartPeriod.values,
-        ),
-      ),
-      SliverToBoxAdapter(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SwitchWithTitleWidget(
-              value: filters.showDetails,
-              onChanged: (value) {
-                ref
-                    .read(productionFilterProvider.notifier)
-                    .setShowDetails(value);
+    return SliverStack(
+      children: [
+        const SliverPositioned.fill(
+            child: Card.outlined(
+          margin: EdgeInsets.all(8),
+        )),
+        SliverPadding(
+          padding: const EdgeInsets.all(16),
+          sliver: MultiSliver(children: [
+            SliverToBoxAdapter(
+              child: TitlePinWidget(
+                key: topWidgetKey,
+                title: "تولید",
+                initialDateRange: filters.dateRange,
+                onDateRangeSelected: (DateTimeRange value) {
+                  ref
+                      .read(productionFilterProvider.notifier)
+                      .setDateRange(value);
+                },
+                onFilterCleared: () {
+                  ref.read(productionFilterProvider.notifier).clearDateRange();
+                },
+              ),
+            ),
+            SliverToBoxAdapter(
+              child: SelectPeriodWidget(
+                selectedPeriod: filters.chartPeriod,
+                onChanged: (value) {
+                  ref
+                      .read(productionFilterProvider.notifier)
+                      .setChartPeriod(value);
+                },
+                periods: ChartPeriod.values,
+              ),
+            ),
+            SliverToBoxAdapter(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SwitchWithTitleWidget(
+                    value: filters.showDetails,
+                    onChanged: (value) {
+                      ref
+                          .read(productionFilterProvider.notifier)
+                          .setShowDetails(value);
+                    },
+                    title: "نمایش جزئیات",
+                  ),
+                  const SizedBox(
+                    width: 16,
+                  ),
+                  SwitchWithTitleWidget(
+                    value: filters.showChartCumulative,
+                    onChanged: (value) {
+                      ref
+                          .read(productionFilterProvider.notifier)
+                          .setShowChartCumulative(
+                        value,
+                        onValidateError: (value) {
+                          context.showErrorMessage(value);
+                        },
+                      );
+                    },
+                    title: "نمایش تجمعی",
+                  ),
+                ],
+              ),
+            ),
+            SliverRiverPodConnectionHelperWidget(
+              value: productionChart,
+              tryAgain: () {
+                ref.refresh(productionChartProvider);
               },
-              title: "نمایش جزئیات",
+              successBuilder: (chartsData) => SliverList.separated(
+                itemBuilder: (context, index) => _ContentWidget(
+                  chartsData:
+                      chartsData.schedulePerformanceComparisonCharts![index],
+                ),
+                separatorBuilder: (context, index) => const SizedBox(
+                  height: 16,
+                ),
+                itemCount:
+                    chartsData.schedulePerformanceComparisonCharts?.length ?? 0,
+              ),
             ),
-            const SizedBox(
-              width: 16,
-            ),
-            SwitchWithTitleWidget(
-              value: filters.showChartCumulative,
-              onChanged: (value) {
-                ref
-                    .read(productionFilterProvider.notifier)
-                    .setShowChartCumulative(
-                  value,
-                  onValidateError: (value) {
-                    context.showErrorMessage(value);
-                  },
-                );
-              },
-              title: "نمایش تجمعی",
-            ),
-          ],
-        ),
-      ),
-      SliverRiverPodConnectionHelperWidget(
-        value: productionChart,
-        tryAgain: () {
-          ref.refresh(productionChartProvider);
-        },
-        successBuilder: (chartsData) => SliverList.separated(
-          itemBuilder: (context, index) => _ContentWidget(
-            chartsData: chartsData.schedulePerformanceComparisonCharts![index],
-          ),
-          separatorBuilder: (context, index) => const SizedBox(
-            height: 16,
-          ),
-          itemCount:
-              chartsData.schedulePerformanceComparisonCharts?.length ?? 0,
-        ),
-      ),
-    ]);
+          ]),
+        )
+      ],
+    );
   }
 }
 

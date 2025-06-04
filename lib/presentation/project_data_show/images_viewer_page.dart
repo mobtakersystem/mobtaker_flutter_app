@@ -1,9 +1,10 @@
 import 'dart:io';
 
+import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:mpm/data/entities/document/document_entity.dart';
 import 'package:mpm/presentation/project_data_show/storage_item_image_widget.dart';
-
+@RoutePage()
 class ImagesViewerPage extends StatelessWidget {
   final List<String>? imagesPath;
   final List<DocumentEntity>? imagesDocs;

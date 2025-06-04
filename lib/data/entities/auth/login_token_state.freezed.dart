@@ -74,6 +74,9 @@ class _$LoginTokenStateCopyWithImpl<$Res, $Val extends LoginTokenState>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of LoginTokenState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -93,6 +96,8 @@ class __$$OtpTokenImplCopyWithImpl<$Res>
       _$OtpTokenImpl _value, $Res Function(_$OtpTokenImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of LoginTokenState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -132,7 +137,9 @@ class _$OtpTokenImpl implements OtpToken {
   @override
   int get hashCode => Object.hash(runtimeType, loginToken);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of LoginTokenState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$OtpTokenImplCopyWith<_$OtpTokenImpl> get copyWith =>
@@ -207,7 +214,10 @@ abstract class OtpToken implements LoginTokenState {
   const factory OtpToken(final String loginToken) = _$OtpTokenImpl;
 
   String get loginToken;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of LoginTokenState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$OtpTokenImplCopyWith<_$OtpTokenImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -229,6 +239,8 @@ class __$$AccessTokenImplCopyWithImpl<$Res>
       _$AccessTokenImpl _value, $Res Function(_$AccessTokenImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of LoginTokenState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -267,7 +279,9 @@ class _$AccessTokenImpl implements AccessToken {
   @override
   int get hashCode => Object.hash(runtimeType, autUser);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of LoginTokenState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$AccessTokenImplCopyWith<_$AccessTokenImpl> get copyWith =>
@@ -344,7 +358,10 @@ abstract class AccessToken implements LoginTokenState {
       _$AccessTokenImpl;
 
   ({String token, UserEntity userEntity}) get autUser;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of LoginTokenState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$AccessTokenImplCopyWith<_$AccessTokenImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

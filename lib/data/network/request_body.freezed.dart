@@ -90,6 +90,9 @@ class _$NetworkRequestBodyCopyWithImpl<$Res, $Val extends NetworkRequestBody>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of NetworkRequestBody
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -106,6 +109,9 @@ class __$$EmptyImplCopyWithImpl<$Res>
   __$$EmptyImplCopyWithImpl(
       _$EmptyImpl _value, $Res Function(_$EmptyImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of NetworkRequestBody
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -228,6 +234,8 @@ class __$$JsonImplCopyWithImpl<$Res>
   __$$JsonImplCopyWithImpl(_$JsonImpl _value, $Res Function(_$JsonImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of NetworkRequestBody
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -272,7 +280,9 @@ class _$JsonImpl implements Json {
   int get hashCode =>
       Object.hash(runtimeType, const DeepCollectionEquality().hash(_data));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of NetworkRequestBody
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$JsonImplCopyWith<_$JsonImpl> get copyWith =>
@@ -363,7 +373,10 @@ abstract class Json implements NetworkRequestBody {
   const factory Json(final Map<String, dynamic> data) = _$JsonImpl;
 
   Map<String, dynamic> get data;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of NetworkRequestBody
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$JsonImplCopyWith<_$JsonImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -385,6 +398,8 @@ class __$$FormDataBodyImplCopyWithImpl<$Res>
       _$FormDataBodyImpl _value, $Res Function(_$FormDataBodyImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of NetworkRequestBody
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -423,7 +438,9 @@ class _$FormDataBodyImpl implements FormDataBody {
   @override
   int get hashCode => Object.hash(runtimeType, data);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of NetworkRequestBody
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$FormDataBodyImplCopyWith<_$FormDataBodyImpl> get copyWith =>
@@ -514,7 +531,10 @@ abstract class FormDataBody implements NetworkRequestBody {
   const factory FormDataBody(final FormData data) = _$FormDataBodyImpl;
 
   FormData get data;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of NetworkRequestBody
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$FormDataBodyImplCopyWith<_$FormDataBodyImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -535,6 +555,8 @@ class __$$TextImplCopyWithImpl<$Res>
   __$$TextImplCopyWithImpl(_$TextImpl _value, $Res Function(_$TextImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of NetworkRequestBody
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -573,7 +595,9 @@ class _$TextImpl implements Text {
   @override
   int get hashCode => Object.hash(runtimeType, data);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of NetworkRequestBody
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$TextImplCopyWith<_$TextImpl> get copyWith =>
@@ -664,7 +688,10 @@ abstract class Text implements NetworkRequestBody {
   const factory Text(final String data) = _$TextImpl;
 
   String get data;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of NetworkRequestBody
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$TextImplCopyWith<_$TextImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -686,6 +713,8 @@ class __$$ListDataImplCopyWithImpl<$Res>
       _$ListDataImpl _value, $Res Function(_$ListDataImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of NetworkRequestBody
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -730,7 +759,9 @@ class _$ListDataImpl implements ListData {
   int get hashCode =>
       Object.hash(runtimeType, const DeepCollectionEquality().hash(_data));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of NetworkRequestBody
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ListDataImplCopyWith<_$ListDataImpl> get copyWith =>
@@ -822,7 +853,10 @@ abstract class ListData implements NetworkRequestBody {
       _$ListDataImpl;
 
   List<Map<String, dynamic>> get data;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of NetworkRequestBody
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ListDataImplCopyWith<_$ListDataImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

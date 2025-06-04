@@ -12,9 +12,16 @@ class StopsFilter extends _$StopsFilter {
     return const StopParams();
   }
 
-  void setDateRange(DateTimeRange? dateRange) {
+  void setDateRange(DateTimeRange dateRange) {
     state = state.copyWith(
       dateRange: dateRange,
+    );
+  }
+  void clearDateRange() {
+    state = StopParams(
+      dateRange: null,
+      showDetails: state.showDetails,
+      chartPeriod: state.chartPeriod,
     );
   }
 

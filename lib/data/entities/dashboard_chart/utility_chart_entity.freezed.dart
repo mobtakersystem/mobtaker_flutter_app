@@ -26,8 +26,12 @@ mixin _$UtilityChartEntity {
   List<UtilityProducts>? get utilityProducts =>
       throw _privateConstructorUsedError;
 
+  /// Serializes this UtilityChartEntity to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of UtilityChartEntity
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $UtilityChartEntityCopyWith<UtilityChartEntity> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -54,6 +58,8 @@ class _$UtilityChartEntityCopyWithImpl<$Res, $Val extends UtilityChartEntity>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of UtilityChartEntity
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -95,6 +101,8 @@ class __$$UtilityChartEntityImplCopyWithImpl<$Res>
       $Res Function(_$UtilityChartEntityImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of UtilityChartEntity
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -165,14 +173,16 @@ class _$UtilityChartEntityImpl implements _UtilityChartEntity {
                 .equals(other._utilityProducts, _utilityProducts));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(_utilityChart),
       const DeepCollectionEquality().hash(_utilityProducts));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of UtilityChartEntity
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$UtilityChartEntityImplCopyWith<_$UtilityChartEntityImpl> get copyWith =>
@@ -202,8 +212,11 @@ abstract class _UtilityChartEntity implements UtilityChartEntity {
   @override
   @JsonKey(name: 'utility_products')
   List<UtilityProducts>? get utilityProducts;
+
+  /// Create a copy of UtilityChartEntity
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$UtilityChartEntityImplCopyWith<_$UtilityChartEntityImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -229,8 +242,12 @@ mixin _$UtilityProducts {
   @JsonKey(name: 'indicator')
   Indicator? get indicator => throw _privateConstructorUsedError;
 
+  /// Serializes this UtilityProducts to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of UtilityProducts
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $UtilityProductsCopyWith<UtilityProducts> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -264,6 +281,8 @@ class _$UtilityProductsCopyWithImpl<$Res, $Val extends UtilityProducts>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of UtilityProducts
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -307,6 +326,8 @@ class _$UtilityProductsCopyWithImpl<$Res, $Val extends UtilityProducts>
     ) as $Val);
   }
 
+  /// Create a copy of UtilityProducts
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $ProductCopyWith<$Res>? get product {
@@ -319,6 +340,8 @@ class _$UtilityProductsCopyWithImpl<$Res, $Val extends UtilityProducts>
     });
   }
 
+  /// Create a copy of UtilityProducts
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $IndicatorCopyWith<$Res>? get indicator {
@@ -363,6 +386,8 @@ class __$$UtilityProductsImplCopyWithImpl<$Res>
       _$UtilityProductsImpl _value, $Res Function(_$UtilityProductsImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of UtilityProducts
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -469,12 +494,14 @@ class _$UtilityProductsImpl implements _UtilityProducts {
                 other.indicator == indicator));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, productionProductId,
       utilityProductId, indicatorId, displayName, priority, product, indicator);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of UtilityProducts
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$UtilityProductsImplCopyWith<_$UtilityProductsImpl> get copyWith =>
@@ -525,8 +552,11 @@ abstract class _UtilityProducts implements UtilityProducts {
   @override
   @JsonKey(name: 'indicator')
   Indicator? get indicator;
+
+  /// Create a copy of UtilityProducts
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$UtilityProductsImplCopyWith<_$UtilityProductsImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -544,8 +574,12 @@ mixin _$Indicator {
   @JsonKey(name: 'symbol')
   dynamic get symbol => throw _privateConstructorUsedError;
 
+  /// Serializes this Indicator to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of Indicator
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $IndicatorCopyWith<Indicator> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -571,6 +605,8 @@ class _$IndicatorCopyWithImpl<$Res, $Val extends Indicator>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of Indicator
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -617,6 +653,8 @@ class __$$IndicatorImplCopyWithImpl<$Res>
       _$IndicatorImpl _value, $Res Function(_$IndicatorImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of Indicator
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -678,12 +716,14 @@ class _$IndicatorImpl implements _Indicator {
             const DeepCollectionEquality().equals(other.symbol, symbol));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, id, displayName,
       const DeepCollectionEquality().hash(symbol));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of Indicator
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$IndicatorImplCopyWith<_$IndicatorImpl> get copyWith =>
@@ -715,8 +755,11 @@ abstract class _Indicator implements Indicator {
   @override
   @JsonKey(name: 'symbol')
   dynamic get symbol;
+
+  /// Create a copy of Indicator
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$IndicatorImplCopyWith<_$IndicatorImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -740,8 +783,12 @@ mixin _$Product {
   @JsonKey(name: 'display_status')
   String? get displayStatus => throw _privateConstructorUsedError;
 
+  /// Serializes this Product to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of Product
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ProductCopyWith<Product> get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -769,6 +816,8 @@ class _$ProductCopyWithImpl<$Res, $Val extends Product>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of Product
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -832,6 +881,8 @@ class __$$ProductImplCopyWithImpl<$Res>
       _$ProductImpl _value, $Res Function(_$ProductImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of Product
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -924,12 +975,14 @@ class _$ProductImpl implements _Product {
                 other.displayStatus == displayStatus));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType, id, name, symbol, status, priority, displayStatus);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of Product
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ProductImplCopyWith<_$ProductImpl> get copyWith =>
@@ -973,8 +1026,11 @@ abstract class _Product implements Product {
   @override
   @JsonKey(name: 'display_status')
   String? get displayStatus;
+
+  /// Create a copy of Product
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ProductImplCopyWith<_$ProductImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -998,8 +1054,12 @@ mixin _$UtilityChart {
   @JsonKey(name: 'product_symbol')
   String? get productSymbol => throw _privateConstructorUsedError;
 
+  /// Serializes this UtilityChart to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of UtilityChart
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $UtilityChartCopyWith<UtilityChart> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -1028,6 +1088,8 @@ class _$UtilityChartCopyWithImpl<$Res, $Val extends UtilityChart>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of UtilityChart
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1086,6 +1148,8 @@ class __$$UtilityChartImplCopyWithImpl<$Res>
       _$UtilityChartImpl _value, $Res Function(_$UtilityChartImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of UtilityChart
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1180,7 +1244,7 @@ class _$UtilityChartImpl implements _UtilityChart {
                 other.productSymbol == productSymbol));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -1190,7 +1254,9 @@ class _$UtilityChartImpl implements _UtilityChart {
       productName,
       productSymbol);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of UtilityChart
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$UtilityChartImplCopyWith<_$UtilityChartImpl> get copyWith =>
@@ -1233,8 +1299,11 @@ abstract class _UtilityChart implements UtilityChart {
   @override
   @JsonKey(name: 'product_symbol')
   String? get productSymbol;
+
+  /// Create a copy of UtilityChart
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$UtilityChartImplCopyWith<_$UtilityChartImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -1254,8 +1323,12 @@ mixin _$Data {
   @JsonKey(name: 'deviation')
   int? get deviation => throw _privateConstructorUsedError;
 
+  /// Serializes this Data to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of Data
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $DataCopyWith<Data> get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -1281,6 +1354,8 @@ class _$DataCopyWithImpl<$Res, $Val extends Data>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of Data
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1331,6 +1406,8 @@ class __$$DataImplCopyWithImpl<$Res>
   __$$DataImplCopyWithImpl(_$DataImpl _value, $Res Function(_$DataImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of Data
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1404,12 +1481,14 @@ class _$DataImpl implements _Data {
                 other.deviation == deviation));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
       Object.hash(runtimeType, date, schedule, performance, deviation);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of Data
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$DataImplCopyWith<_$DataImpl> get copyWith =>
@@ -1444,8 +1523,11 @@ abstract class _Data implements Data {
   @override
   @JsonKey(name: 'deviation')
   int? get deviation;
+
+  /// Create a copy of Data
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$DataImplCopyWith<_$DataImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

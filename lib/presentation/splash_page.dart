@@ -1,10 +1,11 @@
+import 'package:auto_route/annotations.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:mpm/common/extention/context.dart';
-import 'package:mpm/presentation/auth/login_page.dart';
 import 'package:mpm/presentation/auth/providers/auth_provider.dart';
-import 'package:mpm/presentation/home_page.dart';
+import 'package:mpm/routes/app_router.gr.dart';
 
+@RoutePage()
 class SplashPage extends ConsumerWidget {
   const SplashPage({super.key});
 
@@ -14,9 +15,9 @@ class SplashPage extends ConsumerWidget {
       state.when(
         data: (data) {
           if (data is Authenticated) {
-            context.pushReplacement(const HomePage());
+            context.replaceRoute(const HomeRoute());
           } else {
-            context.pushReplacement(LoginPage());
+            context.replaceRoute(LoginRoute());
           }
         },
         loading: () {},

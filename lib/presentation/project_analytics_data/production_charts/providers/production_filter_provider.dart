@@ -12,12 +12,20 @@ class ProductionFilter extends _$ProductionFilter {
     return const ProductionParams();
   }
 
-  void setDateRange(DateTimeRange? dateRange) {
+  void setDateRange(DateTimeRange dateRange) {
     state = state.copyWith(
       dateRange: dateRange,
     );
   }
 
+  void clearDateRange() {
+    state = ProductionParams(
+      dateRange: null,
+      showDetails: state.showDetails,
+      showChartCumulative: state.showChartCumulative,
+      chartPeriod: state.chartPeriod,
+    );
+  }
 
   void clearAllFilter() {
     state = const ProductionParams();

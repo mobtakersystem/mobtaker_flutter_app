@@ -13,16 +13,24 @@ import 'package:mpm/presentation/project_analytics_data/sale_charts/sale_bar_cha
 import 'package:sliver_tools/sliver_tools.dart';
 
 class SaleChartsWidget extends ConsumerWidget {
-  const SaleChartsWidget({super.key});
+  final Key? topWidgetKey;
+  const SaleChartsWidget({super.key, this.topWidgetKey});
 
   @override
   Widget build(BuildContext context, ref) {
     final filters = ref.watch(saleFilterProvider);
-    return MultiSliver(pushPinnedChildren: true, children: [
+    return MultiSliver( children: [
       SliverToBoxAdapter(
         child: TitlePinWidget(
+          key: topWidgetKey,
           title: "فروش",
-          onDateRangeSelected: (DateTimeRange value) {},
+          onDateRangeSelected: (DateTimeRange value) {
+            ref.read(saleFilterProvider.notifier).setDateRange(value);
+          },
+          onFilterCleared: () {
+            ref.read(saleFilterProvider.notifier).clearDateRange();
+          },
+          initialDateRange: filters.dateRange,
         ),
       ),
       SliverToBoxAdapter(

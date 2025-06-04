@@ -78,6 +78,9 @@ class _$LoginStatusCopyWithImpl<$Res, $Val extends LoginStatus>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of LoginStatus
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -94,6 +97,9 @@ class __$$InitialImplCopyWithImpl<$Res>
   __$$InitialImplCopyWithImpl(
       _$InitialImpl _value, $Res Function(_$InitialImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of LoginStatus
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -205,6 +211,8 @@ class __$$CheclOtpImplCopyWithImpl<$Res>
       _$CheclOtpImpl _value, $Res Function(_$CheclOtpImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of LoginStatus
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -244,7 +252,9 @@ class _$CheclOtpImpl implements CheclOtp {
   @override
   int get hashCode => Object.hash(runtimeType, loginToken);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of LoginStatus
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$CheclOtpImplCopyWith<_$CheclOtpImpl> get copyWith =>
@@ -323,7 +333,10 @@ abstract class CheclOtp implements LoginStatus {
   const factory CheclOtp(final String loginToken) = _$CheclOtpImpl;
 
   String get loginToken;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of LoginStatus
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$CheclOtpImplCopyWith<_$CheclOtpImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -347,6 +360,8 @@ class __$$SuccessImplCopyWithImpl<$Res>
       _$SuccessImpl _value, $Res Function(_$SuccessImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of LoginStatus
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -360,6 +375,8 @@ class __$$SuccessImplCopyWithImpl<$Res>
     ));
   }
 
+  /// Create a copy of LoginStatus
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $UserEntityCopyWith<$Res> get user {
@@ -393,7 +410,9 @@ class _$SuccessImpl implements Success {
   @override
   int get hashCode => Object.hash(runtimeType, user);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of LoginStatus
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$SuccessImplCopyWith<_$SuccessImpl> get copyWith =>
@@ -472,7 +491,10 @@ abstract class Success implements LoginStatus {
   const factory Success(final UserEntity user) = _$SuccessImpl;
 
   UserEntity get user;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of LoginStatus
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$SuccessImplCopyWith<_$SuccessImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

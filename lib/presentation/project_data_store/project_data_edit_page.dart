@@ -1,3 +1,4 @@
+import 'package:auto_route/annotations.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -20,7 +21,7 @@ import 'package:mpm/presentation/project_data_store/select_workers_form_bulder.d
 import 'package:mpm/presentation/project_data_store/stop_form_builder.dart';
 
 const _space = SizedBox.square(dimension: 16);
-
+@RoutePage()
 class ProjectDataEditPage extends ConsumerStatefulWidget {
   final String projectId;
   final ProjectDataEntity projectDataEntity;

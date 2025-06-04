@@ -30,9 +30,13 @@ mixin _$PaginationEntity<T> {
   int get lastPage => throw _privateConstructorUsedError;
   List<T> get data => throw _privateConstructorUsedError;
 
+  /// Serializes this PaginationEntity to a JSON map.
   Map<String, dynamic> toJson(Object? Function(T) toJsonT) =>
       throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of PaginationEntity
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $PaginationEntityCopyWith<T, PaginationEntity<T>> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -61,6 +65,8 @@ class _$PaginationEntityCopyWithImpl<T, $Res, $Val extends PaginationEntity<T>>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of PaginationEntity
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -119,6 +125,8 @@ class __$$PaginationEntityImplCopyWithImpl<T, $Res>
       $Res Function(_$PaginationEntityImpl<T>) _then)
       : super(_value, _then);
 
+  /// Create a copy of PaginationEntity
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -206,12 +214,14 @@ class _$PaginationEntityImpl<T> implements _PaginationEntity<T> {
             const DeepCollectionEquality().equals(other._data, _data));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, total, perPage, currentPage,
       lastPage, const DeepCollectionEquality().hash(_data));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of PaginationEntity
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$PaginationEntityImplCopyWith<T, _$PaginationEntityImpl<T>> get copyWith =>
@@ -249,8 +259,11 @@ abstract class _PaginationEntity<T> implements PaginationEntity<T> {
   int get lastPage;
   @override
   List<T> get data;
+
+  /// Create a copy of PaginationEntity
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$PaginationEntityImplCopyWith<T, _$PaginationEntityImpl<T>> get copyWith =>
       throw _privateConstructorUsedError;
 }

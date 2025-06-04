@@ -56,7 +56,7 @@ sQIDAQAB
   static bool get isBackgroundServiceEnabled {
     switch (appFlavor) {
       case Flavor.dev:
-        return false;
+        return true;
       case Flavor.folad:
         return false;
       }

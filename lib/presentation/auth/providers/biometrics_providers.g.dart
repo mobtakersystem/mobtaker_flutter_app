@@ -21,6 +21,8 @@ final isLoginBiometricEnableProvider = AutoDisposeFutureProvider<bool>.internal(
   allTransitiveDependencies: null,
 );
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 typedef IsLoginBiometricEnableRef = AutoDisposeFutureProviderRef<bool>;
 String _$setLoginBiometricEnableHash() =>
     r'658e29886e94e48e24562c9f016cb85fc32cd99f';
@@ -172,6 +174,8 @@ class SetLoginBiometricEnableProvider extends AutoDisposeFutureProvider<bool> {
   }
 }
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 mixin SetLoginBiometricEnableRef on AutoDisposeFutureProviderRef<bool> {
   /// The parameter `isEnable` of this provider.
   bool get isEnable;
@@ -199,6 +203,8 @@ final localAuthProvider = AutoDisposeProvider<LocalAuthentication>.internal(
   allTransitiveDependencies: null,
 );
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 typedef LocalAuthRef = AutoDisposeProviderRef<LocalAuthentication>;
 String _$biometricAvailableHash() =>
     r'681a66562d18541c2ae0cdb0da8a7d9c4757175f';
@@ -215,6 +221,8 @@ final biometricAvailableProvider = AutoDisposeFutureProvider<bool>.internal(
   allTransitiveDependencies: null,
 );
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 typedef BiometricAvailableRef = AutoDisposeFutureProviderRef<bool>;
 String _$biometricTypeHash() => r'0e1f647dae429da0e4bc963528cdfabbb02efb37';
 
@@ -233,6 +241,8 @@ final biometricTypeProvider =
   allTransitiveDependencies: null,
 );
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 typedef BiometricTypeRef = AutoDisposeFutureProviderRef<List<BiometricType>>;
 String _$biometricTypeTextHash() => r'82556ec084ed189c30bfdf4b757ebac48fee40e3';
 
@@ -248,6 +258,8 @@ final biometricTypeTextProvider = AutoDisposeFutureProvider<String>.internal(
   allTransitiveDependencies: null,
 );
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 typedef BiometricTypeTextRef = AutoDisposeFutureProviderRef<String>;
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

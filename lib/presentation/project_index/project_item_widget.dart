@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mpm/common/extention/context.dart';
 import 'package:mpm/data/entities/project/project_entity.dart';
-import 'package:mpm/presentation/project_data/project_data_page.dart';
+import 'package:mpm/routes/app_router.gr.dart';
 import 'package:persian_number_utility/persian_number_utility.dart';
 
 class ProjectItemWidget extends StatelessWidget {
@@ -13,7 +13,7 @@ class ProjectItemWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        context.push(ProjectDataPage(projectID: project.id));
+        context.push(ProjectDataRoute(projectID: project.id));
       },
       child: Card(
         child: Padding(

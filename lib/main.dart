@@ -10,7 +10,7 @@ import 'package:get_it/get_it.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mpm/common/sl_config.dart';
 import 'package:mpm/common/work_manager_config.dart';
-import 'package:mpm/presentation/splash_page.dart';
+import 'package:mpm/routes/app_router.dart';
 import 'package:persian_datetime_picker/persian_datetime_picker.dart';
 import 'package:workmanager/workmanager.dart';
 import 'package:timeago/timeago.dart' as timeago;
@@ -37,12 +37,13 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       title: 'MineBi',
       locale: const Locale('fa', 'IR'),
       supportedLocales: const [
         Locale('fa', 'IR'),
       ],
+      routerConfig: GetIt.I<AppRouter>().config(),
       localizationsDelegates: const [
         // AppLocalizations.delegate,
         PersianMaterialLocalizations.delegate,
@@ -70,7 +71,6 @@ class MyApp extends StatelessWidget {
         visualDensity: FlexColorScheme.comfortablePlatformDensity,
         cupertinoOverrideTheme: const CupertinoThemeData(applyThemeToAll: true),
       ),
-      home: const SplashPage(),
     );
   }
 }

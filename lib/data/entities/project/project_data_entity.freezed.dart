@@ -82,8 +82,12 @@ mixin _$ProjectDataEntity {
   String? get lassSyncError => throw _privateConstructorUsedError;
   List<String>? get updatedDeletedImages => throw _privateConstructorUsedError;
 
+  /// Serializes this ProjectDataEntity to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ProjectDataEntity
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ProjectDataEntityCopyWith<ProjectDataEntity> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -155,6 +159,8 @@ class _$ProjectDataEntityCopyWithImpl<$Res, $Val extends ProjectDataEntity>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ProjectDataEntity
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -353,6 +359,8 @@ class _$ProjectDataEntityCopyWithImpl<$Res, $Val extends ProjectDataEntity>
     ) as $Val);
   }
 
+  /// Create a copy of ProjectDataEntity
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $DocumentEntityCopyWith<$Res>? get localMachineryWorkingHourImage {
@@ -367,6 +375,8 @@ class _$ProjectDataEntityCopyWithImpl<$Res, $Val extends ProjectDataEntity>
     });
   }
 
+  /// Create a copy of ProjectDataEntity
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $DocumentEntityCopyWith<$Res>? get stopsImage {
@@ -449,6 +459,8 @@ class __$$ProjectDataEntityImplCopyWithImpl<$Res>
       $Res Function(_$ProjectDataEntityImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ProjectDataEntity
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -938,7 +950,7 @@ class _$ProjectDataEntityImpl implements _ProjectDataEntity {
                 .equals(other._updatedDeletedImages, _updatedDeletedImages));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hashAll([
         runtimeType,
@@ -982,7 +994,9 @@ class _$ProjectDataEntityImpl implements _ProjectDataEntity {
         const DeepCollectionEquality().hash(_updatedDeletedImages)
       ]);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ProjectDataEntity
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ProjectDataEntityImplCopyWith<_$ProjectDataEntityImpl> get copyWith =>
@@ -1126,8 +1140,8 @@ abstract class _ProjectDataEntity implements ProjectDataEntity {
   List<MachineryServiceDataEntity> get machineryServices;
   @override
   @JsonKey(name: 'machinery_part_consumes')
-  List<MachineryPartDataEntity> get machineryPartConsumes;
-  @override //local fields
+  List<MachineryPartDataEntity> get machineryPartConsumes; //local fields
+  @override
   DataSyncStatus get syncStatus;
   @override
   DataSyncType get syncType;
@@ -1145,8 +1159,11 @@ abstract class _ProjectDataEntity implements ProjectDataEntity {
   String? get lassSyncError;
   @override
   List<String>? get updatedDeletedImages;
+
+  /// Create a copy of ProjectDataEntity
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ProjectDataEntityImplCopyWith<_$ProjectDataEntityImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

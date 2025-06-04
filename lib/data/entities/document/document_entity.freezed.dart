@@ -37,8 +37,12 @@ mixin _$DocumentEntity {
   String? get path => throw _privateConstructorUsedError;
   String? get preSignedName => throw _privateConstructorUsedError;
 
+  /// Serializes this DocumentEntity to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of DocumentEntity
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $DocumentEntityCopyWith<DocumentEntity> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -71,6 +75,8 @@ class _$DocumentEntityCopyWithImpl<$Res, $Val extends DocumentEntity>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of DocumentEntity
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -153,6 +159,8 @@ class __$$DocumentEntityImplCopyWithImpl<$Res>
       _$DocumentEntityImpl _value, $Res Function(_$DocumentEntityImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of DocumentEntity
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -277,12 +285,14 @@ class _$DocumentEntityImpl implements _DocumentEntity {
                 other.preSignedName == preSignedName));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, id, title, documentableType,
       documentableId, mimeType, createdAt, user, path, preSignedName);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of DocumentEntity
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$DocumentEntityImplCopyWith<_$DocumentEntityImpl> get copyWith =>
@@ -332,13 +342,16 @@ abstract class _DocumentEntity implements DocumentEntity {
   DateTime? get createdAt;
   @override
   @JsonKey(name: 'user')
-  String? get user;
-  @override //local fields
+  String? get user; //local fields
+  @override
   String? get path;
   @override
   String? get preSignedName;
+
+  /// Create a copy of DocumentEntity
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$DocumentEntityImplCopyWith<_$DocumentEntityImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

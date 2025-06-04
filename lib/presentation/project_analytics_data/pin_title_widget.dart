@@ -6,44 +6,48 @@ class TitlePinWidget extends StatelessWidget {
   final String title;
   final DateTimeRange? initialDateRange;
   final ValueSetter<DateTimeRange> onDateRangeSelected;
+  final VoidCallback onFilterCleared;
 
   const TitlePinWidget({
     super.key,
     required this.title,
     this.initialDateRange,
     required this.onDateRangeSelected,
+    required this.onFilterCleared,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      margin: const EdgeInsets.fromLTRB(16, 8, 16, 16),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-        child: Row(
-          children: [
-            Text(
-              title,
-              style: context.textTheme.titleMedium,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+      child: Row(
+        children: [
+          Text(
+            title,
+            style: context.textTheme.titleLarge?.copyWith(
+              fontWeight: FontWeight.bold,
             ),
-            const Spacer(),
-            IconButton(
-              onPressed: () {},
-              icon: const Icon(
-                Icons.fullscreen,
+          ),
+          const Spacer(),
+          Badge(
+            largeSize: 24,
+            isLabelVisible: initialDateRange != null,
+            label: InkWell(
+              onTap: onFilterCleared,
+              child: Icon(
+                Icons.close,
+                size: 18,
+                color: context.theme.badgeTheme.textColor,
               ),
             ),
-            IconButton(
+            child: IconButton.filledTonal(
               onPressed: () {
                 _dateRangePicker(context);
               },
-              icon: const Icon(Icons.calendar_month),
+              icon: const Icon(Icons.filter_alt),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

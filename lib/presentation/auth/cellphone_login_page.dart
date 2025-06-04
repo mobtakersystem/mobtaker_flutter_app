@@ -1,3 +1,4 @@
+import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -5,11 +6,11 @@ import 'package:mpm/common/extention/context.dart';
 import 'package:mpm/common/validator.dart';
 import 'package:mpm/common/widget/text_form_field.dart';
 import 'package:mpm/common/widget/version_widget.dart';
-import 'package:mpm/presentation/auth/check_otp_page.dart';
 import 'package:mpm/presentation/auth/providers/login_provider.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
-
+import 'package:mpm/routes/app_router.gr.dart';
+@RoutePage()
 class CellphoneLoginPage extends HookConsumerWidget {
   CellphoneLoginPage({super.key});
 
@@ -27,7 +28,7 @@ class CellphoneLoginPage extends HookConsumerWidget {
             initial: (value) {},
             checkOtp: (value) {
               if (previous?.requireValue is! CheclOtp) {
-                context.push(CheckOtpPage());
+                context.push(CheckOtpRoute());
               }
             },
             success: (value) {},

@@ -24,8 +24,12 @@ mixin _$InventoryChartEntity {
   List<InventoryChart>? get inventoryChart =>
       throw _privateConstructorUsedError;
 
+  /// Serializes this InventoryChartEntity to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of InventoryChartEntity
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $InventoryChartEntityCopyWith<InventoryChartEntity> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -51,6 +55,8 @@ class _$InventoryChartEntityCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of InventoryChartEntity
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -85,6 +91,8 @@ class __$$InventoryChartEntityImplCopyWithImpl<$Res>
       $Res Function(_$InventoryChartEntityImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of InventoryChartEntity
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -135,12 +143,14 @@ class _$InventoryChartEntityImpl implements _InventoryChartEntity {
                 .equals(other._inventoryChart, _inventoryChart));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType, const DeepCollectionEquality().hash(_inventoryChart));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of InventoryChartEntity
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$InventoryChartEntityImplCopyWith<_$InventoryChartEntityImpl>
@@ -167,8 +177,11 @@ abstract class _InventoryChartEntity implements InventoryChartEntity {
   @override
   @JsonKey(name: 'inventoryChart')
   List<InventoryChart>? get inventoryChart;
+
+  /// Create a copy of InventoryChartEntity
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$InventoryChartEntityImplCopyWith<_$InventoryChartEntityImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -192,8 +205,12 @@ mixin _$InventoryChart {
   @JsonKey(name: 'sale_commitment')
   int? get saleCommitment => throw _privateConstructorUsedError;
 
+  /// Serializes this InventoryChart to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of InventoryChart
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $InventoryChartCopyWith<InventoryChart> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -223,6 +240,8 @@ class _$InventoryChartCopyWithImpl<$Res, $Val extends InventoryChart>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of InventoryChart
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -287,6 +306,8 @@ class __$$InventoryChartImplCopyWithImpl<$Res>
       _$InventoryChartImpl _value, $Res Function(_$InventoryChartImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of InventoryChart
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -383,12 +404,14 @@ class _$InventoryChartImpl implements _InventoryChart {
                 other.saleCommitment == saleCommitment));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, productName, productSymbol,
       currentInventory, totalInventory, buyCommitment, saleCommitment);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of InventoryChart
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$InventoryChartImplCopyWith<_$InventoryChartImpl> get copyWith =>
@@ -434,8 +457,11 @@ abstract class _InventoryChart implements InventoryChart {
   @override
   @JsonKey(name: 'sale_commitment')
   int? get saleCommitment;
+
+  /// Create a copy of InventoryChart
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$InventoryChartImplCopyWith<_$InventoryChartImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

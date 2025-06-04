@@ -18,9 +18,14 @@ import 'package:sliver_tools/sliver_tools.dart';
 import 'utility_column_chart_widget.dart';
 
 class UtilityChartsWidget extends HookConsumerWidget {
+  final Key? topWidgetKey;
   final entity.UtilityChartEntity chartsData;
 
-  const UtilityChartsWidget({super.key, required this.chartsData});
+  const UtilityChartsWidget({
+    super.key,
+    required this.chartsData,
+    this.topWidgetKey,
+  });
 
   @override
   Widget build(BuildContext context, ref) {
@@ -33,13 +38,17 @@ class UtilityChartsWidget extends HookConsumerWidget {
           chartsData.utilityProducts?.first.utilityProductId;
     }
     final filters = ref.watch(utilityFilterProvider);
-    return MultiSliver(pushPinnedChildren: true, children: [
+    return MultiSliver(children: [
       SliverToBoxAdapter(
         child: TitlePinWidget(
+          key: topWidgetKey,
           title: "گزارش یوتیلیتی",
           initialDateRange: filters.dateRange,
           onDateRangeSelected: (DateTimeRange value) {
             ref.read(utilityFilterProvider.notifier).setDateRange(value);
+          },
+          onFilterCleared: () {
+            ref.read(utilityFilterProvider.notifier).clearDateRange();
           },
         ),
       ),

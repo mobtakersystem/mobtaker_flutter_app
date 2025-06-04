@@ -67,8 +67,12 @@ mixin _$MachineryServiceDataEntity {
   @JsonKey(name: 'images')
   List<DocumentEntity> get images => throw _privateConstructorUsedError;
 
+  /// Serializes this MachineryServiceDataEntity to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of MachineryServiceDataEntity
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $MachineryServiceDataEntityCopyWith<MachineryServiceDataEntity>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -119,6 +123,8 @@ class _$MachineryServiceDataEntityCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of MachineryServiceDataEntity
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -280,6 +286,8 @@ class __$$MachineryServiceDataEntityImplCopyWithImpl<$Res>
       $Res Function(_$MachineryServiceDataEntityImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of MachineryServiceDataEntity
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -548,7 +556,7 @@ class _$MachineryServiceDataEntityImpl implements _MachineryServiceDataEntity {
             const DeepCollectionEquality().equals(other._images, _images));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hashAll([
         runtimeType,
@@ -575,7 +583,9 @@ class _$MachineryServiceDataEntityImpl implements _MachineryServiceDataEntity {
         const DeepCollectionEquality().hash(_images)
       ]);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of MachineryServiceDataEntity
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$MachineryServiceDataEntityImplCopyWith<_$MachineryServiceDataEntityImpl>
@@ -692,8 +702,11 @@ abstract class _MachineryServiceDataEntity
   @override
   @JsonKey(name: 'images')
   List<DocumentEntity> get images;
+
+  /// Create a copy of MachineryServiceDataEntity
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$MachineryServiceDataEntityImplCopyWith<_$MachineryServiceDataEntityImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

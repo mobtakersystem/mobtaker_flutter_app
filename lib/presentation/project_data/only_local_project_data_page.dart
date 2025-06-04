@@ -1,3 +1,4 @@
+import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get_it/get_it.dart';
@@ -11,6 +12,7 @@ import 'package:mpm/domain/use_case/delete_project_data.dart';
 import 'package:mpm/presentation/project_data/project_data_item_widget.dart';
 import 'package:mpm/presentation/project_data_store/sync_provider/get_local_sync_data_provider.dart';
 
+@RoutePage()
 class LocalsProjectDataPage extends ConsumerWidget {
   const LocalsProjectDataPage({
     super.key,

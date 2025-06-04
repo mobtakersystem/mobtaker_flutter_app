@@ -28,8 +28,12 @@ mixin _$WorkerEntity {
   @JsonKey(name: 'full_name')
   String get fullName => throw _privateConstructorUsedError;
 
+  /// Serializes this WorkerEntity to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of WorkerEntity
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $WorkerEntityCopyWith<WorkerEntity> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -57,6 +61,8 @@ class _$WorkerEntityCopyWithImpl<$Res, $Val extends WorkerEntity>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of WorkerEntity
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -109,6 +115,8 @@ class __$$WorkerEntityImplCopyWithImpl<$Res>
       _$WorkerEntityImpl _value, $Res Function(_$WorkerEntityImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of WorkerEntity
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -181,12 +189,14 @@ class _$WorkerEntityImpl implements _WorkerEntity {
                 other.fullName == fullName));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
       Object.hash(runtimeType, id, firstName, lastName, fullName);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of WorkerEntity
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$WorkerEntityImplCopyWith<_$WorkerEntityImpl> get copyWith =>
@@ -221,8 +231,11 @@ abstract class _WorkerEntity implements WorkerEntity {
   @override
   @JsonKey(name: 'full_name')
   String get fullName;
+
+  /// Create a copy of WorkerEntity
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$WorkerEntityImplCopyWith<_$WorkerEntityImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -237,8 +250,12 @@ mixin _$ProjectWorkerEntity {
   @JsonKey(name: 'name')
   String get name => throw _privateConstructorUsedError;
 
+  /// Serializes this ProjectWorkerEntity to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ProjectWorkerEntity
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ProjectWorkerEntityCopyWith<ProjectWorkerEntity> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -262,6 +279,8 @@ class _$ProjectWorkerEntityCopyWithImpl<$Res, $Val extends ProjectWorkerEntity>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ProjectWorkerEntity
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -300,6 +319,8 @@ class __$$ProjectWorkerEntityImplCopyWithImpl<$Res>
       $Res Function(_$ProjectWorkerEntityImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ProjectWorkerEntity
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -348,11 +369,13 @@ class _$ProjectWorkerEntityImpl implements _ProjectWorkerEntity {
             (identical(other.name, name) || other.name == name));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, id, name);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ProjectWorkerEntity
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ProjectWorkerEntityImplCopyWith<_$ProjectWorkerEntityImpl> get copyWith =>
@@ -380,8 +403,11 @@ abstract class _ProjectWorkerEntity implements ProjectWorkerEntity {
   @override
   @JsonKey(name: 'name')
   String get name;
+
+  /// Create a copy of ProjectWorkerEntity
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ProjectWorkerEntityImplCopyWith<_$ProjectWorkerEntityImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

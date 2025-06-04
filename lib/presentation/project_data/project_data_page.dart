@@ -1,3 +1,4 @@
+import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mpm/common/extention/context.dart';
@@ -7,8 +8,8 @@ import 'package:mpm/presentation/project_data/project_data_index_provider.dart';
 import 'package:mpm/presentation/project_data/project_data_item_widget.dart';
 import 'package:mpm/presentation/project_data/project_property_provider.dart';
 import 'package:mpm/presentation/project_data_store/list_local_data_buttne_widget.dart';
-import 'package:mpm/presentation/project_data_store/project_data_store_page.dart';
-
+import 'package:mpm/routes/app_router.gr.dart';
+@RoutePage()
 class ProjectDataPage extends ConsumerWidget {
   final String projectID;
 
@@ -55,7 +56,7 @@ class ProjectDataPage extends ConsumerWidget {
                 child: ElevatedButton.icon(
                   onPressed: () {
                     context
-                        .push(ProjectDataStorePage(
+                        .push(ProjectDataStoreRoute(
                       projectId: projectID,
                     ))
                         .then(

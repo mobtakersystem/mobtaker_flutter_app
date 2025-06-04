@@ -39,8 +39,12 @@ mixin _$MachineryEntity {
   Map<String, dynamic>? get projectMachineries =>
       throw _privateConstructorUsedError;
 
+  /// Serializes this MachineryEntity to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of MachineryEntity
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $MachineryEntityCopyWith<MachineryEntity> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -77,6 +81,8 @@ class _$MachineryEntityCopyWithImpl<$Res, $Val extends MachineryEntity>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of MachineryEntity
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -158,6 +164,8 @@ class __$$MachineryEntityImplCopyWithImpl<$Res>
       _$MachineryEntityImpl _value, $Res Function(_$MachineryEntityImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of MachineryEntity
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -286,7 +294,7 @@ class _$MachineryEntityImpl implements _MachineryEntity {
                 .equals(other._projectMachineries, _projectMachineries));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -299,7 +307,9 @@ class _$MachineryEntityImpl implements _MachineryEntity {
       updatedAt,
       const DeepCollectionEquality().hash(_projectMachineries));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of MachineryEntity
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$MachineryEntityImplCopyWith<_$MachineryEntityImpl> get copyWith =>
@@ -358,8 +368,11 @@ abstract class _MachineryEntity implements MachineryEntity {
   @override
   @JsonKey(name: 'project_machineries')
   Map<String, dynamic>? get projectMachineries;
+
+  /// Create a copy of MachineryEntity
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$MachineryEntityImplCopyWith<_$MachineryEntityImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

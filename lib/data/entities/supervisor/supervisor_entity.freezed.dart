@@ -57,8 +57,12 @@ mixin _$SupervisorEntity {
   Map<String, dynamic>? get projectSupervisors =>
       throw _privateConstructorUsedError;
 
+  /// Serializes this SupervisorEntity to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of SupervisorEntity
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $SupervisorEntityCopyWith<SupervisorEntity> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -107,6 +111,8 @@ class _$SupervisorEntityCopyWithImpl<$Res, $Val extends SupervisorEntity>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of SupervisorEntity
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -250,6 +256,8 @@ class __$$SupervisorEntityImplCopyWithImpl<$Res>
       $Res Function(_$SupervisorEntityImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of SupervisorEntity
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -493,7 +501,7 @@ class _$SupervisorEntityImpl implements _SupervisorEntity {
                 .equals(other._projectSupervisors, _projectSupervisors));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -516,7 +524,9 @@ class _$SupervisorEntityImpl implements _SupervisorEntity {
       updatedAt,
       const DeepCollectionEquality().hash(_projectSupervisors));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of SupervisorEntity
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$SupervisorEntityImplCopyWith<_$SupervisorEntityImpl> get copyWith =>
@@ -615,8 +625,11 @@ abstract class _SupervisorEntity implements SupervisorEntity {
   @override
   @JsonKey(name: 'project_supervisors')
   Map<String, dynamic>? get projectSupervisors;
+
+  /// Create a copy of SupervisorEntity
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$SupervisorEntityImplCopyWith<_$SupervisorEntityImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

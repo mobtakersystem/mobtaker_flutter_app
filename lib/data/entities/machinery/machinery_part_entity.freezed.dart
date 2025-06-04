@@ -24,8 +24,12 @@ mixin _$MachineryPartEntity {
   @JsonKey(name: 'name')
   String get name => throw _privateConstructorUsedError;
 
+  /// Serializes this MachineryPartEntity to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of MachineryPartEntity
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $MachineryPartEntityCopyWith<MachineryPartEntity> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -49,6 +53,8 @@ class _$MachineryPartEntityCopyWithImpl<$Res, $Val extends MachineryPartEntity>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of MachineryPartEntity
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -87,6 +93,8 @@ class __$$MachineryPartEntityImplCopyWithImpl<$Res>
       $Res Function(_$MachineryPartEntityImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of MachineryPartEntity
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -135,11 +143,13 @@ class _$MachineryPartEntityImpl implements _MachineryPartEntity {
             (identical(other.name, name) || other.name == name));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, id, name);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of MachineryPartEntity
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$MachineryPartEntityImplCopyWith<_$MachineryPartEntityImpl> get copyWith =>
@@ -167,8 +177,11 @@ abstract class _MachineryPartEntity implements MachineryPartEntity {
   @override
   @JsonKey(name: 'name')
   String get name;
+
+  /// Create a copy of MachineryPartEntity
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$MachineryPartEntityImplCopyWith<_$MachineryPartEntityImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -1,16 +1,16 @@
+import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mpm/common/extention/context.dart';
 import 'package:mpm/common/riverpod_helper.dart';
 import 'package:mpm/data/entities/project/project_data_entity.dart';
 import 'package:mpm/presentation/project_data/project_property_provider.dart';
-import 'package:mpm/presentation/project_data_show/images_viewer_page.dart';
-import 'package:mpm/presentation/project_data_store/project_data_edit_page.dart';
+import 'package:mpm/routes/app_router.gr.dart';
 import 'package:persian_number_utility/persian_number_utility.dart';
 import 'package:collection/collection.dart';
 
 const _dividerSize = 8.0;
-
+@RoutePage()
 class ProjectDataShowPage extends ConsumerWidget {
   final ProjectDataEntity projectData;
 
@@ -25,7 +25,7 @@ class ProjectDataShowPage extends ConsumerWidget {
           if (projectData.status == "draft")
             IconButton(
               onPressed: () {
-                context.push(ProjectDataEditPage(
+                context.push(ProjectDataEditRoute(
                   projectDataEntity: projectData,
                   projectId: projectData.projectId,
                 ));
@@ -115,7 +115,7 @@ class ProjectDataShowPage extends ConsumerWidget {
                       false)
                     TextButton.icon(
                       onPressed: () {
-                        context.push(ImagesViewerPage(
+                        context.push(ImagesViewerRoute(
                           imagesPath: [projectData.machineryWorkingHourImage!],
                         ));
                       },
@@ -125,7 +125,7 @@ class ProjectDataShowPage extends ConsumerWidget {
                   if (projectData.localMachineryWorkingHourImage != null)
                     TextButton.icon(
                       onPressed: () {
-                        context.push(ImagesViewerPage(
+                        context.push(ImagesViewerRoute(
                           imagesDocs: [
                             projectData.localMachineryWorkingHourImage!
                           ],
@@ -140,7 +140,7 @@ class ProjectDataShowPage extends ConsumerWidget {
                 const SizedBox.square(dimension: _dividerSize),
                 TextButton.icon(
                   onPressed: () {
-                    context.push(ImagesViewerPage(
+                    context.push(ImagesViewerRoute(
                       imagesDocs: projectData.images,
                     ));
                   },
@@ -154,7 +154,7 @@ class ProjectDataShowPage extends ConsumerWidget {
                   TextButton.icon(
                     onPressed: () {
                       context.push(
-                        ImagesViewerPage(
+                        ImagesViewerRoute(
                           imagesPath: [projectData.stopImage],
                         ),
                       );
@@ -166,7 +166,7 @@ class ProjectDataShowPage extends ConsumerWidget {
                   TextButton.icon(
                     onPressed: () {
                       context.push(
-                        ImagesViewerPage(
+                        ImagesViewerRoute(
                           imagesDocs: [projectData.stopsImage!],
                         ),
                       );
@@ -209,7 +209,7 @@ class ProjectDataShowPage extends ConsumerWidget {
                           child: TextButton.icon(
                             onPressed: () {
                               context
-                                  .push(ImagesViewerPage(imagesDocs: e.images));
+                                  .push(ImagesViewerRoute(imagesDocs: e.images));
                             },
                             label: const Text("مشاهده تصویر"),
                             icon: const Icon(Icons.image),
@@ -236,7 +236,7 @@ class ProjectDataShowPage extends ConsumerWidget {
                           child: TextButton.icon(
                             onPressed: () {
                               context
-                                  .push(ImagesViewerPage(imagesDocs: e.images));
+                                  .push(ImagesViewerRoute(imagesDocs: e.images));
                             },
                             label: const Text("مشاهده تصویر"),
                             icon: const Icon(Icons.image),

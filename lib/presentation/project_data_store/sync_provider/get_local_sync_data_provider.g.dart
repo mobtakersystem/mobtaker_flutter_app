@@ -22,6 +22,8 @@ final getLocalSndSyncDataProvider =
   allTransitiveDependencies: null,
 );
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 typedef GetLocalSndSyncDataRef
     = AutoDisposeStreamProviderRef<List<ProjectDataEntity>>;
 String _$lastSyncUpdateHash() => r'6a112340e27e9b51ff844499c2a7bcad88241e60';
@@ -38,6 +40,8 @@ final lastSyncUpdateProvider = AutoDisposeStreamProvider<DateTime?>.internal(
   allTransitiveDependencies: null,
 );
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 typedef LastSyncUpdateRef = AutoDisposeStreamProviderRef<DateTime?>;
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

@@ -55,8 +55,12 @@ mixin _$ProjectEntity {
   List<ProjectEntity> get children => throw _privateConstructorUsedError;
   Map<String, dynamic>? get pivot => throw _privateConstructorUsedError;
 
+  /// Serializes this ProjectEntity to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ProjectEntity
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ProjectEntityCopyWith<ProjectEntity> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -110,6 +114,8 @@ class _$ProjectEntityCopyWithImpl<$Res, $Val extends ProjectEntity>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ProjectEntity
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -278,6 +284,8 @@ class __$$ProjectEntityImplCopyWithImpl<$Res>
       _$ProjectEntityImpl _value, $Res Function(_$ProjectEntityImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ProjectEntity
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -553,7 +561,7 @@ class _$ProjectEntityImpl implements _ProjectEntity {
             const DeepCollectionEquality().equals(other._pivot, _pivot));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hashAll([
         runtimeType,
@@ -581,7 +589,9 @@ class _$ProjectEntityImpl implements _ProjectEntity {
         const DeepCollectionEquality().hash(_pivot)
       ]);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ProjectEntity
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ProjectEntityImplCopyWith<_$ProjectEntityImpl> get copyWith =>
@@ -687,8 +697,11 @@ abstract class _ProjectEntity implements ProjectEntity {
   List<ProjectEntity> get children;
   @override
   Map<String, dynamic>? get pivot;
+
+  /// Create a copy of ProjectEntity
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ProjectEntityImplCopyWith<_$ProjectEntityImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

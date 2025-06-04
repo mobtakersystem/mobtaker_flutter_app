@@ -78,6 +78,8 @@ dependencies:
   lottie: ^3.3.1
   sliver_tools: ^0.2.12
   equatable: ^2.0.7
+  scrollview_observer: ^1.26.1
+  auto_route: ^10.1.0+1
 
 
 dev_dependencies:
@@ -90,6 +92,7 @@ dev_dependencies:
   riverpod_generator: ^2.4.0
   change_app_package_name: ^1.4.0
   flutter_flavorizr: ^2.3.1
+  auto_route_generator: ^10.1.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

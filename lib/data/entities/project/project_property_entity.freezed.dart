@@ -33,8 +33,12 @@ mixin _$ProjectPropertyEntity {
   List<IndicatorEntity> get indicators => throw _privateConstructorUsedError;
   List<IdValueEntity> get stopReasons => throw _privateConstructorUsedError;
 
+  /// Serializes this ProjectPropertyEntity to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ProjectPropertyEntity
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ProjectPropertyEntityCopyWith<ProjectPropertyEntity> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -68,6 +72,8 @@ class _$ProjectPropertyEntityCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ProjectPropertyEntity
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -152,6 +158,8 @@ class __$$ProjectPropertyEntityImplCopyWithImpl<$Res>
       $Res Function(_$ProjectPropertyEntityImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ProjectPropertyEntity
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -343,7 +351,7 @@ class _$ProjectPropertyEntityImpl implements _ProjectPropertyEntity {
                 .equals(other._stopReasons, _stopReasons));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -357,7 +365,9 @@ class _$ProjectPropertyEntityImpl implements _ProjectPropertyEntity {
       const DeepCollectionEquality().hash(_indicators),
       const DeepCollectionEquality().hash(_stopReasons));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ProjectPropertyEntity
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ProjectPropertyEntityImplCopyWith<_$ProjectPropertyEntityImpl>
@@ -405,8 +415,11 @@ abstract class _ProjectPropertyEntity implements ProjectPropertyEntity {
   List<IndicatorEntity> get indicators;
   @override
   List<IdValueEntity> get stopReasons;
+
+  /// Create a copy of ProjectPropertyEntity
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ProjectPropertyEntityImplCopyWith<_$ProjectPropertyEntityImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

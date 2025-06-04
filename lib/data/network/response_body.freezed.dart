@@ -25,8 +25,12 @@ mixin _$ResponseBody {
   Map<String, dynamic>? get options => throw _privateConstructorUsedError;
   Map<String, dynamic>? get errors => throw _privateConstructorUsedError;
 
+  /// Serializes this ResponseBody to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ResponseBody
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ResponseBodyCopyWith<ResponseBody> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -54,6 +58,8 @@ class _$ResponseBodyCopyWithImpl<$Res, $Val extends ResponseBody>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ResponseBody
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -106,6 +112,8 @@ class __$$ResponseBodyImplCopyWithImpl<$Res>
       _$ResponseBodyImpl _value, $Res Function(_$ResponseBodyImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ResponseBody
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -190,7 +198,7 @@ class _$ResponseBodyImpl implements _ResponseBody {
             const DeepCollectionEquality().equals(other._errors, _errors));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -199,7 +207,9 @@ class _$ResponseBodyImpl implements _ResponseBody {
       const DeepCollectionEquality().hash(_options),
       const DeepCollectionEquality().hash(_errors));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ResponseBody
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ResponseBodyImplCopyWith<_$ResponseBodyImpl> get copyWith =>
@@ -231,8 +241,11 @@ abstract class _ResponseBody implements ResponseBody {
   Map<String, dynamic>? get options;
   @override
   Map<String, dynamic>? get errors;
+
+  /// Create a copy of ResponseBody
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ResponseBodyImplCopyWith<_$ResponseBodyImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

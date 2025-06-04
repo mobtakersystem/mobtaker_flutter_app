@@ -50,8 +50,12 @@ mixin _$StopDataEntity {
   @JsonKey(name: 'display_reason')
   String? get displayReason => throw _privateConstructorUsedError;
 
+  /// Serializes this StopDataEntity to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of StopDataEntity
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $StopDataEntityCopyWith<StopDataEntity> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -92,6 +96,8 @@ class _$StopDataEntityCopyWithImpl<$Res, $Val extends StopDataEntity>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of StopDataEntity
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -202,6 +208,8 @@ class __$$StopDataEntityImplCopyWithImpl<$Res>
       _$StopDataEntityImpl _value, $Res Function(_$StopDataEntityImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of StopDataEntity
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -376,7 +384,7 @@ class _$StopDataEntityImpl implements _StopDataEntity {
                 other.displayReason == displayReason));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -394,7 +402,9 @@ class _$StopDataEntityImpl implements _StopDataEntity {
       machinery,
       displayReason);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of StopDataEntity
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$StopDataEntityImplCopyWith<_$StopDataEntityImpl> get copyWith =>
@@ -477,8 +487,11 @@ abstract class _StopDataEntity implements StopDataEntity {
   @override
   @JsonKey(name: 'display_reason')
   String? get displayReason;
+
+  /// Create a copy of StopDataEntity
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$StopDataEntityImplCopyWith<_$StopDataEntityImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

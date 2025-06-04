@@ -1,3 +1,4 @@
+import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -11,8 +12,9 @@ import 'package:mpm/common/widget/text_form_field.dart';
 import 'package:mpm/presentation/auth/providers/biometrics_providers.dart';
 import 'package:mpm/presentation/auth/providers/login_provider.dart';
 import 'package:mpm/presentation/auth/timer/otp_timer_widget.dart';
-import 'package:mpm/presentation/home_page.dart';
+import 'package:mpm/routes/app_router.gr.dart';
 
+@RoutePage()
 class CheckOtpPage extends HookConsumerWidget {
   CheckOtpPage({super.key});
 
@@ -53,7 +55,7 @@ class CheckOtpPage extends HookConsumerWidget {
                 }
               }
               if (context.mounted) {
-                context.popAllAndPush(const HomePage());
+                context.popAllAndPush(const HomeRoute());
               }
             },
             orElse: () {},
