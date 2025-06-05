@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:lottie/lottie.dart';
+import 'package:mpm/common/widget/force_landscape_wodget.dart';
 import 'package:mpm/data/entities/dashboard_chart/sale_data_chart_entity.dart';
 import 'package:persian_number_utility/persian_number_utility.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
@@ -9,12 +10,16 @@ class SaleBarChart extends HookConsumerWidget {
   final List<Data> data;
   final double height;
   final double width;
+  final bool isFullScreenMode;
+  final bool enableZoom;
 
   SaleBarChart({
     super.key,
     required this.data,
     this.height = 300,
     this.width = double.infinity,
+    this.isFullScreenMode = false,
+    this.enableZoom = false,
   });
 
   final _tooltipBehavior = TooltipBehavior(
@@ -54,33 +59,93 @@ class SaleBarChart extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, ref) {
-    if(data.isEmpty) {
-      return  Column(
+    if (data.isEmpty) {
+      return Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Lottie.asset("assets/anim/empty_chart_anim.json",width: 200,height: 200),
+          Lottie.asset("assets/anim/empty_chart_anim.json",
+              width: 200, height: 200),
           const Text("داده ای برای نمایش وجود ندارد"),
         ],
       );
     }
-    return SfCartesianChart(
-      primaryXAxis: const CategoryAxis(),
-      tooltipBehavior: _tooltipBehavior,
-      legend: const Legend(
-        isVisible: true,
-        position: LegendPosition.bottom,
-      ),
-      series: <CartesianSeries<Data, String>>[
-        ColumnSeries<Data, String>(
-          dataSource: data,
-          xValueMapper: (Data data, _) => data.date ?? '',
-          yValueMapper: (Data data, _) => data.performance,
-          color: const Color(0xFFF57C00),
-          name: 'عملکرد',
-          enableTooltip: true,
+    return Stack(
+      children: [
+        SfCartesianChart(
+          primaryXAxis: const CategoryAxis(),
+          tooltipBehavior: _tooltipBehavior,
+          legend: const Legend(
+            isVisible: true,
+            position: LegendPosition.bottom,
+          ),
+          zoomPanBehavior: ZoomPanBehavior(
+            enablePinching: enableZoom,
+            enablePanning: enableZoom,
+            enableDoubleTapZooming: enableZoom,
+            enableMouseWheelZooming: enableZoom,
+            zoomMode: ZoomMode.x,
+          ),
+          series: <CartesianSeries<Data, String>>[
+            ColumnSeries<Data, String>(
+              dataSource: data,
+              xValueMapper: (Data data, _) => data.date ?? '',
+              yValueMapper: (Data data, _) => data.performance,
+              color: const Color(0xFFF57C00),
+              name: 'عملکرد',
+              enableTooltip: true,
+            ),
+          ],
+        ),
+        Positioned(
+          top: 8,
+          right: 8,
+          child: isFullScreenMode
+              ? IconButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  icon: const Icon(Icons.fullscreen_exit),
+                )
+              : IconButton(
+                  icon: const Icon(Icons.fullscreen),
+                  onPressed: () => _showFullScreenChart(context),
+                  tooltip: 'نمایش تمام صفحه',
+                ),
         ),
       ],
+    );
+  }
+
+  void _showFullScreenChart(BuildContext context) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => _FullScreenChart(data: data),
+        fullscreenDialog: true,
+      ),
+    );
+  }
+}
+
+class _FullScreenChart extends StatelessWidget {
+  final List<Data> data;
+
+  const _FullScreenChart({required this.data});
+
+  @override
+  Widget build(BuildContext context) {
+    return ForceLandscapeWidget(
+      child: Scaffold(
+        body: Padding(
+          padding: const EdgeInsets.only(top: 32),
+          child: SaleBarChart(
+            data: data,
+            height: double.maxFinite,
+            isFullScreenMode: true,
+            enableZoom: true,
+          ),
+        ),
+      ),
     );
   }
 }
