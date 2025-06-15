@@ -1,5 +1,5 @@
-import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mpm/common/extention/context.dart';
@@ -18,24 +18,68 @@ import 'package:mpm/presentation/project_analytics_data/stops_charts/stops_chart
 import 'package:mpm/presentation/project_analytics_data/utility_charts/providers/utility_chart_provider.dart';
 import 'package:mpm/presentation/project_analytics_data/utility_charts/utility_charts.dart';
 import 'package:mpm/routes/app_router.gr.dart';
+import 'package:scrollview_observer/scrollview_observer.dart';
 
-@RoutePage()
-class DashboardPage extends HookConsumerWidget {
+final dashboardScrollProvider =
+    StateNotifierProvider<DashboardScrollNotifier, int>((ref) {
+  return DashboardScrollNotifier();
+});
+
+class DashboardScrollNotifier extends StateNotifier<int> {
+  DashboardScrollNotifier() : super(0);
+
+  void setCurrentIndex(int index) {
+    state = index;
+  }
+}
+
+class DashboardPage extends StatefulHookConsumerWidget {
   const DashboardPage({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState createState() => _DashboardPageState();
+}
+
+class _DashboardPageState extends ConsumerState<DashboardPage> {
+  final appBarKey = GlobalKey();
+  final GlobalKey tabBarKey = GlobalKey();
+  final nestedScrollViewKey = GlobalKey<NestedScrollViewState>();
+  final outerScrollController = ScrollController();
+  late final SliverObserverController sliverObserverController;
+  Map<int, BuildContext> sliverIndexCtxMap = {};
+  bool isIgnoreCalcTabBarIndex = false;
+  final nestedScrollUtil = NestedScrollUtil();
+
+  @override
+  void initState() {
+    super.initState();
+    sliverObserverController = SliverObserverController(
+      controller: outerScrollController,
+    );
+    nestedScrollUtil.outerScrollController = outerScrollController;
+  }
+
+  @override
+  void dispose() {
+    outerScrollController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final productionChart = ref.watch(productionChartProvider);
     final saleChart = ref.watch(saleChartProvider);
     final inventoryChartsState = ref.watch(inventoryChartProvider);
     final stopChartsState = ref.watch(stopsChartProvider);
     final utilityChart = ref.watch(utilityProductsProvider);
+    final currentTabIndex = ref.watch(dashboardScrollProvider);
+
     ref.listen(
       productionChartProvider,
       (previous, next) async {
         if (next.hasError && next.error is UnAuthorizedFailure) {
           Future.delayed(const Duration(milliseconds: 700)).then(
-                (value) {
+            (value) {
               ref.read(authProvider.notifier).unAuthenticated().then((value) {
                 if (context.mounted) {
                   context.popAllAndPush(const SplashRoute());
@@ -58,6 +102,7 @@ class DashboardPage extends HookConsumerWidget {
         }
       },
     );
+
     final tabController = useTabController(initialLength: 5, keys: [
       productionChart,
       saleChart,
@@ -65,85 +110,153 @@ class DashboardPage extends HookConsumerWidget {
       stopChartsState,
       utilityChart
     ]);
-    // final scrollController = useScrollController(keys: [productionChart]);
-    // final observerController = useMemoized(
-    //     () => SliverObserverController(controller: scrollController),
-    //     [scrollController]);
-    //
-    // // Add a listener to handle tab changes
-    // useEffect(() {
-    //   void onTabChanged() {
-    //     // if (!tabController.indexIsChanging) {
-    //     //   print('Tab changed to: ${tabController.index}');
-    //     //   observerController.animateTo(
-    //     //     index: tabController.index,
-    //     //     duration: const Duration(milliseconds: 300),
-    //     //     curve: Curves.easeInOut,
-    //     //   );
-    //     // }
-    //   }
-    //
-    //   tabController.addListener(onTabChanged);
-    //   return () => tabController.removeListener(onTabChanged);
-    // }, [tabController, observerController]);
 
-    return NestedScrollView(
-      headerSliverBuilder: (context, innerBoxIsScrolled) {
-        return [
-          SliverAppBar(
-            title: const Text('داشبورد'),
-            floating: true,
-            pinned: true,
-            snap: false,
-            forceElevated: innerBoxIsScrolled,
-            bottom: TabBar(
-              controller: tabController,
-              labelColor: Theme.of(context).colorScheme.primary,
-              unselectedLabelColor:
-                  Theme.of(context).colorScheme.onSurface.withAlpha(150),
-              indicatorColor: Theme.of(context).colorScheme.primary,
-              tabs: const [
-                Tab(text: 'تولید'),
-                Tab(text: 'فروش'),
-                Tab(text: 'انبار'),
-                Tab(text: 'توقفات'),
-                Tab(text: 'یوتیلیتی'),
-              ],
-              isScrollable: true,
-            ),
-          )
-        ];
+    return SliverViewObserver(
+      controller: sliverObserverController,
+      sliverContexts: () => sliverIndexCtxMap.values.toList(),
+      dynamicLeadingOffset: () {
+        return ObserverUtils.calcPersistentHeaderExtent(
+          key: appBarKey,
+          offset: outerScrollController.offset,
+        );
       },
-      body: RiverPodConnectionHelperWidgetMulti(
-        values: [
-          productionChart,
-          saleChart,
-          inventoryChartsState,
-          stopChartsState,
-          utilityChart
-        ],
-        successBuilder: (data) {
-          final utility = data[4] as UtilityChartEntity;
-          return CustomScrollView(
-            slivers: [
-              const ProductionChartWidget(),
-              const SaleChartsWidget(),
-              const InventoryChartsWidget(),
-              const StopChartsWidget(),
-              UtilityChartsWidget(
-                chartsData: utility,
+      onObserveViewport: (result) {
+        if (isIgnoreCalcTabBarIndex) return;
+        int? currentTabIndex;
+        final currentFirstSliverCtx = result.firstChild.sliverContext;
+        for (var sectionIndex in sliverIndexCtxMap.keys) {
+          final ctx = sliverIndexCtxMap[sectionIndex];
+          if (ctx == null) continue;
+          if (currentFirstSliverCtx != ctx) continue;
+          final visible =
+              (ctx.findRenderObject() as RenderSliver).geometry?.visible ??
+                  false;
+          if (!visible) continue;
+          currentTabIndex = sectionIndex;
+          break;
+        }
+        if (currentTabIndex == null) return;
+        ref
+            .read(dashboardScrollProvider.notifier)
+            .setCurrentIndex(currentTabIndex);
+        tabController.animateTo(currentTabIndex);
+      },
+      child: NestedScrollView(
+        key: nestedScrollViewKey,
+        controller: outerScrollController,
+        headerSliverBuilder: (context, innerBoxIsScrolled) {
+          return [
+            SliverAppBar(
+              key: appBarKey,
+              title: const Text('داشبورد'),
+              floating: true,
+              pinned: true,
+              snap: false,
+              forceElevated: innerBoxIsScrolled,
+              bottom: TabBar(
+                controller: tabController,
+                labelColor: Theme.of(context).colorScheme.primary,
+                unselectedLabelColor:
+                    Theme.of(context).colorScheme.onSurface.withAlpha(150),
+                indicatorColor: Theme.of(context).colorScheme.primary,
+                onTap: (index) async {},
+                tabs: const [
+                  Tab(text: 'تولید'),
+                  Tab(text: 'فروش'),
+                  Tab(text: 'انبار'),
+                  Tab(text: 'توقفات'),
+                  Tab(text: 'یوتیلیتی'),
+                ],
+                isScrollable: true,
               ),
+            )
+          ];
+        },
+        body: Builder(builder: (context) {
+          // Get the inner scroll controller.
+          final innerScrollController = PrimaryScrollController.of(context);
+          if (nestedScrollUtil.bodyScrollController != innerScrollController) {
+            nestedScrollUtil.bodyScrollController = innerScrollController;
+          }
+          return RiverPodConnectionHelperWidgetMulti(
+            values: [
+              productionChart,
+              saleChart,
+              inventoryChartsState,
+              stopChartsState,
+              utilityChart
             ],
+            successBuilder: (data) {
+              final utility = data[4] as UtilityChartEntity;
+              return CustomScrollView(
+                slivers: [
+                  SliverObserveContext(
+                    child: const ProductionChartWidget(),
+                    onObserve: (context) {
+                      sliverIndexCtxMap[0] = context;
+                      nestedScrollUtil.bodySliverContexts.add(context);
+                    },
+                  ),
+                  SliverObserveContext(
+                    child: const SaleChartsWidget(),
+                    onObserve: (context) {
+                      sliverIndexCtxMap[1] = context;
+                      nestedScrollUtil.bodySliverContexts.add(context);
+                    },
+                  ),
+                  SliverObserveContext(
+                    child: const InventoryChartsWidget(),
+                    onObserve: (context) {
+                      sliverIndexCtxMap[2] = context;
+                      nestedScrollUtil.bodySliverContexts.add(context);
+                    },
+                  ),
+                  SliverObserveContext(
+                    child: const StopChartsWidget(),
+                    onObserve: (context) {
+                      sliverIndexCtxMap[3] = context;
+                      nestedScrollUtil.bodySliverContexts.add(context);
+                    },
+                  ),
+                  SliverObserveContext(
+                    child: UtilityChartsWidget(
+                      chartsData: utility,
+                    ),
+                    onObserve: (context) {
+                      sliverIndexCtxMap[4] = context;
+                      nestedScrollUtil.bodySliverContexts.add(context);
+                    },
+                  ),
+                ],
+              );
+            },
+            tryAgain: () {
+              ref.invalidate(productionChartProvider);
+              ref.invalidate(saleChartProvider);
+              ref.invalidate(inventoryChartProvider);
+              ref.invalidate(stopsChartProvider);
+              ref.invalidate(utilityProductsProvider);
+            },
           );
-        },
-        tryAgain: () {
-          ref.invalidate(productionChartProvider);
-          ref.invalidate(saleChartProvider);
-          ref.invalidate(inventoryChartProvider);
-          ref.invalidate(stopsChartProvider);
-          ref.invalidate(utilityProductsProvider);
-        },
+        }),
       ),
     );
+  }
+
+  double calcPersistentHeaderExtent(
+    double offset, {
+    required bool isBody,
+  }) {
+    double value = ObserverUtils.calcPersistentHeaderExtent(
+      key: appBarKey,
+      offset: offset,
+    );
+    if (isBody) {
+      value += ObserverUtils.calcPersistentHeaderExtent(
+        key: tabBarKey,
+        offset: offset,
+      );
+    }
+    return value;
   }
 }
