@@ -27,5 +27,6 @@ class Auth extends _$Auth {
  Future<void> unAuthenticated() async {
     await GetIt.I.get<AuthRepository>().logOut();
     state = const AsyncData(AuthState.unauthenticated());
+    ref.invalidateSelf();
   }
 }

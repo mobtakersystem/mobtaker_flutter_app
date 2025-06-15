@@ -10,6 +10,7 @@ import 'package:mpm/presentation/auth/providers/login_provider.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:mpm/routes/app_router.gr.dart';
+
 @RoutePage()
 class CellphoneLoginPage extends HookConsumerWidget {
   CellphoneLoginPage({super.key});
@@ -53,7 +54,7 @@ class CellphoneLoginPage extends HookConsumerWidget {
                   height: 16,
                 ),
                 Image.asset(
-                  'assets/images/logo.png',
+                  context.appLogo,
                   height: 100,
                 ),
                 const SizedBox(
@@ -98,7 +99,9 @@ class CellphoneLoginPage extends HookConsumerWidget {
                           ),
                       orElse: () => const Text('ورود')),
                 ),
-                const SizedBox(height: 48,),
+                const SizedBox(
+                  height: 48,
+                ),
                 const VersionWidget(),
               ],
             ),

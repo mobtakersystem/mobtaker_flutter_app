@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:lottie/lottie.dart';
+import 'package:mpm/common/extention/context.dart';
 import 'package:mpm/common/widget/force_landscape_wodget.dart';
 import 'package:persian_number_utility/persian_number_utility.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
@@ -20,7 +21,7 @@ class StopsBarChart extends HookConsumerWidget {
     this.height = 300,
     this.width = double.infinity,
     this.isFullScreenMode = false,
-    this.enableZoom = false,
+    this.enableZoom = true,
   });
 
   @override
@@ -37,9 +38,7 @@ class StopsBarChart extends HookConsumerWidget {
             children: [
               Text(
                 "${data[pointIndex].reason}: ${data[pointIndex].totalHour.toString().seRagham()} ساعت",
-                style: const TextStyle(
-                  color: Colors.white,
-                ),
+                style: context.theme.tooltipTheme.textStyle,
               ),
             ],
           ),

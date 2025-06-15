@@ -1,11 +1,9 @@
+
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_phoenix/flutter_phoenix.dart' show Phoenix;
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mpm/common/widget/error.dart';
 import 'package:mpm/domain/failure_model.dart';
-import 'package:mpm/presentation/auth/providers/auth_provider.dart'
-    show authProvider;
 
 class RiverPodConnectionHelperWidgetMulti extends ConsumerWidget {
   final List<AsyncValue<ResultData>> values;
@@ -45,15 +43,6 @@ class RiverPodConnectionHelperWidgetMulti extends ConsumerWidget {
       orElse: () => const AsyncValue.loading(), //
     );
     if (errorValue.hasError && !allHaveData) {
-      if (errorValue is UnAuthorizedFailure) {
-        ref.read(authProvider.notifier).unAuthenticated().then(
-          (value) {
-            if (context.mounted) {
-              Phoenix.rebirth(context);
-            }
-          },
-        );
-      }
       return failureBuilder?.call(errorValue.error!) ??
           RetryFailureWidget(
             error: errorValue.error!,
@@ -71,15 +60,6 @@ class RiverPodConnectionHelperWidgetMulti extends ConsumerWidget {
           )
           ?.getLeft()
           .toNullable();
-      if (leftValue is UnAuthorizedFailure) {
-        ref.read(authProvider.notifier).unAuthenticated().then(
-              (value) {
-            if (context.mounted) {
-              Phoenix.rebirth(context);
-            }
-          },
-        );
-      }
       return failureBuilder?.call(
             leftValue ?? const UnexpectedFailure(),
           ) ??

@@ -1,14 +1,17 @@
-import 'package:auto_route/annotations.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:local_auth/local_auth.dart';
 import 'package:mpm/common/extention/context.dart';
+import 'package:mpm/common/theme/theme_provider.dart';
 import 'package:mpm/common/widget/dialog/confirm_dialog.dart';
 import 'package:mpm/common/widget/version_widget.dart';
 import 'package:mpm/presentation/auth/providers/auth_provider.dart';
 import 'package:mpm/routes/app_router.gr.dart';
 import 'package:persian_datetime_picker/persian_datetime_picker.dart';
+
+import 'auth/providers/biometrics_providers.dart';
 
 @RoutePage()
 class HomePage extends ConsumerWidget {
@@ -53,7 +56,9 @@ class _AppDrawerState extends ConsumerState<_AppDrawer> {
 
   @override
   Widget build(BuildContext context) {
-    // You may want to replace these with your actual navigation and providers
+    final supportBiometric = ref.watch(biometricAvailableProvider);
+    final biometricType = ref.watch(biometricTypeProvider);
+    final biometricText = ref.watch(biometricTypeTextProvider);
     return Drawer(
       child: Column(
         children: [
@@ -61,39 +66,37 @@ class _AppDrawerState extends ConsumerState<_AppDrawer> {
             decoration: BoxDecoration(
               color: Theme.of(context).colorScheme.primaryContainer,
             ),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Image.asset(
-                  "assets/images/logo.png",
-                  width: 56,
+                  context.appLogo,
                   height: 56,
                 ),
-                const SizedBox(width: 16),
-                Expanded(
-                  child: ValueListenableBuilder<Jalali>(
-                    valueListenable: _nowNotifier,
-                    builder: (context, now, _) {
-                      final timeString =
-                          "${now.formatter.tHH}:${now.formatter.tMM}";
-                      final dateString = now.formatFullDate();
-                      return Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            timeString,
-                            style: Theme.of(context).textTheme.headlineSmall,
-                          ),
-                          const SizedBox(height: 4),
-                          Text(
-                            dateString,
-                            style: Theme.of(context).textTheme.bodyMedium,
-                          ),
-                        ],
-                      );
-                    },
-                  ),
+                const SizedBox(width: double.infinity, height: 0),
+                ValueListenableBuilder<Jalali>(
+                  valueListenable: _nowNotifier,
+                  builder: (context, now, _) {
+                    final timeString =
+                        "${now.formatter.tHH}:${now.formatter.tMM}";
+                    final dateString = now.formatFullDate();
+                    return Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          timeString,
+                          style: Theme.of(context).textTheme.headlineSmall,
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          dateString,
+                          style: Theme.of(context).textTheme.bodyMedium,
+                        ),
+                      ],
+                    );
+                  },
                 ),
               ],
             ),
@@ -121,21 +124,46 @@ class _AppDrawerState extends ConsumerState<_AppDrawer> {
           const Divider(),
           ListTile(
             leading: Icon(Theme.of(context).brightness == Brightness.dark
-                ? Icons.light_mode
-                : Icons.dark_mode),
-            title: const Text('تغییر تم'),
+                ? Icons.dark_mode
+                : Icons.light_mode),
+            title: const Text('تم برنامه'),
             onTap: () {
               // Implement your theme change logic here
-              // For example, using a provider or setState
+
+              showThemeChangeModalSheet(context, ref);
             },
+            trailing: Text(
+              _themeModeToText(
+                ref.watch(themeModeDataProvider),
+              ),
+            ),
           ),
-          ListTile(
-            leading: const Icon(Icons.fingerprint),
-            title: const Text('فعال‌سازی ورود بیومتریک'),
-            onTap: () {
-              // Implement biometric login enable/disable logic here
-              // For example, show a dialog or toggle a provider
-            },
+          supportBiometric.maybeWhen(
+            data: (data) => data
+                ? SwitchListTile(
+                    secondary: Icon(biometricType.value == BiometricType.face
+                        ? Icons.face
+                        : Icons.fingerprint),
+                    title: Text('ورود با ${biometricText.value ?? ''}'),
+                    onChanged: (value) {
+                      // Implement biometric login enable/disable logic here
+                      // For example, show a dialog or toggle a provider
+                      _biometricAuthentication(!value
+                              ? "غیرفعال کردن ورود با ${biometricText.value ?? ''}"
+                              : " فعال کردن ورود با ${biometricText.value ?? ''}")
+                          .then((successAuth) {
+                        if (successAuth) {
+                          ref.watch(setLoginBiometricEnableProvider(value));
+                        }
+                      });
+                    },
+                    value: ref.watch(isLoginBiometricEnableProvider).maybeWhen(
+                          data: (isEnabled) => isEnabled,
+                          orElse: () => false,
+                        ),
+                  )
+                : const SizedBox.shrink(),
+            orElse: () => const SizedBox(),
           ),
           const Spacer(),
           ListTile(
@@ -173,6 +201,85 @@ class _AppDrawerState extends ConsumerState<_AppDrawer> {
           )
         ],
       ),
+    );
+  }
+
+  String _themeModeToText(ThemeMode themeMode) {
+    switch (themeMode) {
+      case ThemeMode.light:
+        return "روشن";
+      case ThemeMode.dark:
+        return "تیره";
+      case ThemeMode.system:
+        return "سیستم";
+    }
+  }
+
+  Future<bool> _biometricAuthentication(String reason) async {
+    try {
+      final auth = LocalAuthentication();
+      final bool authenticated = await auth.authenticate(
+        localizedReason: reason,
+        options: const AuthenticationOptions(
+            useErrorDialogs: true, stickyAuth: true, biometricOnly: true),
+      );
+      return authenticated;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  void showThemeChangeModalSheet(BuildContext context, WidgetRef ref) {
+    showModalBottomSheet(
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+      ),
+      builder: (context) {
+        return Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                'انتخاب تم',
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
+              const SizedBox(height: 16),
+              ListTile(
+                leading: const Icon(Icons.light_mode),
+                title: const Text('تم روشن'),
+                onTap: () {
+                  ref
+                      .read(themeModeDataProvider.notifier)
+                      .setTheme(ThemeMode.light);
+                  Navigator.of(context).pop();
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.dark_mode),
+                title: const Text('تم تیره'),
+                onTap: () {
+                  ref
+                      .read(themeModeDataProvider.notifier)
+                      .setTheme(ThemeMode.dark);
+                  Navigator.of(context).pop();
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.brightness_auto),
+                title: const Text('تم خودکار (سیستم)'),
+                onTap: () {
+                  ref
+                      .read(themeModeDataProvider.notifier)
+                      .setTheme(ThemeMode.system);
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }

@@ -17,36 +17,49 @@ class InventoryChartsWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, ref) {
-    return MultiSliver(children: [
-      SliverToBoxAdapter(
-        child: TitlePinWidget(
-          key: topWidgetKey,
-          title: "گزارش موجودی",
-          onDateRangeSelected: (DateTimeRange value) {
-            ref.read(inventoryFilterProvider.notifier).setDateRange(value);
-          },
-          onFilterCleared: () {
-            ref.read(inventoryFilterProvider.notifier).clearDateRange();
-          },
-          initialDateRange: ref.watch(inventoryFilterProvider).dateRange,
+    return SliverStack(
+      children: [
+        const SliverPositioned.fill(
+            child: Card.outlined(
+          margin: EdgeInsets.all(8),
+        )),
+        SliverPadding(
+          padding: const EdgeInsets.all(16),
+          sliver: MultiSliver(children: [
+            SliverToBoxAdapter(
+              child: TitlePinWidget(
+                key: topWidgetKey,
+                title: "گزارش موجودی",
+                onDateRangeSelected: (DateTimeRange value) {
+                  ref
+                      .read(inventoryFilterProvider.notifier)
+                      .setDateRange(value);
+                },
+                onFilterCleared: () {
+                  ref.read(inventoryFilterProvider.notifier).clearDateRange();
+                },
+                initialDateRange: ref.watch(inventoryFilterProvider).dateRange,
+              ),
+            ),
+            SliverRiverPodConnectionHelperWidget(
+              value: ref.watch(inventoryChartProvider),
+              successBuilder: (chartsData) => SliverList.separated(
+                itemBuilder: (context, index) => _ContentWidget(
+                  chartsData: chartsData.inventoryChart![index],
+                ),
+                separatorBuilder: (context, index) => const SizedBox(
+                  height: 16,
+                ),
+                itemCount: chartsData.inventoryChart?.length ?? 0,
+              ),
+              tryAgain: () {
+                ref.refresh(inventoryChartProvider);
+              },
+            ),
+          ]),
         ),
-      ),
-      SliverRiverPodConnectionHelperWidget(
-        value: ref.watch(inventoryChartProvider),
-        successBuilder: (chartsData) => SliverList.separated(
-          itemBuilder: (context, index) => _ContentWidget(
-            chartsData: chartsData.inventoryChart![index],
-          ),
-          separatorBuilder: (context, index) => const SizedBox(
-            height: 16,
-          ),
-          itemCount: chartsData.inventoryChart?.length ?? 0,
-        ),
-        tryAgain: () {
-          ref.refresh(inventoryChartProvider);
-        },
-      ),
-    ]);
+      ],
+    );
   }
 }
 

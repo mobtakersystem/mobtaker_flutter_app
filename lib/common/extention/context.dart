@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:mpm/common/utils/error_utilst.dart';
+import 'package:mpm/flavors.dart';
 import 'package:toastification/toastification.dart';
 
 extension ContextUtils on BuildContext {
@@ -71,4 +72,8 @@ extension ContextUtils on BuildContext {
         page,
         predicate: (route) => false,
       );
+
+  bool get isLightTheme => Theme.of(this).brightness == Brightness.light;
+
+  String get appLogo => isLightTheme ? F.appLightLogo : F.appDarkLogo;
 }

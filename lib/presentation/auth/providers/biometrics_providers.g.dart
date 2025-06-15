@@ -25,7 +25,7 @@ final isLoginBiometricEnableProvider = AutoDisposeFutureProvider<bool>.internal(
 // ignore: unused_element
 typedef IsLoginBiometricEnableRef = AutoDisposeFutureProviderRef<bool>;
 String _$setLoginBiometricEnableHash() =>
-    r'658e29886e94e48e24562c9f016cb85fc32cd99f';
+    r'9515cc7312118255497ae1497d163c515ff6b274';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -224,14 +224,14 @@ final biometricAvailableProvider = AutoDisposeFutureProvider<bool>.internal(
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef BiometricAvailableRef = AutoDisposeFutureProviderRef<bool>;
-String _$biometricTypeHash() => r'0e1f647dae429da0e4bc963528cdfabbb02efb37';
+String _$biometricTypeHash() => r'b6070ff86b8816f1385a238ef27f2b99176eb0b6';
 
 /// type of biometric available
 ///
 /// Copied from [biometricType].
 @ProviderFor(biometricType)
 final biometricTypeProvider =
-    AutoDisposeFutureProvider<List<BiometricType>>.internal(
+    AutoDisposeFutureProvider<BiometricType?>.internal(
   biometricType,
   name: r'biometricTypeProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -243,8 +243,8 @@ final biometricTypeProvider =
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
-typedef BiometricTypeRef = AutoDisposeFutureProviderRef<List<BiometricType>>;
-String _$biometricTypeTextHash() => r'82556ec084ed189c30bfdf4b757ebac48fee40e3';
+typedef BiometricTypeRef = AutoDisposeFutureProviderRef<BiometricType?>;
+String _$biometricTypeTextHash() => r'd49e7b970a6b2a64597a0642a0cf162dcc893dc9';
 
 /// See also [biometricTypeText].
 @ProviderFor(biometricTypeText)

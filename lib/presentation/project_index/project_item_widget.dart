@@ -15,9 +15,9 @@ class ProjectItemWidget extends StatelessWidget {
       onTap: () {
         context.push(ProjectDataRoute(projectID: project.id));
       },
-      child: Card(
+      child: Card.outlined(
         child: Padding(
-          padding: const EdgeInsets.all(10.0),
+          padding: const EdgeInsets.symmetric(horizontal: 16,vertical: 10),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[

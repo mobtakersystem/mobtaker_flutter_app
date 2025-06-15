@@ -34,13 +34,6 @@ class _ForceLandscapeWidgetState extends State<ForceLandscapeWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return MediaQuery.removePadding(
-      context: context,
-      removeTop: true,
-      removeBottom: true,
-      removeLeft: true,
-      removeRight: true,
-      child: widget.child,
-    );
+    return SafeArea(child: widget.child);
   }
 }

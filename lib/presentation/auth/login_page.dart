@@ -1,6 +1,7 @@
 import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:local_auth/local_auth.dart';
 import 'package:mpm/common/extention/context.dart';
 import 'package:mpm/common/widget/text_form_field.dart';
 import 'package:mpm/common/widget/version_widget.dart';
@@ -9,6 +10,7 @@ import 'package:mpm/presentation/auth/providers/login_provider.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:mpm/routes/app_router.gr.dart';
+
 @RoutePage()
 class LoginPage extends HookConsumerWidget {
   LoginPage({super.key});
@@ -19,6 +21,8 @@ class LoginPage extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final loginState = ref.watch(loginFlowProvider);
     final isBiometricEnable = ref.watch(isLoginBiometricEnableProvider);
+    final biometricType = ref.watch(biometricTypeProvider);
+    final biometricText = ref.watch(biometricTypeTextProvider);
 
     ref.listen(
       loginFlowProvider,
@@ -57,7 +61,7 @@ class LoginPage extends HookConsumerWidget {
                   height: 16,
                 ),
                 Image.asset(
-                  'assets/images/logo.png',
+                  context.appLogo,
                   height: 100,
                 ),
                 const SizedBox(
@@ -125,8 +129,12 @@ class LoginPage extends HookConsumerWidget {
                                 .read(loginFlowProvider.notifier)
                                 .biometricLogin();
                           },
-                          label: const Text('ورود با اثر انگشت'),
-                          icon: const Icon(Icons.fingerprint),
+                          label: Text('ورود با ${biometricText.value ?? ''}'),
+                          icon: Icon(
+                            biometricType.value == BiometricType.face
+                                ? Icons.face
+                                : Icons.fingerprint,
+                          ),
                         )
                       : const SizedBox.shrink(),
                   orElse: () => const SizedBox.shrink(),

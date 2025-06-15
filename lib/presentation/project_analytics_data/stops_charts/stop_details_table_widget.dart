@@ -17,7 +17,7 @@ class StopDetailsTableWidget extends StatelessWidget {
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       itemBuilder: (context, index) => _ItemWidget(details: details[index]),
-      separatorBuilder: (context, index) => const SizedBox(height: 16),
+      separatorBuilder: (context, index) => const Divider(),
       itemCount: details.length,
     );
   }
@@ -30,77 +30,74 @@ class _ItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 2,
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  details.date?.toPersianDate() ?? '-',
-                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                        fontWeight: FontWeight.bold,
+    return Padding(
+      padding: const EdgeInsets.all(16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                details.date?.toPersianDate() ?? '-',
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
+              ),
+              Container(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.primaryContainer,
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Text(
+                  details.type?.title ?? 'N/A',
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        color:
+                            Theme.of(context).colorScheme.onPrimaryContainer,
                       ),
                 ),
-                Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.primaryContainer,
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Text(
-                    details.type?.title ?? 'N/A',
-                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          color:
-                              Theme.of(context).colorScheme.onPrimaryContainer,
-                        ),
-                  ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 12),
+          Row(
+            children: [
+              Expanded(
+                child: _InfoItem(
+                  label: 'شروع',
+                  value: details.start ?? 'N/A',
                 ),
-              ],
-            ),
-            const SizedBox(height: 12),
-            Row(
-              children: [
-                Expanded(
-                  child: _InfoItem(
-                    label: 'شروع',
-                    value: details.start ?? 'N/A',
-                  ),
+              ),
+              const SizedBox(width: 16),
+              Expanded(
+                child: _InfoItem(
+                  label: 'پایان',
+                  value: details.end ?? 'N/A',
                 ),
-                const SizedBox(width: 16),
-                Expanded(
-                  child: _InfoItem(
-                    label: 'پایان',
-                    value: details.end ?? 'N/A',
-                  ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 12),
+          Row(
+            children: [
+              Expanded(
+                child: _InfoItem(
+                  label: 'دلیل توقف',
+                  value: details.reason ?? 'N/A',
                 ),
-              ],
-            ),
-            const SizedBox(height: 12),
-            Row(
-              children: [
-                Expanded(
-                  child: _InfoItem(
-                    label: 'دلیل توقف',
-                    value: details.reason ?? 'N/A',
-                  ),
+              ),
+              const SizedBox(width: 16),
+              Expanded(
+                child: _InfoItem(
+                  label: 'مجموع',
+                  value: '${details.duration ?? 0} دقیقه',
                 ),
-                const SizedBox(width: 16),
-                Expanded(
-                  child: _InfoItem(
-                    label: 'مجموع',
-                    value: '${details.duration ?? 0} دقیقه',
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }

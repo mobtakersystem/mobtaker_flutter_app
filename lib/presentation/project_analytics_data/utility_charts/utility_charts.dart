@@ -38,115 +38,134 @@ class UtilityChartsWidget extends HookConsumerWidget {
           chartsData.utilityProducts?.first.utilityProductId;
     }
     final filters = ref.watch(utilityFilterProvider);
-    return MultiSliver(children: [
-      SliverToBoxAdapter(
-        child: TitlePinWidget(
-          key: topWidgetKey,
-          title: "گزارش یوتیلیتی",
-          initialDateRange: filters.dateRange,
-          onDateRangeSelected: (DateTimeRange value) {
-            ref.read(utilityFilterProvider.notifier).setDateRange(value);
-          },
-          onFilterCleared: () {
-            ref.read(utilityFilterProvider.notifier).clearDateRange();
-          },
-        ),
-      ),
-      SliverToBoxAdapter(
-        child: SizedBox(
-          height: 48,
-          child: ListView.separated(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            scrollDirection: Axis.horizontal,
-            itemBuilder: (context, index) => FilterChip(
-              label: Text(chartsData.utilityProducts![index].displayName ?? ""),
-              onSelected: (value) {
-                selectedProduct.value =
-                    chartsData.utilityProducts![index].utilityProductId;
-              },
-              selected: selectedProduct.value ==
-                  chartsData.utilityProducts![index].utilityProductId,
-            ),
-            separatorBuilder: (context, index) => const SizedBox.square(
-              dimension: 16,
-            ),
-            itemCount: chartsData.utilityProducts?.length ?? 0,
-          ),
-        ),
-      ),
-      SliverToBoxAdapter(
-        child: SelectPeriodWidget(
-          selectedPeriod: filters.chartPeriod,
-          onChanged: (value) {
-            ref.read(utilityFilterProvider.notifier).setChartPeriod(value);
-          },
-          periods: ChartPeriod.values,
-        ),
-      ),
-      SliverToBoxAdapter(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SwitchWithTitleWidget(
-              value: filters.showDetails,
-              onChanged: (value) {
-                ref.read(utilityFilterProvider.notifier).setShowDetails(value);
-              },
-              title: "نمایش جزئیات",
-            ),
-            const SizedBox(
-              width: 16,
-            ),
-            SwitchWithTitleWidget(
-              value: filters.showChartCumulative,
-              onChanged: (value) {
-                ref.read(utilityFilterProvider.notifier).setShowChartCumulative(
-                  value,
-                  onValidateError: (value) {
-                    context.showErrorMessage(value);
-                  },
-                );
-              },
-              title: "نمایش تجمعی",
-            ),
-          ],
-        ),
-      ),
-      SliverPadding(
-        padding: const EdgeInsets.only(top: 8),
-        sliver: RiverPodConnectionHelperWidget(
-          value: chartDataState,
-          successBuilder: (p0) => SliverList.separated(
-            itemBuilder: (context, index) => _ContentWidget(
-              chartsData: p0.utilityChart![index],
-            ),
-            separatorBuilder: (context, index) => const SizedBox(
-              height: 16,
-            ),
-            itemCount: p0.utilityChart?.length ?? 0,
-          ),
-          tryAgain: () {},
-          loadingBuilder: () => const SliverToBoxAdapter(
-            child: SizedBox(
-              height: 200,
-              child: Center(
-                child: CircularProgressIndicator(),
+    return SliverStack(
+      children: [
+        const SliverPositioned.fill(
+            child: Card.outlined(
+          margin: EdgeInsets.all(8),
+        )),
+        SliverPadding(
+          padding: const EdgeInsets.all(16),
+          sliver: MultiSliver(children: [
+            SliverToBoxAdapter(
+              child: TitlePinWidget(
+                key: topWidgetKey,
+                title: "گزارش یوتیلیتی",
+                initialDateRange: filters.dateRange,
+                onDateRangeSelected: (DateTimeRange value) {
+                  ref.read(utilityFilterProvider.notifier).setDateRange(value);
+                },
+                onFilterCleared: () {
+                  ref.read(utilityFilterProvider.notifier).clearDateRange();
+                },
               ),
             ),
-          ),
-          failureBuilder: (error) => SliverToBoxAdapter(
+            SliverToBoxAdapter(
               child: SizedBox(
-            height: 200,
-            child: RetryFailureWidget(
-              error: error,
-              tryAgain: () {
-                ref.invalidate(utilityChartProvider(selectedProduct.value));
-              },
+                height: 48,
+                child: ListView.separated(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (context, index) => FilterChip(
+                    label: Text(
+                        chartsData.utilityProducts![index].displayName ?? ""),
+                    onSelected: (value) {
+                      selectedProduct.value =
+                          chartsData.utilityProducts![index].utilityProductId;
+                    },
+                    selected: selectedProduct.value ==
+                        chartsData.utilityProducts![index].utilityProductId,
+                  ),
+                  separatorBuilder: (context, index) => const SizedBox.square(
+                    dimension: 16,
+                  ),
+                  itemCount: chartsData.utilityProducts?.length ?? 0,
+                ),
+              ),
             ),
-          )),
+            SliverToBoxAdapter(
+              child: SelectPeriodWidget(
+                selectedPeriod: filters.chartPeriod,
+                onChanged: (value) {
+                  ref
+                      .read(utilityFilterProvider.notifier)
+                      .setChartPeriod(value);
+                },
+                periods: ChartPeriod.values,
+              ),
+            ),
+            SliverToBoxAdapter(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SwitchWithTitleWidget(
+                    value: filters.showDetails,
+                    onChanged: (value) {
+                      ref
+                          .read(utilityFilterProvider.notifier)
+                          .setShowDetails(value);
+                    },
+                    title: "نمایش جزئیات",
+                  ),
+                  const SizedBox(
+                    width: 16,
+                  ),
+                  SwitchWithTitleWidget(
+                    value: filters.showChartCumulative,
+                    onChanged: (value) {
+                      ref
+                          .read(utilityFilterProvider.notifier)
+                          .setShowChartCumulative(
+                        value,
+                        onValidateError: (value) {
+                          context.showErrorMessage(value);
+                        },
+                      );
+                    },
+                    title: "نمایش تجمعی",
+                  ),
+                ],
+              ),
+            ),
+            SliverPadding(
+              padding: const EdgeInsets.only(top: 8),
+              sliver: RiverPodConnectionHelperWidget(
+                value: chartDataState,
+                successBuilder: (p0) => SliverList.separated(
+                  itemBuilder: (context, index) => _ContentWidget(
+                    chartsData: p0.utilityChart![index],
+                  ),
+                  separatorBuilder: (context, index) => const SizedBox(
+                    height: 16,
+                  ),
+                  itemCount: p0.utilityChart?.length ?? 0,
+                ),
+                tryAgain: () {},
+                loadingBuilder: () => const SliverToBoxAdapter(
+                  child: SizedBox(
+                    height: 200,
+                    child: Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                  ),
+                ),
+                failureBuilder: (error) => SliverToBoxAdapter(
+                    child: SizedBox(
+                  height: 200,
+                  child: RetryFailureWidget(
+                    error: error,
+                    tryAgain: () {
+                      ref.invalidate(
+                          utilityChartProvider(selectedProduct.value));
+                    },
+                  ),
+                )),
+              ),
+            ),
+          ]),
         ),
-      ),
-    ]);
+      ],
+    );
   }
 }
 

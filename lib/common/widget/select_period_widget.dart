@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mpm/common/extention/context.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mpm/domain/repository/dashboard/dashboard_slug_data.dart';
 
 class SelectPeriodWidget extends StatelessWidget {
@@ -37,27 +37,35 @@ class SelectPeriodWidget extends StatelessWidget {
               );
             }
             final period = periods[index - 1];
-            return ChoiceChip(
-              label: Text(_getPeriodName(period)),
-              selected: selectedPeriod == period,
-              onSelected: (value) {
-                if (value) {
-                  onChanged(period);
-                }
+            // Use Consumer to listen for theme changes and rebuild ChoiceChip accordingly
+            return Consumer(
+              builder: (context, ref, _) {
+                final theme = Theme.of(context);
+                final colorScheme = theme.colorScheme;
+                final textTheme = theme.textTheme;
+                return ChoiceChip(
+                  label: Text(_getPeriodName(period)),
+                  selected: selectedPeriod == period,
+                  onSelected: (value) {
+                    if (value) {
+                      onChanged(period);
+                    }
+                  },
+                  showCheckmark: false,
+                  selectedColor: Colors.transparent,
+                  backgroundColor: theme.scaffoldBackgroundColor,
+                  labelStyle: textTheme.bodySmall?.copyWith(
+                    color: selectedPeriod == period
+                        ? colorScheme.secondary
+                        : colorScheme.onSurface.withAlpha(150),
+                    fontWeight: FontWeight.w600,
+                  ),
+                  side: const BorderSide(
+                    color: Colors.transparent,
+                    width: 0,
+                  ),
+                );
               },
-              showCheckmark: false,
-              selectedColor: Colors.transparent,
-              backgroundColor: context.theme.scaffoldBackgroundColor,
-              labelStyle: context.textTheme.bodySmall?.copyWith(
-                color: selectedPeriod == period
-                    ? context.colorScheme.secondary
-                    : context.colorScheme.onSurface.withAlpha(150),
-                fontWeight: FontWeight.w600,
-              ),
-              side: const BorderSide(
-                color: Colors.transparent,
-                width: 0,
-              ),
             );
           },
           separatorBuilder: (context, index) => const SizedBox.square(

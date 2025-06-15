@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mpm/common/extention/context.dart';
 import 'package:mpm/common/widget/force_landscape_wodget.dart';
@@ -13,66 +14,60 @@ class InventoryBarChartWidget extends HookConsumerWidget {
   final bool isFullScreenMode;
   final bool enableZoom;
 
-  InventoryBarChartWidget({
+  const InventoryBarChartWidget({
     super.key,
     required this.data,
     this.height = 300,
     this.width = double.infinity,
     this.isFullScreenMode = false,
-    this.enableZoom = false,
+    this.enableZoom = true,
   });
-
-  final _tooltipBehavior = TooltipBehavior(
-    enable: true,
-    canShowMarker: true,
-    builder: (data, point, series, pointIndex, seriesIndex) => Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          if (seriesIndex == 0)
-            Text(
-              'موجودی کل: ${data.totalInventory.toString().seRagham()}',
-              style: const TextStyle(
-                color: Colors.white,
-              ),
-            ),
-          if (seriesIndex == 1)
-            Text(
-              'موجودی در دسترس: ${data.currentInventory.toString().seRagham()}',
-              style: const TextStyle(
-                color: Colors.white,
-              ),
-            ),
-          if (seriesIndex == 2)
-            Text(
-              'تعهد شده فروش: ${data.saleCommitment.toString().seRagham()}',
-              style: const TextStyle(
-                color: Colors.white,
-              ),
-            ),
-          if (seriesIndex == 3)
-            Text(
-              'خرید در راه: ${data.buyCommitment.toString().seRagham()}',
-              style: const TextStyle(
-                color: Colors.white,
-              ),
-            ),
-        ],
-      ),
-    ),
-  );
 
   @override
   Widget build(BuildContext context, ref) {
+    final tooltipBehavior = useMemoized(
+      () => TooltipBehavior(
+        enable: true,
+        canShowMarker: true,
+        builder: (data, point, series, pointIndex, seriesIndex) => Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              if (seriesIndex == 0)
+                Text(
+                  'موجودی کل: ${data.totalInventory.toString().seRagham()}',
+                  style: context.theme.tooltipTheme.textStyle,
+                ),
+              if (seriesIndex == 1)
+                Text(
+                  'موجودی در دسترس: ${data.currentInventory.toString().seRagham()}',
+                  style: context.theme.tooltipTheme.textStyle,
+                ),
+              if (seriesIndex == 2)
+                Text(
+                  'تعهد شده فروش: ${data.saleCommitment.toString().seRagham()}',
+                  style: context.theme.tooltipTheme.textStyle,
+                ),
+              if (seriesIndex == 3)
+                Text(
+                  'خرید در راه: ${data.buyCommitment.toString().seRagham()}',
+                  style: context.theme.tooltipTheme.textStyle,
+                ),
+            ],
+          ),
+        ),
+      ),
+      [data],
+    );
     return Stack(
       children: [
         SfCartesianChart(
           primaryXAxis: const CategoryAxis(
             isVisible: false,
           ),
-          tooltipBehavior: _tooltipBehavior,
+          tooltipBehavior: tooltipBehavior,
           legend: const Legend(
             isVisible: true,
             position: LegendPosition.bottom,
@@ -89,38 +84,42 @@ class InventoryBarChartWidget extends HookConsumerWidget {
               dataSource: [data],
               xValueMapper: (InventoryChart data, _) =>
                   data.productSymbol ?? '',
-              yValueMapper: (InventoryChart data, _) => data.totalInventory,
-              color: context.primaryColor,
-              name: 'موجودی در انبار(کل)',
+              yValueMapper: (InventoryChart data, index) =>
+                  index == 0 ? data.currentInventory : data.totalInventory,
+              color: const Color(0xFF6EA8FE),
+              name: data.chartTotalInventoryTitle,
               enableTooltip: true,
             ),
             ColumnSeries<InventoryChart, String>(
               dataSource: [data],
               xValueMapper: (InventoryChart data, _) =>
                   data.productSymbol ?? '',
-              yValueMapper: (InventoryChart data, _) => data.currentInventory,
-              color: const Color(0xFFF57C00),
-              name: 'موجودی در دسترس',
+              yValueMapper: (InventoryChart data, index) =>
+                  index == 0 ? data.totalInventory : data.currentInventory,
+              color: const Color(0xFFFD9843),
+              name: data.chartCurrentInventoryTitle,
               enableTooltip: true,
             ),
+            if (data.productSymbol != "PELLET")
             ColumnSeries<InventoryChart, String>(
               dataSource: [data],
               xValueMapper: (InventoryChart data, _) =>
                   data.productSymbol ?? '',
               yValueMapper: (InventoryChart data, _) => data.saleCommitment,
-              color: context.secondaryColor,
+              color: const Color(0xFF6C762F),
               name: 'تعهد شده فروش',
               enableTooltip: true,
             ),
-            ColumnSeries<InventoryChart, String>(
-              dataSource: [data],
-              xValueMapper: (InventoryChart data, _) =>
-                  data.productSymbol ?? '',
-              yValueMapper: (InventoryChart data, _) => data.buyCommitment,
-              color: context.tertiaryColor,
-              name: 'خرید در راه',
-              enableTooltip: true,
-            ),
+            if (data.productSymbol != "STEEL")
+              ColumnSeries<InventoryChart, String>(
+                dataSource: [data],
+                xValueMapper: (InventoryChart data, _) =>
+                    data.productSymbol ?? '',
+                yValueMapper: (InventoryChart data, _) => data.buyCommitment,
+                color: const Color(0xFF6C757D),
+                name: 'خرید در راه',
+                enableTooltip: true,
+              ),
           ],
         ),
         Positioned(

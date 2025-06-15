@@ -83,6 +83,7 @@ slConfig(GetIt getIt) async {
   getIt.registerLazySingleton<FlutterSecureStorage>(
     () => const FlutterSecureStorage(),
   );
+  await _themeModeConfig(getIt);
   getIt.registerLazySingleton<AuthDataProvider>(
     () => AuthDataProviderImpl(
       networkService: getIt(),
@@ -295,6 +296,19 @@ _localHandler(GetIt getIt) {
       getIt<LocalHandlerData>(),
     ),
   );
+}
+
+//theme mode config
+_themeModeConfig(GetIt getIt) async {
+  final savedThemeMode =
+      await getIt.get<FlutterSecureStorage>().read(key: "theme_mode");
+
+  getIt.registerSingleton<ThemeMode>(savedThemeMode == null
+      ? ThemeMode.system
+      : ThemeMode.values.firstWhere(
+          (element) => element.name == savedThemeMode,
+          orElse: () => ThemeMode.system,
+        ));
 }
 
 enum ProviderType {

@@ -38,7 +38,7 @@ class ProductionChartWidget extends HookConsumerWidget {
             SliverToBoxAdapter(
               child: TitlePinWidget(
                 key: topWidgetKey,
-                title: "تولید",
+                title: "گزارش تولید",
                 initialDateRange: filters.dateRange,
                 onDateRangeSelected: (DateTimeRange value) {
                   ref

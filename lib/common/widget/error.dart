@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mpm/common/extention/context.dart';
 import 'package:mpm/common/utils/error_utilst.dart';
 import 'package:mpm/domain/failure_model.dart';
@@ -43,6 +44,24 @@ class RetryFailureWidget extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          Consumer(
+            builder: (context, ref, child) {
+              // Future.microtask(
+              //   () {
+              //     if (error is UnAuthorizedFailure) {
+              //       ref.read(authProvider.notifier).unAuthenticated().then(
+              //         (value) {
+              //           if (context.mounted) {
+              //             Phoenix.rebirth(context);
+              //           }
+              //         },
+              //       );
+              //     }
+              //   },
+              // );
+              return const SizedBox.shrink();
+            },
+          ),
           TextFailureWidget(error: error),
           const SizedBox(height: 12),
           ElevatedButton(

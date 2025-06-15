@@ -2,8 +2,11 @@ import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:mpm/common/extention/context.dart';
 import 'package:mpm/common/riverpod_helper_multi.dart';
 import 'package:mpm/data/entities/dashboard_chart/utility_chart_entity.dart';
+import 'package:mpm/domain/failure_model.dart';
+import 'package:mpm/presentation/auth/providers/auth_provider.dart';
 import 'package:mpm/presentation/project_analytics_data/inventory_charts/inventory_charts.dart';
 import 'package:mpm/presentation/project_analytics_data/production_charts/production_chart.dart';
 import 'package:mpm/presentation/project_analytics_data/inventory_charts/providers/inventory_chart_provider.dart';
@@ -14,7 +17,7 @@ import 'package:mpm/presentation/project_analytics_data/sale_charts/sale_charts.
 import 'package:mpm/presentation/project_analytics_data/stops_charts/stops_charts.dart';
 import 'package:mpm/presentation/project_analytics_data/utility_charts/providers/utility_chart_provider.dart';
 import 'package:mpm/presentation/project_analytics_data/utility_charts/utility_charts.dart';
-import 'package:scrollview_observer/scrollview_observer.dart';
+import 'package:mpm/routes/app_router.gr.dart';
 
 @RoutePage()
 class DashboardPage extends HookConsumerWidget {
@@ -27,28 +30,62 @@ class DashboardPage extends HookConsumerWidget {
     final inventoryChartsState = ref.watch(inventoryChartProvider);
     final stopChartsState = ref.watch(stopsChartProvider);
     final utilityChart = ref.watch(utilityProductsProvider);
-    final tabController = useTabController(initialLength: 5);
-    final scrollController = useScrollController();
-    final observerController = useMemoized(
-        () => SliverObserverController(controller: scrollController),
-        [scrollController]);
-
-    // Add a listener to handle tab changes
-    useEffect(() {
-      void onTabChanged() {
-        // if (!tabController.indexIsChanging) {
-        //   print('Tab changed to: ${tabController.index}');
-        //   observerController.animateTo(
-        //     index: tabController.index,
-        //     duration: const Duration(milliseconds: 300),
-        //     curve: Curves.easeInOut,
-        //   );
-        // }
-      }
-
-      tabController.addListener(onTabChanged);
-      return () => tabController.removeListener(onTabChanged);
-    }, [tabController, observerController]);
+    ref.listen(
+      productionChartProvider,
+      (previous, next) async {
+        if (next.hasError && next.error is UnAuthorizedFailure) {
+          Future.delayed(const Duration(milliseconds: 700)).then(
+                (value) {
+              ref.read(authProvider.notifier).unAuthenticated().then((value) {
+                if (context.mounted) {
+                  context.popAllAndPush(const SplashRoute());
+                }
+              });
+            },
+          );
+        } else if (next.hasValue &&
+            (next.value?.isLeft() ?? true) &&
+            next.value?.getLeft().toNullable() is UnAuthorizedFailure) {
+          Future.delayed(const Duration(milliseconds: 700)).then(
+            (value) {
+              ref.read(authProvider.notifier).unAuthenticated().then((value) {
+                if (context.mounted) {
+                  context.popAllAndPush(const SplashRoute());
+                }
+              });
+            },
+          );
+        }
+      },
+    );
+    final tabController = useTabController(initialLength: 5, keys: [
+      productionChart,
+      saleChart,
+      inventoryChartsState,
+      stopChartsState,
+      utilityChart
+    ]);
+    // final scrollController = useScrollController(keys: [productionChart]);
+    // final observerController = useMemoized(
+    //     () => SliverObserverController(controller: scrollController),
+    //     [scrollController]);
+    //
+    // // Add a listener to handle tab changes
+    // useEffect(() {
+    //   void onTabChanged() {
+    //     // if (!tabController.indexIsChanging) {
+    //     //   print('Tab changed to: ${tabController.index}');
+    //     //   observerController.animateTo(
+    //     //     index: tabController.index,
+    //     //     duration: const Duration(milliseconds: 300),
+    //     //     curve: Curves.easeInOut,
+    //     //   );
+    //     // }
+    //   }
+    //
+    //   tabController.addListener(onTabChanged);
+    //   return () => tabController.removeListener(onTabChanged);
+    // }, [tabController, observerController]);
 
     return NestedScrollView(
       headerSliverBuilder: (context, innerBoxIsScrolled) {

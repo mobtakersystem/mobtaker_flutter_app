@@ -24,7 +24,7 @@ class TitlePinWidget extends StatelessWidget {
         children: [
           Text(
             title,
-            style: context.textTheme.titleLarge?.copyWith(
+            style: context.textTheme.titleMedium?.copyWith(
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -37,10 +37,10 @@ class TitlePinWidget extends StatelessWidget {
               child: Icon(
                 Icons.close,
                 size: 18,
-                color: context.theme.badgeTheme.textColor,
+                color: context.colorScheme.onError,
               ),
             ),
-            child: IconButton.filledTonal(
+            child: IconButton.filled(
               onPressed: () {
                 _dateRangePicker(context);
               },

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mpm/common/extention/context.dart';
 import 'package:mpm/common/riverpod_helper.dart';
@@ -22,69 +23,81 @@ class StopChartsWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ref) {
     final filters = ref.watch(stopsFilterProvider);
-    return MultiSliver(children: [
-      SliverToBoxAdapter(
-        child: TitlePinWidget(
-          key: topWidgetKey,
-          title: "گزارش توقفات",
-          onDateRangeSelected: (DateTimeRange value) {
-            ref.read(stopsFilterProvider.notifier).setDateRange(value);
-          },
-          onFilterCleared: () {
-            ref.read(stopsFilterProvider.notifier).clearDateRange();
-          },
-          initialDateRange: filters.dateRange,
-        ),
-      ),
-      SliverToBoxAdapter(
-        child: SelectPeriodWidget(
-          selectedPeriod: filters.chartPeriod,
-          onChanged: (value) {
-            ref.read(stopsFilterProvider.notifier).setChartPeriod(value);
-          },
-          periods: ChartPeriod.values,
-        ),
-      ),
-      SliverToBoxAdapter(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SwitchWithTitleWidget(
-              value: filters.showDetails,
-              onChanged: (value) {
-                ref.read(stopsFilterProvider.notifier).setShowDetails(value);
-              },
-              title: "نمایش جزئیات",
+    return SliverStack(
+      children: [
+        const SliverPositioned.fill(
+            child: Card.outlined(
+          margin: EdgeInsets.all(8),
+        )),
+        SliverPadding(
+          padding: const EdgeInsets.all(16),
+          sliver: MultiSliver(children: [
+            SliverToBoxAdapter(
+              child: TitlePinWidget(
+                key: topWidgetKey,
+                title: "گزارش توقفات",
+                onDateRangeSelected: (DateTimeRange value) {
+                  ref.read(stopsFilterProvider.notifier).setDateRange(value);
+                },
+                onFilterCleared: () {
+                  ref.read(stopsFilterProvider.notifier).clearDateRange();
+                },
+                initialDateRange: filters.dateRange,
+              ),
             ),
-          ],
+            SliverToBoxAdapter(
+              child: SelectPeriodWidget(
+                selectedPeriod: filters.chartPeriod,
+                onChanged: (value) {
+                  ref.read(stopsFilterProvider.notifier).setChartPeriod(value);
+                },
+                periods: ChartPeriod.values,
+              ),
+            ),
+            SliverToBoxAdapter(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SwitchWithTitleWidget(
+                    value: filters.showDetails,
+                    onChanged: (value) {
+                      ref.read(stopsFilterProvider.notifier).setShowDetails(value);
+                    },
+                    title: "نمایش جزئیات",
+                  ),
+                ],
+              ),
+            ),
+            SliverRiverPodConnectionHelperWidget(
+              value: ref.watch(stopsChartProvider),
+              tryAgain: () {
+                ref.refresh(stopsChartProvider);
+              },
+              successBuilder: (chartsData) => SliverList.separated(
+                itemBuilder: (context, index) => _ContentWidget(
+                  chartsData: chartsData.stopCharts![index],
+                ),
+                separatorBuilder: (context, index) => const SizedBox(
+                  height: 16,
+                ),
+                itemCount: chartsData.stopCharts?.length ?? 0,
+              ),
+            ),
+          ]),
         ),
-      ),
-      SliverRiverPodConnectionHelperWidget(
-        value: ref.watch(stopsChartProvider),
-        tryAgain: () {
-          ref.refresh(stopsChartProvider);
-        },
-        successBuilder: (chartsData) => SliverList.separated(
-          itemBuilder: (context, index) => _ContentWidget(
-            chartsData: chartsData.stopCharts![index],
-          ),
-          separatorBuilder: (context, index) => const SizedBox(
-            height: 16,
-          ),
-          itemCount: chartsData.stopCharts?.length ?? 0,
-        ),
-      ),
-    ]);
+      ],
+    );
   }
 }
 
-class _ContentWidget extends StatelessWidget {
+class _ContentWidget extends HookConsumerWidget {
   final StopCharts chartsData;
 
   const _ContentWidget({required this.chartsData});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, ref) {
+    final showList = useState(false);
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -106,19 +119,52 @@ class _ContentWidget extends StatelessWidget {
           data: chartsData.data ?? [],
         ),
         if (chartsData.details?.isNotEmpty ?? false) ...[
-          const SizedBox(
-            height: 16,
-          ),
-          Text(
-            "لیست توقفات",
-            style: context.textTheme.titleMedium?.copyWith(
-              fontWeight: FontWeight.bold,
+          AnimatedContainer(
+            duration: const Duration(milliseconds: 600),
+            margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+            decoration: BoxDecoration(
+              border: Border.all(
+                color: context.theme.dividerColor,
+                width: 1,
+              ),
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                ListTile(
+                  onTap: () {
+                    showList.value = !showList.value;
+                  },
+                  title: Text(
+                    "لیست توقفات",
+                    style: context.textTheme.titleMedium?.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  trailing: IgnorePointer(
+                    ignoring: true,
+                    child: showList.value
+                        ? IconButton(
+                            icon: const Icon(Icons.keyboard_arrow_up_outlined),
+                            onPressed: () {},
+                          )
+                        : IconButton(
+                            icon: const Icon(Icons.keyboard_arrow_down_rounded),
+                            onPressed: () {},
+                          ),
+                  ),
+                ),
+                AnimatedSwitcher(
+                  duration: const Duration(milliseconds: 700),
+                  child: showList.value
+                      ? StopDetailsTableWidget(
+                          details: chartsData.details ?? [])
+                      : const SizedBox.shrink(),
+                ),
+              ],
             ),
           ),
-          const SizedBox(
-            height: 8,
-          ),
-          StopDetailsTableWidget(details: chartsData.details ?? []),
         ]
       ],
     );

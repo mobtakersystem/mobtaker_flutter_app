@@ -1,6 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'enventory_chart_entity.freezed.dart';
+
 part 'enventory_chart_entity.g.dart';
 
 @freezed
@@ -9,7 +10,8 @@ class InventoryChartEntity with _$InventoryChartEntity {
     @JsonKey(name: 'inventoryChart') List<InventoryChart>? inventoryChart,
   }) = _InventoryChartEntity;
 
-  factory InventoryChartEntity.fromJson(Map<String, Object?> json) => _$InventoryChartEntityFromJson(json);
+  factory InventoryChartEntity.fromJson(Map<String, Object?> json) =>
+      _$InventoryChartEntityFromJson(json);
 }
 
 @freezed
@@ -23,6 +25,34 @@ class InventoryChart with _$InventoryChart {
     @JsonKey(name: 'sale_commitment') int? saleCommitment,
   }) = _InventoryChart;
 
-  factory InventoryChart.fromJson(Map<String, Object?> json) => _$InventoryChartFromJson(json);
+  factory InventoryChart.fromJson(Map<String, Object?> json) =>
+      _$InventoryChartFromJson(json);
 }
 
+extension InventoryChartExtension on InventoryChart {
+  String get chartTotalInventoryTitle {
+    switch (productSymbol ?? "") {
+      case 'STEEL':
+        return 'موجودی در انبار(کل)';
+      case 'DRI':
+        return 'موجودی در دسترس(کل)';
+      case 'PELLET':
+        return 'موجودی در دسترس(کل)';
+      default:
+        return 'موجودی در دسترس(کل)';
+    }
+  }
+
+  String get chartCurrentInventoryTitle {
+    switch (productSymbol ?? "") {
+      case 'STEEL':
+        return 'موجودی در دسترس';
+      case 'DRI':
+        return 'موجودی در انبار';
+      case 'PELLET':
+        return 'موجودی در انبار';
+      default:
+        return 'موجودی در انبار';
+    }
+  }
+}

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mpm/domain/repository/auth/auth_impl.dart';
@@ -29,6 +31,7 @@ Future<bool> setLoginBiometricEnable(
     await secureStorage.write(key: userNameActive, value: "");
     await secureStorage.write(key: passwordActive, value: "");
   }
+  ref.invalidate(isLoginBiometricEnableProvider);
   return isEnable;
 }
 
@@ -50,33 +53,31 @@ Future<bool> biometricAvailable(BiometricAvailableRef ref) async {
 
 /// type of biometric available
 @riverpod
-Future<List<BiometricType>> biometricType(BiometricTypeRef ref) async {
+Future<BiometricType?> biometricType(BiometricTypeRef ref) async {
   final LocalAuthentication auth = ref.watch(localAuthProvider);
   final List<BiometricType> availableBiometrics =
       await auth.getAvailableBiometrics();
-  return availableBiometrics;
+  if (Platform.isIOS) {
+    return BiometricType.face;
+  } else if (Platform.isAndroid) {
+    return BiometricType.fingerprint;
+  }
+  return null;
 }
 
 @riverpod
 Future<String> biometricTypeText(BiometricTypeTextRef ref) async {
   final type = await ref.watch(biometricTypeProvider.future);
-  if (type.isEmpty) {
+  if (type == null) {
     return "";
   } else {
-    return type
-        .map((e) {
-          switch (e) {
-            case BiometricType.face:
-              return "تشخیض چهره";
-            case BiometricType.fingerprint:
-              return "اثر انگشت";
-            case BiometricType.iris:
-              return "عنبیه";
-            default:
-              return "";
-          }
-        })
-        .join(", ")
-        .trim();
+    switch (type) {
+      case BiometricType.face:
+        return "تشخیض چهره";
+      case BiometricType.fingerprint:
+        return "اثر انگشت";
+      default:
+        return "";
+    }
   }
 }

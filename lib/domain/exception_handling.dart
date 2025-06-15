@@ -28,18 +28,17 @@ extension ExtensionToFailure<T> on Exception {
     if (this is NetworkException) {
       switch ((this as NetworkException).errorCode) {
         case 401:
-          return  UnAuthorizedFailure(message: (this as NetworkException).errorMessage??"");
+          return  const UnAuthorizedFailure();
         case 403:
           return AccessDeniedFailure(
               message: (this as NetworkException).errorMessage);
         case >= 440 && < 450:
-          return TimeoutFailure(
-              message: (this as NetworkException).errorMessage ?? 'timeout');
+          return const TimeoutFailure();
         case 450:
           return const CancelledRequestFailure();
         default:
           String message =
-              (this as NetworkException).errorMessage ?? 'unexpected_error';
+              (this as NetworkException).errorMessage ?? 'خطای ناشناخته رخ داده است. لطفا دوباره تلاش کنید.';
           return MessageFailure(message: message);
       }
     } else if (this is NotFoundException) {

@@ -61,4 +61,21 @@ sQIDAQAB
         return false;
       }
   }
+
+  static String get appDarkLogo {
+    switch (appFlavor) {
+      case Flavor.dev:
+        return 'assets/images/minebi-logo-dark.png';
+      case Flavor.folad:
+        return 'assets/images/minebi-logo-dark.png';
+    }
+  }
+  static String get appLightLogo {
+    switch (appFlavor) {
+      case Flavor.dev:
+        return 'assets/images/minebi-logo.png';
+      case Flavor.folad:
+        return 'assets/images/minebi-logo.png';
+    }
+  }
 }

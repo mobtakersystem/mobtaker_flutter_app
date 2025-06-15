@@ -1,4 +1,3 @@
-import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +8,8 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mpm/common/sl_config.dart';
+import 'package:mpm/common/theme/theme_data.dart';
+import 'package:mpm/common/theme/theme_provider.dart';
 import 'package:mpm/common/work_manager_config.dart';
 import 'package:mpm/routes/app_router.dart';
 import 'package:persian_datetime_picker/persian_datetime_picker.dart';
@@ -28,15 +29,15 @@ void main() async {
   );
   await slConfig(GetIt.instance);
   timeago.setLocaleMessages('fa', timeago.FaMessages());
-  runApp(Phoenix(child: const ProviderScope(child: MyApp())));
+  runApp(ProviderScope(child: Phoenix(child: const MyApp())));
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends ConsumerWidget {
   const MyApp({super.key});
 
   // This widget is the root of your application.
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, ref) {
     return MaterialApp.router(
       title: 'MineBi',
       locale: const Locale('fa', 'IR'),
@@ -53,24 +54,9 @@ class MyApp extends StatelessWidget {
         GlobalCupertinoLocalizations.delegate,
         FormBuilderLocalizations.delegate,
       ],
-      theme: FlexThemeData.light(
-        fontFamily: 'irYekan',
-        // Using FlexColorScheme built-in FlexScheme enum based colors
-        scheme: FlexScheme.indigoM3,
-        // Component theme configurations for light mode.
-        subThemesData: const FlexSubThemesData(
-          interactionEffects: true,
-          tintedDisabledControls: true,
-          useM2StyleDividerInM3: true,
-          inputDecoratorIsFilled: true,
-          inputDecoratorBorderType: FlexInputBorderType.outline,
-          alignedDropdown: true,
-          navigationRailUseIndicator: true,
-        ),
-        // Direct ThemeData properties.
-        visualDensity: FlexColorScheme.comfortablePlatformDensity,
-        cupertinoOverrideTheme: const CupertinoThemeData(applyThemeToAll: true),
-      ),
+      theme: AppTheme.light,
+      darkTheme: AppTheme.dark,
+      themeMode: ref.watch(themeModeDataProvider),
     );
   }
 }

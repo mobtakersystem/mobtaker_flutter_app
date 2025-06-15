@@ -116,14 +116,12 @@ class NetworkService {
         throw NetworkException(errorMessage: errorText);
       }
       if (error.response?.data != null) {
-        print("RR");
         final response = nt.ResponseBody.fromJson(error.response?.data);
         throw NetworkException(
           errorMessage: response.message,
           errorCode: response.status ?? error.response?.statusCode ?? 422,
         );
       } else if (error.response?.statusCode == 401) {
-        print("DD");
         throw NetworkException(
           errorMessage: "خطا در احراز هویت کاربر",
           errorCode: 401,

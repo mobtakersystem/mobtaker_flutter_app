@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:lottie/lottie.dart';
+import 'package:mpm/common/extention/context.dart';
 import 'package:mpm/common/widget/force_landscape_wodget.dart';
 import 'package:mpm/data/entities/dashboard_chart/sale_data_chart_entity.dart';
 import 'package:persian_number_utility/persian_number_utility.dart';
@@ -13,52 +15,49 @@ class SaleBarChart extends HookConsumerWidget {
   final bool isFullScreenMode;
   final bool enableZoom;
 
-  SaleBarChart({
+  const SaleBarChart({
     super.key,
     required this.data,
     this.height = 300,
     this.width = double.infinity,
     this.isFullScreenMode = false,
-    this.enableZoom = false,
+    this.enableZoom = true,
   });
-
-  final _tooltipBehavior = TooltipBehavior(
-    enable: true,
-    canShowMarker: true,
-    builder: (data, point, series, pointIndex, seriesIndex) => Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          if (seriesIndex == 0)
-            Text(
-              'عملکرد: ${data.performance.toString().seRagham()}',
-              style: const TextStyle(
-                color: Colors.white,
-              ),
-            ),
-          if (seriesIndex == 1)
-            Text(
-              'برنامه: ${data.schedule.toString().seRagham()}',
-              style: const TextStyle(
-                color: Colors.white,
-              ),
-            ),
-          if (seriesIndex == 2)
-            Text(
-              'درصد تحقق: ${data.deviation}%',
-              style: const TextStyle(
-                color: Colors.white,
-              ),
-            ),
-        ],
-      ),
-    ),
-  );
 
   @override
   Widget build(BuildContext context, ref) {
+    final tooltipBehavior = useMemoized(
+        () => TooltipBehavior(
+              enable: true,
+              canShowMarker: true,
+              builder: (data, point, series, pointIndex, seriesIndex) =>
+                  Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    if (seriesIndex == 0)
+                      Text(
+                        'عملکرد: ${data.performance.toString().seRagham()}',
+                        style: context.theme.tooltipTheme.textStyle,
+                      ),
+                    if (seriesIndex == 1)
+                      Text(
+                        'برنامه: ${data.schedule.toString().seRagham()}',
+                        style: context.theme.tooltipTheme.textStyle,
+                      ),
+                    if (seriesIndex == 2)
+                      Text(
+                        'درصد تحقق: ${data.deviation}%',
+                        style: context.theme.tooltipTheme.textStyle,
+                      ),
+                  ],
+                ),
+              ),
+            ),
+        [data]);
+
     if (data.isEmpty) {
       return Column(
         mainAxisSize: MainAxisSize.min,
@@ -74,7 +73,7 @@ class SaleBarChart extends HookConsumerWidget {
       children: [
         SfCartesianChart(
           primaryXAxis: const CategoryAxis(),
-          tooltipBehavior: _tooltipBehavior,
+          tooltipBehavior: tooltipBehavior,
           legend: const Legend(
             isVisible: true,
             position: LegendPosition.bottom,
