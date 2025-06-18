@@ -43,12 +43,20 @@ class DashboardPage extends StatefulHookConsumerWidget {
 class _DashboardPageState extends ConsumerState<DashboardPage> {
   final appBarKey = GlobalKey();
   final GlobalKey tabBarKey = GlobalKey();
+
   final nestedScrollViewKey = GlobalKey<NestedScrollViewState>();
   final outerScrollController = ScrollController();
   late final SliverObserverController sliverObserverController;
   Map<int, BuildContext> sliverIndexCtxMap = {};
   bool isIgnoreCalcTabBarIndex = false;
   final nestedScrollUtil = NestedScrollUtil();
+  final firstItemKey = [
+    GlobalKey(),
+    GlobalKey(),
+    GlobalKey(),
+    GlobalKey(),
+    GlobalKey(),
+  ];
 
   @override
   void initState() {
@@ -63,6 +71,32 @@ class _DashboardPageState extends ConsumerState<DashboardPage> {
   void dispose() {
     outerScrollController.dispose();
     super.dispose();
+  }
+
+  void scrollToSection(BuildContext targetContext, bool enableSmoothScroll,
+      {Duration duration = const Duration(milliseconds: 600)}) {
+    final RenderBox box = targetContext.findRenderObject() as RenderBox;
+    final position = box.localToGlobal(Offset.zero);
+    final scrollOffset = position.dy;
+    final headerExtend = ObserverUtils.calcPersistentHeaderExtent(
+      key: appBarKey,
+      offset: outerScrollController.offset,
+    );
+    if (enableSmoothScroll) {
+      nestedScrollUtil.bodyScrollController?.animateTo(
+        scrollOffset +
+            nestedScrollUtil.bodyScrollController!.offset -
+            headerExtend,
+        duration: duration,
+        curve: Curves.easeInOut,
+      );
+    } else {
+      nestedScrollUtil.bodyScrollController?.jumpTo(
+        scrollOffset +
+            nestedScrollUtil.bodyScrollController!.offset -
+            headerExtend,
+      );
+    }
   }
 
   @override
@@ -159,7 +193,25 @@ class _DashboardPageState extends ConsumerState<DashboardPage> {
                 unselectedLabelColor:
                     Theme.of(context).colorScheme.onSurface.withAlpha(150),
                 indicatorColor: Theme.of(context).colorScheme.primary,
-                onTap: (index) async {},
+                onTap: (index) async {
+                  isIgnoreCalcTabBarIndex = true;
+                  final targetContext = firstItemKey[index].currentContext;
+                  if (targetContext != null) {
+                    scrollToSection(
+                      targetContext,
+                      true,
+                    );
+                  }
+                  Future.delayed(const Duration(milliseconds: 600), () async {
+                    if (index != 0 &&
+                        targetContext != null &&
+                        targetContext.mounted) {
+                      scrollToSection(targetContext, false);
+                    }
+                    await Future.delayed(const Duration(milliseconds: 50));
+                    isIgnoreCalcTabBarIndex = false;
+                  });
+                },
                 tabs: const [
                   Tab(text: 'تولید'),
                   Tab(text: 'فروش'),
@@ -172,7 +224,7 @@ class _DashboardPageState extends ConsumerState<DashboardPage> {
             )
           ];
         },
-        body: Builder(builder: (context) {
+        body: Consumer(builder: (context, ref, child)  {
           // Get the inner scroll controller.
           final innerScrollController = PrimaryScrollController.of(context);
           if (nestedScrollUtil.bodyScrollController != innerScrollController) {
@@ -191,28 +243,36 @@ class _DashboardPageState extends ConsumerState<DashboardPage> {
               return CustomScrollView(
                 slivers: [
                   SliverObserveContext(
-                    child: const ProductionChartWidget(),
+                    child: ProductionChartWidget(
+                      topWidgetKey: firstItemKey[0],
+                    ),
                     onObserve: (context) {
                       sliverIndexCtxMap[0] = context;
                       nestedScrollUtil.bodySliverContexts.add(context);
                     },
                   ),
                   SliverObserveContext(
-                    child: const SaleChartsWidget(),
+                    child: SaleChartsWidget(
+                      topWidgetKey: firstItemKey[1],
+                    ),
                     onObserve: (context) {
                       sliverIndexCtxMap[1] = context;
                       nestedScrollUtil.bodySliverContexts.add(context);
                     },
                   ),
                   SliverObserveContext(
-                    child: const InventoryChartsWidget(),
+                    child: InventoryChartsWidget(
+                      topWidgetKey: firstItemKey[2],
+                    ),
                     onObserve: (context) {
                       sliverIndexCtxMap[2] = context;
                       nestedScrollUtil.bodySliverContexts.add(context);
                     },
                   ),
                   SliverObserveContext(
-                    child: const StopChartsWidget(),
+                    child: StopChartsWidget(
+                      topWidgetKey: firstItemKey[3],
+                    ),
                     onObserve: (context) {
                       sliverIndexCtxMap[3] = context;
                       nestedScrollUtil.bodySliverContexts.add(context);
@@ -221,6 +281,7 @@ class _DashboardPageState extends ConsumerState<DashboardPage> {
                   SliverObserveContext(
                     child: UtilityChartsWidget(
                       chartsData: utility,
+                      topWidgetKey: firstItemKey[4],
                     ),
                     onObserve: (context) {
                       sliverIndexCtxMap[4] = context;

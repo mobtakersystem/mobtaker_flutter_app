@@ -40,16 +40,16 @@ class UtilityChartsWidget extends HookConsumerWidget {
     final filters = ref.watch(utilityFilterProvider);
     return SliverStack(
       children: [
-        const SliverPositioned.fill(
-            child: Card.outlined(
-          margin: EdgeInsets.all(8),
-        )),
+        SliverPositioned.fill(
+            key: topWidgetKey,
+            child: const Card.outlined(
+              margin: EdgeInsets.all(8),
+            )),
         SliverPadding(
           padding: const EdgeInsets.all(16),
           sliver: MultiSliver(children: [
             SliverToBoxAdapter(
               child: TitlePinWidget(
-                key: topWidgetKey,
                 title: "گزارش یوتیلیتی",
                 initialDateRange: filters.dateRange,
                 onDateRangeSelected: (DateTimeRange value) {

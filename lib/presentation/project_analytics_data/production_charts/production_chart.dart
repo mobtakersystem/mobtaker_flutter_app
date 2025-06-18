@@ -28,16 +28,16 @@ class ProductionChartWidget extends HookConsumerWidget {
     final productionChart = ref.watch(productionChartProvider);
     return SliverStack(
       children: [
-        const SliverPositioned.fill(
+        SliverPositioned.fill(
             child: Card.outlined(
-          margin: EdgeInsets.all(8),
+          key: topWidgetKey,
+          margin: const EdgeInsets.all(8),
         )),
         SliverPadding(
           padding: const EdgeInsets.all(16),
           sliver: MultiSliver(children: [
             SliverToBoxAdapter(
               child: TitlePinWidget(
-                key: topWidgetKey,
                 title: "گزارش تولید",
                 initialDateRange: filters.dateRange,
                 onDateRangeSelected: (DateTimeRange value) {

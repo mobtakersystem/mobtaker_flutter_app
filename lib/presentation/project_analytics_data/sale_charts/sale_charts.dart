@@ -22,16 +22,16 @@ class SaleChartsWidget extends ConsumerWidget {
     final filters = ref.watch(saleFilterProvider);
     return SliverStack(
       children: [
-        const SliverPositioned.fill(
+         SliverPositioned.fill(
             child: Card.outlined(
-          margin: EdgeInsets.all(8),
+              key: topWidgetKey,
+          margin: const EdgeInsets.all(8),
         )),
         SliverPadding(
           padding: const EdgeInsets.all(16),
           sliver: MultiSliver(children: [
             SliverToBoxAdapter(
               child: TitlePinWidget(
-                key: topWidgetKey,
                 title: "گزارش فروش",
                 onDateRangeSelected: (DateTimeRange value) {
                   ref.read(saleFilterProvider.notifier).setDateRange(value);
