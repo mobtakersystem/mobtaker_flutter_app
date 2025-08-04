@@ -50,50 +50,6 @@ class ProductionChartWidget extends HookConsumerWidget {
                 },
               ),
             ),
-            SliverToBoxAdapter(
-              child: SelectPeriodWidget(
-                selectedPeriod: filters.chartPeriod,
-                onChanged: (value) {
-                  ref
-                      .read(productionFilterProvider.notifier)
-                      .setChartPeriod(value);
-                },
-                periods: ChartPeriod.values,
-              ),
-            ),
-            SliverToBoxAdapter(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SwitchWithTitleWidget(
-                    value: filters.showDetails,
-                    onChanged: (value) {
-                      ref
-                          .read(productionFilterProvider.notifier)
-                          .setShowDetails(value);
-                    },
-                    title: "نمایش جزئیات",
-                  ),
-                  const SizedBox(
-                    width: 16,
-                  ),
-                  SwitchWithTitleWidget(
-                    value: filters.showChartCumulative,
-                    onChanged: (value) {
-                      ref
-                          .read(productionFilterProvider.notifier)
-                          .setShowChartCumulative(
-                        value,
-                        onValidateError: (value) {
-                          context.showErrorMessage(value);
-                        },
-                      );
-                    },
-                    title: "نمایش تجمعی",
-                  ),
-                ],
-              ),
-            ),
             SliverRiverPodConnectionHelperWidget(
               value: productionChart,
               tryAgain: () {
@@ -103,6 +59,7 @@ class ProductionChartWidget extends HookConsumerWidget {
                 itemBuilder: (context, index) => _ContentWidget(
                   chartsData:
                       chartsData.schedulePerformanceComparisonCharts![index],
+                  showFilter: index == 0,
                 ),
                 separatorBuilder: (context, index) => const SizedBox(
                   height: 16,
@@ -120,8 +77,12 @@ class ProductionChartWidget extends HookConsumerWidget {
 
 class _ContentWidget extends ConsumerWidget {
   final SchedulePerformanceComparisonCharts chartsData;
+  final bool showFilter;
 
-  const _ContentWidget({required this.chartsData});
+  const _ContentWidget({
+    required this.chartsData,
+    this.showFilter = false,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -154,6 +115,46 @@ class _ContentWidget extends ConsumerWidget {
         const SizedBox(
           height: 16,
         ),
+        if (showFilter) ...[
+          SelectPeriodWidget(
+            selectedPeriod: filters.chartPeriod,
+            onChanged: (value) {
+              ref.read(productionFilterProvider.notifier).setChartPeriod(value);
+            },
+            periods: ChartPeriod.values,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SwitchWithTitleWidget(
+                value: filters.showDetails,
+                onChanged: (value) {
+                  ref
+                      .read(productionFilterProvider.notifier)
+                      .setShowDetails(value);
+                },
+                title: "نمایش جزئیات",
+              ),
+              const SizedBox(
+                width: 16,
+              ),
+              SwitchWithTitleWidget(
+                value: filters.showChartCumulative,
+                onChanged: (value) {
+                  ref
+                      .read(productionFilterProvider.notifier)
+                      .setShowChartCumulative(
+                    value,
+                    onValidateError: (value) {
+                      context.showErrorMessage(value);
+                    },
+                  );
+                },
+                title: "نمایش تجمعی",
+              ),
+            ],
+          ),
+        ],
         Center(
           child: Text(
             "مقایسه عملکرد - برنامه ",

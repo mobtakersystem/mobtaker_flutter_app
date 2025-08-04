@@ -68,9 +68,8 @@ class AuthRepositoryImpl extends AuthRepository {
 
   @override
   Future<bool> authConfig() async {
-
+    return false;
     final token = await _secureStorage.read(key: tokenKey);
-
     if (token?.isEmpty ?? true) {
       return false;
     }
