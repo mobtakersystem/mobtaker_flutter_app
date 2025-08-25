@@ -9,13 +9,13 @@ flavors:
         versionNameSuffix: "\"-dev\""
     ios:
       bundleId: "mobtakersystem.minebi.dev"
-  folad:
+  arfabi:
     app:
-      name: "Minebi Folad"
+      name: "Arfabi"
 
     android:
-      applicationId: "mobtakersystem.minebi.folad"
+      applicationId: "mobtakersystem.minebi.arfabi"
       customConfig:
-        versionNameSuffix: "\"-folad\""
+        versionNameSuffix: "\"-arfabi\""
     ios:
-      bundleId: "mobtakersystem.minebi.folad"
+      bundleId: "mobtakersystem.minebi.arfabi"

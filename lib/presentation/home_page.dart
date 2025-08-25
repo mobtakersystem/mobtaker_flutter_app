@@ -7,6 +7,7 @@ import 'package:mpm/common/extention/context.dart';
 import 'package:mpm/common/theme/theme_provider.dart';
 import 'package:mpm/common/widget/dialog/confirm_dialog.dart';
 import 'package:mpm/common/widget/version_widget.dart';
+import 'package:mpm/flavors.dart' show F;
 import 'package:mpm/presentation/auth/providers/auth_provider.dart';
 import 'package:mpm/routes/app_router.gr.dart';
 import 'package:persian_datetime_picker/persian_datetime_picker.dart';
@@ -101,26 +102,28 @@ class _AppDrawerState extends ConsumerState<_AppDrawer> {
               ],
             ),
           ),
-          ListTile(
-            leading: const Icon(Icons.dashboard),
-            title: const Text('داشبورد'),
-            onTap: () {
-              Navigator.of(context).pop();
-              // Navigate to dashboard page
-              // Navigator.of(context).pushReplacement(...);
-              context.navigateTo(const DashboardRoute());
-            },
-          ),
-          ListTile(
-            leading: const Icon(Icons.analytics),
-            title: const Text('حفاری'),
-            onTap: () {
-              Navigator.of(context).pop();
-              context.navigateTo(const ProjectsIndexRoute());
-              // Navigate to drilling page
-              // Navigator.of(context).pushReplacement(...);
-            },
-          ),
+          if (F.isDashboardModuleEnable)
+            ListTile(
+              leading: const Icon(Icons.dashboard),
+              title: const Text('داشبورد'),
+              onTap: () {
+                Navigator.of(context).pop();
+                // Navigate to dashboard page
+                // Navigator.of(context).pushReplacement(...);
+                context.navigateTo(const DashboardRoute());
+              },
+            ),
+          if (F.isMiningModuleEnable)
+            ListTile(
+              leading: const Icon(Icons.analytics),
+              title: const Text('حفاری'),
+              onTap: () {
+                Navigator.of(context).pop();
+                context.navigateTo(const ProjectsIndexRoute());
+                // Navigate to drilling page
+                // Navigator.of(context).pushReplacement(...);
+              },
+            ),
           const Divider(),
           ListTile(
             leading: Icon(Theme.of(context).brightness == Brightness.dark

@@ -91,10 +91,11 @@ slConfig(GetIt getIt) async {
   );
   getIt.registerLazySingleton<AuthRepository>(
     () => AuthRepositoryImpl(
-        dataProvider: getIt(),
-        secureStorage: getIt(),
-        rsaPublicKey: F.rsaPublicKey,
-        isBackgroundServiceActive: false),
+      dataProvider: getIt(),
+      secureStorage: getIt(),
+      rsaPublicKey: F.rsaPublicKey,
+      isBackgroundServiceActive: F.isBackgroundServiceEnabled,
+    ),
   );
   getIt.registerLazySingleton<DeleteProjectDataUseCase>(
     () => DeleteProjectDataUseCase(

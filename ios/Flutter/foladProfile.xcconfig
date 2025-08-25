@@ -1,0 +1,6 @@
+#include? "Pods/Target Support Files/Pods-Runner/Pods-Runner.profile.xcconfig"
+#include "Generated.xcconfig"
+
+ASSET_PREFIX=arfabi
+BUNDLE_NAME=Arfabi
+BUNDLE_DISPLAY_NAME=Arfabi
