@@ -6,7 +6,7 @@ part of 'stops_filter_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$stopsFilterHash() => r'49a861337034edf5e2d9772d2cb8b79946e3dacf';
+String _$stopsFilterHash() => r'bdc4bd868cd8e9be154eacf44ec0a95f911bf50d';
 
 /// See also [StopsFilter].
 @ProviderFor(StopsFilter)

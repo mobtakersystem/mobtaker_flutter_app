@@ -13,6 +13,7 @@ class InventoryBarChartWidget extends HookConsumerWidget {
   final double width;
   final bool isFullScreenMode;
   final bool enableZoom;
+  final bool showLable;
 
   const InventoryBarChartWidget({
     super.key,
@@ -21,6 +22,7 @@ class InventoryBarChartWidget extends HookConsumerWidget {
     this.width = double.infinity,
     this.isFullScreenMode = false,
     this.enableZoom = true,
+    this.showLable = true,
   });
 
   @override
@@ -36,15 +38,25 @@ class InventoryBarChartWidget extends HookConsumerWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               if (seriesIndex == 0)
-                Text(
-                  'موجودی کل: ${data.totalInventory.toString().seRagham()}',
-                  style: context.theme.tooltipTheme.textStyle,
-                ),
+                pointIndex == 0
+                    ? Text(
+                        '${this.data.chartTotalInventoryTitle}: ${data.currentInventory.toString().seRagham()}',
+                        style: context.theme.tooltipTheme.textStyle,
+                      )
+                    : Text(
+                        '${this.data.chartTotalInventoryTitle}: ${data.totalInventory.toString().seRagham()}',
+                        style: context.theme.tooltipTheme.textStyle,
+                      ),
               if (seriesIndex == 1)
-                Text(
-                  'موجودی در دسترس: ${data.currentInventory.toString().seRagham()}',
-                  style: context.theme.tooltipTheme.textStyle,
-                ),
+                pointIndex == 0
+                    ? Text(
+                        '${this.data.chartCurrentInventoryTitle}: ${data.totalInventory.toString().seRagham()}',
+                        style: context.theme.tooltipTheme.textStyle,
+                      )
+                    : Text(
+                        '${this.data.chartCurrentInventoryTitle}: ${data.currentInventory.toString().seRagham()}',
+                        style: context.theme.tooltipTheme.textStyle,
+                      ),
               if (seriesIndex == 2)
                 Text(
                   'تعهد شده فروش: ${data.saleCommitment.toString().seRagham()}',
@@ -89,6 +101,15 @@ class InventoryBarChartWidget extends HookConsumerWidget {
               color: const Color(0xFF6EA8FE),
               name: data.chartTotalInventoryTitle,
               enableTooltip: true,
+              dataLabelSettings: DataLabelSettings(
+                isVisible: showLable,
+                labelAlignment: ChartDataLabelAlignment.middle,
+                labelPosition: ChartDataLabelPosition.inside,
+                textStyle: const TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
             ),
             ColumnSeries<InventoryChart, String>(
               dataSource: [data],
@@ -99,17 +120,35 @@ class InventoryBarChartWidget extends HookConsumerWidget {
               color: const Color(0xFFFD9843),
               name: data.chartCurrentInventoryTitle,
               enableTooltip: true,
+              dataLabelSettings: DataLabelSettings(
+                isVisible: showLable,
+                labelAlignment: ChartDataLabelAlignment.middle,
+                labelPosition: ChartDataLabelPosition.inside,
+                textStyle: const TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
             ),
             if (data.productSymbol != "PELLET")
-            ColumnSeries<InventoryChart, String>(
-              dataSource: [data],
-              xValueMapper: (InventoryChart data, _) =>
-                  data.productSymbol ?? '',
-              yValueMapper: (InventoryChart data, _) => data.saleCommitment,
-              color: const Color(0xFF6C762F),
-              name: 'تعهد شده فروش',
-              enableTooltip: true,
-            ),
+              ColumnSeries<InventoryChart, String>(
+                dataSource: [data],
+                xValueMapper: (InventoryChart data, _) =>
+                    data.productSymbol ?? '',
+                yValueMapper: (InventoryChart data, _) => data.saleCommitment,
+                color: const Color(0xFF6C762F),
+                name: 'تعهد شده فروش',
+                enableTooltip: true,
+                dataLabelSettings: DataLabelSettings(
+                  isVisible: showLable,
+                  labelAlignment: ChartDataLabelAlignment.middle,
+                  labelPosition: ChartDataLabelPosition.inside,
+                  textStyle: const TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
             if (data.productSymbol != "STEEL")
               ColumnSeries<InventoryChart, String>(
                 dataSource: [data],
@@ -119,6 +158,15 @@ class InventoryBarChartWidget extends HookConsumerWidget {
                 color: const Color(0xFF6C757D),
                 name: 'خرید در راه',
                 enableTooltip: true,
+                dataLabelSettings: DataLabelSettings(
+                  isVisible: showLable,
+                  labelAlignment: ChartDataLabelAlignment.middle,
+                  labelPosition: ChartDataLabelPosition.inside,
+                  textStyle: const TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
               ),
           ],
         ),
@@ -127,10 +175,15 @@ class InventoryBarChartWidget extends HookConsumerWidget {
           right: 8,
           child: isFullScreenMode
               ? IconButton(
+                  style: IconButton.styleFrom(
+                    backgroundColor:
+                    context.isLightTheme ? Colors.black12 : Colors.white24,
+                    foregroundColor: Colors.orange,
+                  ),
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
-                  icon: const Icon(Icons.fullscreen_exit),
+                  icon: const Icon(Icons.close),
                 )
               : IconButton(
                   icon: const Icon(Icons.fullscreen),
@@ -145,7 +198,10 @@ class InventoryBarChartWidget extends HookConsumerWidget {
   void _showFullScreenChart(BuildContext context) {
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => _FullScreenChart(data: data),
+        builder: (context) => _FullScreenChart(
+          data: data,
+          showLable: showLable,
+        ),
         fullscreenDialog: true,
       ),
     );
@@ -154,20 +210,22 @@ class InventoryBarChartWidget extends HookConsumerWidget {
 
 class _FullScreenChart extends StatelessWidget {
   final InventoryChart data;
+  final bool showLable;
 
-  const _FullScreenChart({required this.data});
+  const _FullScreenChart({required this.data, this.showLable = false});
 
   @override
   Widget build(BuildContext context) {
     return ForceLandscapeWidget(
       child: Scaffold(
         body: Padding(
-          padding: const EdgeInsets.only(top: 32),
+          padding: const EdgeInsets.only(top: 8),
           child: InventoryBarChartWidget(
             data: data,
             height: double.maxFinite,
             isFullScreenMode: true,
             enableZoom: true,
+            showLable: showLable,
           ),
         ),
       ),

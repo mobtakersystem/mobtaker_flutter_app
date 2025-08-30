@@ -24,8 +24,8 @@ class NetworkService {
     final dio = Dio()
       ..options.baseUrl = baseUrl
       ..options.headers = _headers
-      ..options.connectTimeout = const Duration(seconds: 10)
-      ..options.receiveTimeout = const Duration(seconds: 15)
+      ..options.connectTimeout = const Duration(seconds: 15)
+      ..options.receiveTimeout = const Duration(seconds: 20)
       ..interceptors.add(
         PrettyDioLogger(
           requestBody: true,

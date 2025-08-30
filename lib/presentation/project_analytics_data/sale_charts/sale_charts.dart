@@ -130,6 +130,7 @@ class _ContentWidget extends StatelessWidget {
         ),
         SaleBarChart(
           data: chartsData.data ?? [],
+          showLable: (chartsData.data?.length ?? 0) <= 3,
         )
       ],
     );

@@ -120,6 +120,7 @@ class _ContentWidget extends HookConsumerWidget {
         ),
         StopsBarChart(
           data: chartsData.data ?? [],
+          showLable: (chartsData.data?.length ?? 0) <= 4,
         ),
         if (chartsData.details?.isNotEmpty ?? false) ...[
           AnimatedContainer(

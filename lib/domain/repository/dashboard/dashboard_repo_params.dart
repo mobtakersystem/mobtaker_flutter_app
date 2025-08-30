@@ -67,6 +67,8 @@ class ProductionParams extends Equatable {
     this.chartPeriod = ChartPeriod.daily,
   });
 
+  bool get isEmpty => dateRange == null && !showDetails && !showChartCumulative;
+
   @override
   List<Object?> get props => [
         dateRange,

@@ -8,6 +8,7 @@ import 'package:mpm/data/entities/dashboard_chart/production_chart_entity.dart';
 import 'package:mpm/domain/repository/dashboard/dashboard_slug_data.dart';
 import 'package:mpm/presentation/project_analytics_data/pin_title_widget.dart';
 import 'package:mpm/presentation/project_analytics_data/production_charts/production_chart_widget.dart';
+import 'package:mpm/presentation/project_analytics_data/production_charts/production_filter_widget.dart';
 import 'package:mpm/presentation/project_analytics_data/production_charts/production_table_widget.dart';
 import 'package:mpm/presentation/project_analytics_data/production_charts/providers/production_chart_provider.dart';
 import 'package:mpm/presentation/project_analytics_data/production_charts/providers/production_filter_provider.dart';
@@ -119,44 +120,7 @@ class _ContentWidget extends ConsumerWidget {
           height: 16,
         ),
         if (showFilter) ...[
-          SelectPeriodWidget(
-            selectedPeriod: filters.chartPeriod,
-            onChanged: (value) {
-              ref.read(productionFilterProvider.notifier).setChartPeriod(value);
-            },
-            periods: ChartPeriod.values,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SwitchWithTitleWidget(
-                value: filters.showDetails,
-                onChanged: (value) {
-                  ref
-                      .read(productionFilterProvider.notifier)
-                      .setShowDetails(value);
-                },
-                title: "نمایش جزئیات",
-              ),
-              const SizedBox(
-                width: 16,
-              ),
-              SwitchWithTitleWidget(
-                value: filters.showChartCumulative,
-                onChanged: (value) {
-                  ref
-                      .read(productionFilterProvider.notifier)
-                      .setShowChartCumulative(
-                    value,
-                    onValidateError: (value) {
-                      context.showErrorMessage(value);
-                    },
-                  );
-                },
-                title: "نمایش تجمعی",
-              ),
-            ],
-          ),
+          const ProductionFilterWidget(),
         ],
         Center(
           child: Text(
@@ -171,6 +135,7 @@ class _ContentWidget extends ConsumerWidget {
         ),
         ProductionBarChart(
           data: chartsData.data ?? [],
+          showLable: (chartsData.data?.length ?? 0) <= 3,
         )
       ],
     );

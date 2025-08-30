@@ -87,7 +87,7 @@ class AuthDataProviderImpl extends AuthDataProvider {
         path: 'auth/login',
         data: NetworkRequestBody.json(
           {
-            "email": userName,
+            "cellphone": userName,
             "password": password,
             "mobileId": deviceId,
             "mobile_signiture": appSignature,

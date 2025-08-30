@@ -145,7 +145,7 @@ class UtilityChartsWidget extends HookConsumerWidget {
                 loadingBuilder: () =>  SliverToBoxAdapter(
                   child: SizedBox(
                     height: context.height * 0.5,
-                    child: LoadingWidget(),
+                    child: const LoadingWidget(),
                   ),
                 ),
                 failureBuilder: (error) => SliverToBoxAdapter(
@@ -197,6 +197,7 @@ class _ContentWidget extends ConsumerWidget {
         ),
         UtilityColumnChart(
           data: chartsData.data ?? [],
+          showLable: (chartsData.data?.length ?? 0) <= 3,
         )
       ],
     );

@@ -56,8 +56,8 @@ class SelectPeriodWidget extends StatelessWidget {
                   backgroundColor: theme.scaffoldBackgroundColor,
                   labelStyle: textTheme.bodySmall?.copyWith(
                     color: selectedPeriod == period
-                        ? colorScheme.secondary
-                        : colorScheme.onSurface.withAlpha(150),
+                        ? const Color(0xFFF57C00)
+                        : null,
                     fontWeight: FontWeight.w600,
                   ),
                   side: const BorderSide(

@@ -102,76 +102,82 @@ class _AppDrawerState extends ConsumerState<_AppDrawer> {
               ],
             ),
           ),
-          if (F.isDashboardModuleEnable)
-            ListTile(
-              leading: const Icon(Icons.dashboard),
-              title: const Text('داشبورد'),
-              onTap: () {
-                Navigator.of(context).pop();
-                // Navigate to dashboard page
-                // Navigator.of(context).pushReplacement(...);
-                context.navigateTo(const DashboardRoute());
-              },
-            ),
-          if (F.isMiningModuleEnable)
-            ListTile(
-              leading: const Icon(Icons.analytics),
-              title: const Text('حفاری'),
-              onTap: () {
-                Navigator.of(context).pop();
-                context.navigateTo(const ProjectsIndexRoute());
-                // Navigate to drilling page
-                // Navigator.of(context).pushReplacement(...);
-              },
-            ),
-          const Divider(),
-          ListTile(
-            leading: Icon(Theme.of(context).brightness == Brightness.dark
-                ? Icons.dark_mode
-                : Icons.light_mode),
-            title: const Text('تم برنامه'),
-            onTap: () {
-              // Implement your theme change logic here
-
-              showThemeChangeModalSheet(context, ref);
-            },
-            trailing: Text(
-              _themeModeToText(
-                ref.watch(themeModeDataProvider),
+          Expanded(
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  if (F.isDashboardModuleEnable)
+                    ListTile(
+                      leading: const Icon(Icons.dashboard),
+                      title: const Text('داشبورد'),
+                      onTap: () {
+                        Navigator.of(context).pop();
+                        // Navigate to dashboard page
+                        // Navigator.of(context).pushReplacement(...);
+                        context.navigateTo(const DashboardRoute());
+                      },
+                    ),
+                  if (F.isMiningModuleEnable)
+                    ListTile(
+                      leading: const Icon(Icons.analytics),
+                      title: const Text('حفاری'),
+                      onTap: () {
+                        Navigator.of(context).pop();
+                        context.navigateTo(const ProjectsIndexRoute());
+                        // Navigate to drilling page
+                        // Navigator.of(context).pushReplacement(...);
+                      },
+                    ),
+                  const Divider(),
+                  SwitchListTile(
+                    secondary: Icon(Theme.of(context).brightness == Brightness.dark
+                        ? Icons.dark_mode
+                        : Icons.light_mode),
+                    title: const Text('تم برنامه'),
+                    value: Theme.of(context).brightness == Brightness.dark,
+                    onChanged: (bool value) {
+                      ref
+                          .read(themeModeDataProvider.notifier)
+                          .setTheme(value ? ThemeMode.dark : ThemeMode.light);
+                    },
+                  ),
+                  supportBiometric.maybeWhen(
+                    data: (data) => data
+                        ? SwitchListTile(
+                            secondary: Icon(
+                                biometricType.value == BiometricType.face
+                                    ? Icons.face
+                                    : Icons.fingerprint),
+                            title: Text('ورود با ${biometricText.value ?? ''}'),
+                            onChanged: (value) {
+                              // Implement biometric login enable/disable logic here
+                              // For example, show a dialog or toggle a provider
+                              _biometricAuthentication(!value
+                                      ? "غیرفعال کردن ورود با ${biometricText.value ?? ''}"
+                                      : " فعال کردن ورود با ${biometricText.value ?? ''}")
+                                  .then((successAuth) {
+                                if (successAuth) {
+                                  ref.watch(setLoginBiometricEnableProvider(value));
+                                }
+                              });
+                            },
+                            value:
+                                ref.watch(isLoginBiometricEnableProvider).maybeWhen(
+                                      data: (isEnabled) => isEnabled,
+                                      orElse: () => false,
+                                    ),
+                          )
+                        : const SizedBox.shrink(),
+                    orElse: () => const SizedBox(),
+                  ),
+                ],
               ),
             ),
-          ),
-          supportBiometric.maybeWhen(
-            data: (data) => data
-                ? SwitchListTile(
-                    secondary: Icon(biometricType.value == BiometricType.face
-                        ? Icons.face
-                        : Icons.fingerprint),
-                    title: Text('ورود با ${biometricText.value ?? ''}'),
-                    onChanged: (value) {
-                      // Implement biometric login enable/disable logic here
-                      // For example, show a dialog or toggle a provider
-                      _biometricAuthentication(!value
-                              ? "غیرفعال کردن ورود با ${biometricText.value ?? ''}"
-                              : " فعال کردن ورود با ${biometricText.value ?? ''}")
-                          .then((successAuth) {
-                        if (successAuth) {
-                          ref.watch(setLoginBiometricEnableProvider(value));
-                        }
-                      });
-                    },
-                    value: ref.watch(isLoginBiometricEnableProvider).maybeWhen(
-                          data: (isEnabled) => isEnabled,
-                          orElse: () => false,
-                        ),
-                  )
-                : const SizedBox.shrink(),
-            orElse: () => const SizedBox(),
           ),
           const Spacer(),
           ListTile(
             leading: const Icon(Icons.logout),
-            title: const Text('خروج از حساب'),
+            title: const Text('خروج'),
             onTap: () {
               ConfirmDialog.show(
                 context,
@@ -207,16 +213,17 @@ class _AppDrawerState extends ConsumerState<_AppDrawer> {
     );
   }
 
-  String _themeModeToText(ThemeMode themeMode) {
-    switch (themeMode) {
-      case ThemeMode.light:
-        return "روشن";
-      case ThemeMode.dark:
-        return "تیره";
-      case ThemeMode.system:
-        return "سیستم";
-    }
-  }
+  //
+  // String _themeModeToText(ThemeMode themeMode) {
+  //   switch (themeMode) {
+  //     case ThemeMode.light:
+  //       return "روشن";
+  //     case ThemeMode.dark:
+  //       return "تیره";
+  //     case ThemeMode.system:
+  //       return "سیستم";
+  //   }
+  // }
 
   Future<bool> _biometricAuthentication(String reason) async {
     try {

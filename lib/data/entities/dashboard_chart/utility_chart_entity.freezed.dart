@@ -1322,6 +1322,8 @@ mixin _$Data {
   int? get performance => throw _privateConstructorUsedError;
   @JsonKey(name: 'deviation')
   int? get deviation => throw _privateConstructorUsedError;
+  @JsonKey(name: 'deviationStartLine')
+  int? get deviationStartLine => throw _privateConstructorUsedError;
 
   /// Serializes this Data to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -1341,7 +1343,8 @@ abstract class $DataCopyWith<$Res> {
       {@JsonKey(name: 'date') String? date,
       @JsonKey(name: 'schedule') int? schedule,
       @JsonKey(name: 'performance') int? performance,
-      @JsonKey(name: 'deviation') int? deviation});
+      @JsonKey(name: 'deviation') int? deviation,
+      @JsonKey(name: 'deviationStartLine') int? deviationStartLine});
 }
 
 /// @nodoc
@@ -1363,6 +1366,7 @@ class _$DataCopyWithImpl<$Res, $Val extends Data>
     Object? schedule = freezed,
     Object? performance = freezed,
     Object? deviation = freezed,
+    Object? deviationStartLine = freezed,
   }) {
     return _then(_value.copyWith(
       date: freezed == date
@@ -1381,6 +1385,10 @@ class _$DataCopyWithImpl<$Res, $Val extends Data>
           ? _value.deviation
           : deviation // ignore: cast_nullable_to_non_nullable
               as int?,
+      deviationStartLine: freezed == deviationStartLine
+          ? _value.deviationStartLine
+          : deviationStartLine // ignore: cast_nullable_to_non_nullable
+              as int?,
     ) as $Val);
   }
 }
@@ -1396,7 +1404,8 @@ abstract class _$$DataImplCopyWith<$Res> implements $DataCopyWith<$Res> {
       {@JsonKey(name: 'date') String? date,
       @JsonKey(name: 'schedule') int? schedule,
       @JsonKey(name: 'performance') int? performance,
-      @JsonKey(name: 'deviation') int? deviation});
+      @JsonKey(name: 'deviation') int? deviation,
+      @JsonKey(name: 'deviationStartLine') int? deviationStartLine});
 }
 
 /// @nodoc
@@ -1415,6 +1424,7 @@ class __$$DataImplCopyWithImpl<$Res>
     Object? schedule = freezed,
     Object? performance = freezed,
     Object? deviation = freezed,
+    Object? deviationStartLine = freezed,
   }) {
     return _then(_$DataImpl(
       date: freezed == date
@@ -1433,6 +1443,10 @@ class __$$DataImplCopyWithImpl<$Res>
           ? _value.deviation
           : deviation // ignore: cast_nullable_to_non_nullable
               as int?,
+      deviationStartLine: freezed == deviationStartLine
+          ? _value.deviationStartLine
+          : deviationStartLine // ignore: cast_nullable_to_non_nullable
+              as int?,
     ));
   }
 }
@@ -1444,7 +1458,8 @@ class _$DataImpl implements _Data {
       {@JsonKey(name: 'date') this.date,
       @JsonKey(name: 'schedule') this.schedule,
       @JsonKey(name: 'performance') this.performance,
-      @JsonKey(name: 'deviation') this.deviation});
+      @JsonKey(name: 'deviation') this.deviation,
+      @JsonKey(name: 'deviationStartLine') this.deviationStartLine});
 
   factory _$DataImpl.fromJson(Map<String, dynamic> json) =>
       _$$DataImplFromJson(json);
@@ -1461,10 +1476,13 @@ class _$DataImpl implements _Data {
   @override
   @JsonKey(name: 'deviation')
   final int? deviation;
+  @override
+  @JsonKey(name: 'deviationStartLine')
+  final int? deviationStartLine;
 
   @override
   String toString() {
-    return 'Data(date: $date, schedule: $schedule, performance: $performance, deviation: $deviation)';
+    return 'Data(date: $date, schedule: $schedule, performance: $performance, deviation: $deviation, deviationStartLine: $deviationStartLine)';
   }
 
   @override
@@ -1478,13 +1496,15 @@ class _$DataImpl implements _Data {
             (identical(other.performance, performance) ||
                 other.performance == performance) &&
             (identical(other.deviation, deviation) ||
-                other.deviation == deviation));
+                other.deviation == deviation) &&
+            (identical(other.deviationStartLine, deviationStartLine) ||
+                other.deviationStartLine == deviationStartLine));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, date, schedule, performance, deviation);
+  int get hashCode => Object.hash(
+      runtimeType, date, schedule, performance, deviation, deviationStartLine);
 
   /// Create a copy of Data
   /// with the given fields replaced by the non-null parameter values.
@@ -1504,10 +1524,12 @@ class _$DataImpl implements _Data {
 
 abstract class _Data implements Data {
   const factory _Data(
-      {@JsonKey(name: 'date') final String? date,
-      @JsonKey(name: 'schedule') final int? schedule,
-      @JsonKey(name: 'performance') final int? performance,
-      @JsonKey(name: 'deviation') final int? deviation}) = _$DataImpl;
+          {@JsonKey(name: 'date') final String? date,
+          @JsonKey(name: 'schedule') final int? schedule,
+          @JsonKey(name: 'performance') final int? performance,
+          @JsonKey(name: 'deviation') final int? deviation,
+          @JsonKey(name: 'deviationStartLine') final int? deviationStartLine}) =
+      _$DataImpl;
 
   factory _Data.fromJson(Map<String, dynamic> json) = _$DataImpl.fromJson;
 
@@ -1523,6 +1545,9 @@ abstract class _Data implements Data {
   @override
   @JsonKey(name: 'deviation')
   int? get deviation;
+  @override
+  @JsonKey(name: 'deviationStartLine')
+  int? get deviationStartLine;
 
   /// Create a copy of Data
   /// with the given fields replaced by the non-null parameter values.

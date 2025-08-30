@@ -50,100 +50,124 @@ class LoginPage extends HookConsumerWidget {
     );
     return Scaffold(
       appBar: AppBar(),
-      body: SingleChildScrollView(
-        child: FormBuilder(
-          key: _formKey,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Column(
-              children: [
-                const SizedBox(
-                  height: 16,
+      body: DecoratedBox(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage(context.isLightTheme
+                ? "assets/images/nodes-blue.png"
+                : "assets/images/nodes-blue-dark.png"),
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: ConstrainedBox(
+          constraints: BoxConstraints(
+            minHeight: context.height * .85,
+          ),
+          child: SingleChildScrollView(
+            child: FormBuilder(
+              key: _formKey,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Column(
+                  children: [
+                    const SizedBox(
+                      height: 16,
+                    ),
+                    Image.asset(
+                      context.appLogo,
+                      height: 80,
+                    ),
+                    const SizedBox(
+                      height: 26,
+                    ),
+                    AppTextFormField(
+                      name: 'userName',
+                      validator: FormBuilderValidators.compose([
+                        FormBuilderValidators.required(),
+                        FormBuilderValidators.phoneNumber(
+                          regex: RegExp("^09[0-9]{9}\$"),
+                        ),
+                      ]),
+                      decoration: const InputDecoration(
+                        labelText: 'موبایل',
+                      ),
+                      keyboardType: TextInputType.phone,
+                    ),
+                    const SizedBox.square(
+                      dimension: 16,
+                    ),
+                    AppTextFormField(
+                      name: 'password',
+                      validator: FormBuilderValidators.compose([
+                        FormBuilderValidators.required(),
+                      ]),
+                      obscureText: true,
+                      autocorrect: false,
+                      decoration: const InputDecoration(
+                        labelText: 'رمز عبور',
+                      ),
+                    ),
+                    const SizedBox.square(
+                      dimension: 16,
+                    ),
+                    FilledButton(
+                      style: FilledButton.styleFrom(
+                        minimumSize: const Size(double.infinity, 48),
+                      ),
+                      onPressed: () {
+                        // ref.read(loginFlowProvider.notifier).biometricLogin();
+                        if (_formKey.currentState?.saveAndValidate() ?? false) {
+                          ref.read(loginFlowProvider.notifier).userPassLogin(
+                                userName:
+                                    _formKey.currentState?.value['userName'],
+                                password:
+                                    _formKey.currentState?.value['password'],
+                              );
+                        }
+                      },
+                      child: loginState.maybeWhen(
+                          skipLoadingOnReload: false,
+                          skipLoadingOnRefresh: false,
+                          loading: () => CircularProgressIndicator(
+                                valueColor: AlwaysStoppedAnimation(
+                                  context.onButtonColor,
+                                ),
+                              ),
+                          orElse: () => const Text('ورود')),
+                    ),
+                    const SizedBox.square(
+                      dimension: 16,
+                    ),
+                    isBiometricEnable.maybeWhen(
+                      data: (data) => data
+                          ? TextButton.icon(
+                              onPressed: () {
+                                ref
+                                    .read(loginFlowProvider.notifier)
+                                    .biometricLogin();
+                              },
+                              label:
+                                  Text('ورود با ${biometricText.value ?? ''}'),
+                              icon: Icon(
+                                biometricType.value == BiometricType.face
+                                    ? Icons.face
+                                    : Icons.fingerprint,
+                              ),
+                            )
+                          : const SizedBox.shrink(),
+                      orElse: () => const SizedBox.shrink(),
+                    ),
+                    const SizedBox(
+                      height: 48,
+                    ),
+                    VersionWidget(
+                      textStyle: context.textTheme.titleMedium?.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
                 ),
-                Image.asset(
-                  context.appLogo,
-                  height: 100,
-                ),
-                const SizedBox(
-                  height: 26,
-                ),
-                AppTextFormField(
-                  name: 'userName',
-                  validator: FormBuilderValidators.compose([
-                    FormBuilderValidators.required(),
-                    FormBuilderValidators.phoneNumber(),
-                  ]),
-                  decoration: const InputDecoration(
-                    labelText: 'نام کاربری',
-                  ),
-                  keyboardType: TextInputType.emailAddress,
-                ),
-                const SizedBox.square(
-                  dimension: 16,
-                ),
-                AppTextFormField(
-                  name: 'password',
-                  validator: FormBuilderValidators.compose([
-                    FormBuilderValidators.required(),
-                  ]),
-                  obscureText: true,
-                  autocorrect: false,
-                  decoration: const InputDecoration(
-                    labelText: 'رمز عبور',
-                  ),
-                ),
-                const SizedBox.square(
-                  dimension: 16,
-                ),
-                FilledButton(
-                  style: FilledButton.styleFrom(
-                    minimumSize: const Size(double.infinity, 48),
-                  ),
-                  onPressed: () {
-                    // ref.read(loginFlowProvider.notifier).biometricLogin();
-                    if (_formKey.currentState?.saveAndValidate() ?? false) {
-                      ref.read(loginFlowProvider.notifier).userPassLogin(
-                            userName: _formKey.currentState?.value['userName'],
-                            password: _formKey.currentState?.value['password'],
-                          );
-                    }
-                  },
-                  child: loginState.maybeWhen(
-                      skipLoadingOnReload: false,
-                      skipLoadingOnRefresh: false,
-                      loading: () => CircularProgressIndicator(
-                            valueColor: AlwaysStoppedAnimation(
-                              context.onButtonColor,
-                            ),
-                          ),
-                      orElse: () => const Text('ورود')),
-                ),
-                const SizedBox.square(
-                  dimension: 16,
-                ),
-                isBiometricEnable.maybeWhen(
-                  data: (data) => data
-                      ? TextButton.icon(
-                          onPressed: () {
-                            ref
-                                .read(loginFlowProvider.notifier)
-                                .biometricLogin();
-                          },
-                          label: Text('ورود با ${biometricText.value ?? ''}'),
-                          icon: Icon(
-                            biometricType.value == BiometricType.face
-                                ? Icons.face
-                                : Icons.fingerprint,
-                          ),
-                        )
-                      : const SizedBox.shrink(),
-                  orElse: () => const SizedBox.shrink(),
-                ),
-                const SizedBox(
-                  height: 48,
-                ),
-                const VersionWidget(),
-              ],
+              ),
             ),
           ),
         ),

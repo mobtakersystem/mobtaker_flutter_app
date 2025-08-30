@@ -74,6 +74,7 @@ class Data with _$Data {
     @JsonKey(name: 'schedule') int? schedule,
     @JsonKey(name: 'performance') int? performance,
     @JsonKey(name: 'deviation') int? deviation,
+    @JsonKey(name: 'deviationStartLine') int? deviationStartLine,
   }) = _Data;
 
   factory Data.fromJson(Map<String, Object?> json) => _$DataFromJson(json);

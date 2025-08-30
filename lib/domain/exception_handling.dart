@@ -28,7 +28,9 @@ extension ExtensionToFailure<T> on Exception {
     if (this is NetworkException) {
       switch ((this as NetworkException).errorCode) {
         case 401:
-          return  const UnAuthorizedFailure();
+          return UnAuthorizedFailure(
+              message: (this as NetworkException).errorMessage ??
+                  'خطا در احراز هویت');
         case 403:
           return AccessDeniedFailure(
               message: (this as NetworkException).errorMessage);
@@ -37,8 +39,8 @@ extension ExtensionToFailure<T> on Exception {
         case 450:
           return const CancelledRequestFailure();
         default:
-          String message =
-              (this as NetworkException).errorMessage ?? 'خطای ناشناخته رخ داده است. لطفا دوباره تلاش کنید.';
+          String message = (this as NetworkException).errorMessage ??
+              'خطای ناشناخته رخ داده است. لطفا دوباره تلاش کنید.';
           return MessageFailure(message: message);
       }
     } else if (this is NotFoundException) {

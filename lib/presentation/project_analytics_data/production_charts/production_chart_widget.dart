@@ -5,6 +5,7 @@ import 'package:lottie/lottie.dart';
 import 'package:mpm/common/extention/context.dart';
 import 'package:mpm/common/widget/force_landscape_wodget.dart';
 import 'package:mpm/data/entities/dashboard_chart/production_chart_entity.dart';
+import 'package:mpm/presentation/project_analytics_data/production_charts/production_filter_widget.dart';
 import 'package:persian_number_utility/persian_number_utility.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
@@ -14,6 +15,7 @@ class ProductionBarChart extends HookConsumerWidget {
   final double width;
   final bool isFullScreenMode;
   final bool enableZoom;
+  final bool showLable;
 
   const ProductionBarChart({
     super.key,
@@ -22,6 +24,7 @@ class ProductionBarChart extends HookConsumerWidget {
     this.width = double.infinity,
     this.isFullScreenMode = false,
     this.enableZoom = true,
+    this.showLable = true,
   });
 
   @override
@@ -30,8 +33,6 @@ class ProductionBarChart extends HookConsumerWidget {
       () => TooltipBehavior(
         enable: true,
         canShowMarker: true,
-        shared: true,
-        color: context.primaryColor,
         builder: (data, point, series, pointIndex, seriesIndex) => Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
@@ -39,20 +40,20 @@ class ProductionBarChart extends HookConsumerWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               //if (seriesIndex == 0)
-                Text(
-                  'برنامه: ${data.schedule.toString().seRagham()}',
-                  style: context.theme.tooltipTheme.textStyle,
-                ),
+              Text(
+                'برنامه: ${data.schedule.toString().seRagham()}',
+                style: context.theme.tooltipTheme.textStyle,
+              ),
               //if (seriesIndex == 1)
-                Text(
-                  'عملکرد: ${data.performance.toString().seRagham()}',
-                  style: context.theme.tooltipTheme.textStyle,
-                ),
+              Text(
+                'عملکرد: ${data.performance.toString().seRagham()}',
+                style: context.theme.tooltipTheme.textStyle,
+              ),
               //if (seriesIndex == 2)
-                Text(
-                  'درصد تحقق: ${data.deviation}%',
-                  style: context.theme.tooltipTheme.textStyle,
-                ),
+              Text(
+                'درصد تحقق: ${data.deviation}%',
+                style: context.theme.tooltipTheme.textStyle,
+              ),
             ],
           ),
         ),
@@ -94,6 +95,15 @@ class ProductionBarChart extends HookConsumerWidget {
               color: context.primaryColor,
               name: 'برنامه',
               enableTooltip: true,
+              dataLabelSettings: DataLabelSettings(
+                isVisible: showLable,
+                labelAlignment: ChartDataLabelAlignment.middle,
+                labelPosition: ChartDataLabelPosition.inside,
+                textStyle: const TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
             ),
             ColumnSeries<Data, String>(
               dataSource: data,
@@ -102,6 +112,15 @@ class ProductionBarChart extends HookConsumerWidget {
               color: const Color(0xFFF57C00),
               name: 'عملکرد',
               enableTooltip: true,
+              dataLabelSettings: DataLabelSettings(
+                isVisible: showLable,
+                labelAlignment: ChartDataLabelAlignment.middle,
+                labelPosition: ChartDataLabelPosition.inside,
+                textStyle: const TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
             ),
             LineSeries<Data, String>(
               dataSource: data,
@@ -119,18 +138,78 @@ class ProductionBarChart extends HookConsumerWidget {
                 borderColor: Colors.blueAccent,
               ),
               enableTooltip: true,
+              dataLabelSettings: DataLabelSettings(
+                isVisible: showLable,
+                labelAlignment: ChartDataLabelAlignment.top,
+                labelPosition: ChartDataLabelPosition.outside,
+                color: Colors.blueAccent,
+                opacity: 0.7,
+                textStyle: const TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w600,
+                ),
+                builder: (dynamic data, dynamic point, dynamic series,
+                    int pointIndex, int seriesIndex) {
+                  final Data chartData = data as Data;
+                  return Container(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+                    decoration: BoxDecoration(
+                      color: Colors.blueAccent.withAlpha(180),
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                    child: Text(
+                      '${chartData.deviation ?? 0}%',
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 12,
+                      ),
+                    ),
+                  );
+                },
+              ),
             )
           ],
         ),
         Positioned(
-          top: 8,
-          right: 8,
+          top: 2,
+          right: 2,
           child: isFullScreenMode
-              ? IconButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  icon: const Icon(Icons.fullscreen_exit),
+              ? Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    IconButton(
+                      style: IconButton.styleFrom(
+                        backgroundColor: context.isLightTheme
+                            ? Colors.black12
+                            : Colors.white24,
+                        foregroundColor: Colors.orange,
+                      ),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      icon: const Icon(
+                        Icons.close,
+                        size: 18,
+                      ),
+                    ),
+                    // IconButton(
+                    //   style: IconButton.styleFrom(
+                    //     backgroundColor: context.isLightTheme
+                    //         ? Colors.black12
+                    //         : Colors.white24,
+                    //     foregroundColor: Colors.orange,
+                    //   ),
+                    //   onPressed: () {
+                    //     _showSettingsDialog(context);
+                    //   },
+                    //   icon: const Icon(
+                    //     Icons.settings,
+                    //     size: 18,
+                    //   ),
+                    // ),
+                  ],
                 )
               : IconButton(
                   icon: const Icon(Icons.fullscreen),
@@ -142,32 +221,42 @@ class ProductionBarChart extends HookConsumerWidget {
     );
   }
 
+  void _showSettingsDialog(BuildContext context) {
+    showModalBottomSheet(
+        context: context, builder: (context) => ProductionFilterWidget());
+  }
+
   void _showFullScreenChart(BuildContext context) {
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => _FullScreenChart(data: data),
+        builder: (context) => _FullScreenChart(
+          data: data,
+          showLable: showLable,
+        ),
         fullscreenDialog: true,
       ),
     );
   }
 }
 
-class _FullScreenChart extends StatelessWidget {
+class _FullScreenChart extends ConsumerWidget {
   final List<Data> data;
+  final bool showLable;
 
-  const _FullScreenChart({required this.data});
+  const _FullScreenChart({required this.data, this.showLable = false});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context,ref) {
     return ForceLandscapeWidget(
       child: Scaffold(
         body: Padding(
-          padding: const EdgeInsets.only(top: 32),
+          padding: const EdgeInsets.only(top: 8),
           child: ProductionBarChart(
             data: data,
             height: double.maxFinite,
             isFullScreenMode: true,
             enableZoom: true,
+            showLable: showLable,
           ),
         ),
       ),

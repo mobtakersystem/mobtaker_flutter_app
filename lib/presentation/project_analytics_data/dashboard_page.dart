@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -33,6 +34,7 @@ class DashboardScrollNotifier extends StateNotifier<int> {
   }
 }
 
+@RoutePage()
 class DashboardPage extends StatefulHookConsumerWidget {
   const DashboardPage({super.key});
 
@@ -107,6 +109,7 @@ class _DashboardPageState extends ConsumerState<DashboardPage> {
     final stopChartsState = ref.watch(stopsChartProvider);
     final utilityChart = ref.watch(utilityProductsProvider);
     final currentTabIndex = ref.watch(dashboardScrollProvider);
+    final showFab = useState(false);
 
     ref.listen(
       productionChartProvider,
@@ -144,162 +147,186 @@ class _DashboardPageState extends ConsumerState<DashboardPage> {
       stopChartsState,
       utilityChart
     ]);
-
-    return SliverViewObserver(
-      controller: sliverObserverController,
-      sliverContexts: () => sliverIndexCtxMap.values.toList(),
-      dynamicLeadingOffset: () {
-        return ObserverUtils.calcPersistentHeaderExtent(
-          key: appBarKey,
-          offset: outerScrollController.offset,
-        );
-      },
-      onObserveViewport: (result) {
-        if (isIgnoreCalcTabBarIndex) return;
-        int? currentTabIndex;
-        final currentFirstSliverCtx = result.firstChild.sliverContext;
-        for (var sectionIndex in sliverIndexCtxMap.keys) {
-          final ctx = sliverIndexCtxMap[sectionIndex];
-          if (ctx == null) continue;
-          if (currentFirstSliverCtx != ctx) continue;
-          final visible =
-              (ctx.findRenderObject() as RenderSliver).geometry?.visible ??
-                  false;
-          if (!visible) continue;
-          currentTabIndex = sectionIndex;
-          break;
-        }
-        if (currentTabIndex == null) return;
-        ref
-            .read(dashboardScrollProvider.notifier)
-            .setCurrentIndex(currentTabIndex);
-        tabController.animateTo(currentTabIndex);
-      },
-      child: NestedScrollView(
-        key: nestedScrollViewKey,
-        controller: outerScrollController,
-        headerSliverBuilder: (context, innerBoxIsScrolled) {
-          return [
-            SliverAppBar(
-              key: appBarKey,
-              title: const Text('داشبورد'),
-              floating: true,
-              pinned: true,
-              snap: false,
-              forceElevated: innerBoxIsScrolled,
-              bottom: TabBar(
-                controller: tabController,
-                labelColor: Theme.of(context).colorScheme.primary,
-                unselectedLabelColor:
-                    Theme.of(context).colorScheme.onSurface.withAlpha(150),
-                indicatorColor: Theme.of(context).colorScheme.primary,
-                onTap: (index) async {
-                  isIgnoreCalcTabBarIndex = true;
-                  final targetContext = firstItemKey[index].currentContext;
-                  if (targetContext != null) {
-                    scrollToSection(
-                      targetContext,
-                      true,
-                    );
-                  }
-                  Future.delayed(const Duration(milliseconds: 600), () async {
-                    if (index != 0 &&
-                        targetContext != null &&
-                        targetContext.mounted) {
-                      scrollToSection(targetContext, false);
-                    }
-                    await Future.delayed(const Duration(milliseconds: 50));
-                    isIgnoreCalcTabBarIndex = false;
-                  });
-                },
-                tabs: const [
-                  Tab(text: 'تولید'),
-                  Tab(text: 'فروش'),
-                  Tab(text: 'انبار'),
-                  Tab(text: 'توقفات'),
-                  Tab(text: 'یوتیلیتی'),
-                ],
-                isScrollable: true,
-              ),
+    // useEffect(
+    //   () {
+    //     outerScrollController.addListener(() {
+    //       setState(() {
+    //         showFab.value =
+    //             outerScrollController.position.userScrollDirection != ScrollDirection.forward;
+    //       });
+    //     });
+    //   },
+    //   [outerScrollController],
+    // );
+    return Scaffold(
+      floatingActionButton: showFab.value
+          ? FloatingActionButton.small(
+              onPressed: () {
+                outerScrollController.animateTo(
+                  0,
+                  duration: const Duration(milliseconds: 600),
+                  curve: Curves.linear,
+                );
+              },
+              child: const Icon(Icons.arrow_upward),
             )
-          ];
-        },
-        body: Consumer(builder: (context, ref, child)  {
-          // Get the inner scroll controller.
-          final innerScrollController = PrimaryScrollController.of(context);
-          if (nestedScrollUtil.bodyScrollController != innerScrollController) {
-            nestedScrollUtil.bodyScrollController = innerScrollController;
-          }
-          return RiverPodConnectionHelperWidgetMulti(
-            values: [
-              productionChart,
-              saleChart,
-              inventoryChartsState,
-              stopChartsState,
-              utilityChart
-            ],
-            successBuilder: (data) {
-              final utility = data[4] as UtilityChartEntity;
-              return CustomScrollView(
-                slivers: [
-                  SliverObserveContext(
-                    child: ProductionChartWidget(
-                      topWidgetKey: firstItemKey[0],
-                    ),
-                    onObserve: (context) {
-                      sliverIndexCtxMap[0] = context;
-                      nestedScrollUtil.bodySliverContexts.add(context);
-                    },
-                  ),
-                  SliverObserveContext(
-                    child: SaleChartsWidget(
-                      topWidgetKey: firstItemKey[1],
-                    ),
-                    onObserve: (context) {
-                      sliverIndexCtxMap[1] = context;
-                      nestedScrollUtil.bodySliverContexts.add(context);
-                    },
-                  ),
-                  SliverObserveContext(
-                    child: InventoryChartsWidget(
-                      topWidgetKey: firstItemKey[2],
-                    ),
-                    onObserve: (context) {
-                      sliverIndexCtxMap[2] = context;
-                      nestedScrollUtil.bodySliverContexts.add(context);
-                    },
-                  ),
-                  SliverObserveContext(
-                    child: StopChartsWidget(
-                      topWidgetKey: firstItemKey[3],
-                    ),
-                    onObserve: (context) {
-                      sliverIndexCtxMap[3] = context;
-                      nestedScrollUtil.bodySliverContexts.add(context);
-                    },
-                  ),
-                  SliverObserveContext(
-                    child: UtilityChartsWidget(
-                      chartsData: utility,
-                      topWidgetKey: firstItemKey[4],
-                    ),
-                    onObserve: (context) {
-                      sliverIndexCtxMap[4] = context;
-                      nestedScrollUtil.bodySliverContexts.add(context);
-                    },
-                  ),
-                ],
-              );
-            },
-            tryAgain: () {
-              ref.invalidate(productionChartProvider);
-              ref.invalidate(saleChartProvider);
-              ref.invalidate(inventoryChartProvider);
-              ref.invalidate(stopsChartProvider);
-              ref.invalidate(utilityProductsProvider);
-            },
+          : null,
+      body: SliverViewObserver(
+        controller: sliverObserverController,
+        sliverContexts: () => sliverIndexCtxMap.values.toList(),
+        dynamicLeadingOffset: () {
+          return ObserverUtils.calcPersistentHeaderExtent(
+            key: appBarKey,
+            offset: outerScrollController.offset,
           );
-        }),
+        },
+        onObserveViewport: (result) {
+          if (isIgnoreCalcTabBarIndex) return;
+          int? currentTabIndex;
+          final currentFirstSliverCtx = result.firstChild.sliverContext;
+          for (var sectionIndex in sliverIndexCtxMap.keys) {
+            final ctx = sliverIndexCtxMap[sectionIndex];
+            if (ctx == null) continue;
+            if (currentFirstSliverCtx != ctx) continue;
+            final visible =
+                (ctx.findRenderObject() as RenderSliver).geometry?.visible ??
+                    false;
+            if (!visible) continue;
+            currentTabIndex = sectionIndex;
+            break;
+          }
+          if (currentTabIndex == null) return;
+          ref
+              .read(dashboardScrollProvider.notifier)
+              .setCurrentIndex(currentTabIndex);
+          tabController.animateTo(currentTabIndex);
+        },
+        child: NestedScrollView(
+          key: nestedScrollViewKey,
+          controller: outerScrollController,
+          headerSliverBuilder: (context, innerBoxIsScrolled) {
+            return [
+              SliverAppBar(
+                key: appBarKey,
+                title: const Text('داشبورد'),
+                floating: true,
+                pinned: true,
+                snap: false,
+                forceElevated: innerBoxIsScrolled,
+                bottom: TabBar(
+                  controller: tabController,
+                  labelColor: Color(0xFFF57C00),
+                  // unselectedLabelColor: Color(0xABF57C00),
+                  indicatorColor: Color(0xFFF57C00),
+                  onTap: (index) async {
+                    isIgnoreCalcTabBarIndex = true;
+                    final targetContext = firstItemKey[index].currentContext;
+                    if (targetContext != null) {
+                      scrollToSection(
+                        targetContext,
+                        true,
+                      );
+                    }
+                    Future.delayed(const Duration(milliseconds: 600), () async {
+                      if (index != 0 &&
+                          targetContext != null &&
+                          targetContext.mounted) {
+                        scrollToSection(targetContext, false);
+                      }
+                      await Future.delayed(const Duration(milliseconds: 50));
+                      isIgnoreCalcTabBarIndex = false;
+                    });
+                  },
+                  tabs: const [
+                    Tab(text: 'تولید'),
+                    Tab(text: 'فروش'),
+                    Tab(text: 'انبار'),
+                    Tab(text: 'توقفات'),
+                    Tab(text: 'یوتیلیتی'),
+                  ],
+                  isScrollable: true,
+                ),
+              )
+            ];
+          },
+          body: Consumer(builder: (context, ref, child) {
+            // Get the inner scroll controller.
+            final innerScrollController = PrimaryScrollController.of(context);
+            if (nestedScrollUtil.bodyScrollController !=
+                innerScrollController) {
+              nestedScrollUtil.bodyScrollController = innerScrollController;
+            }
+            return RiverPodConnectionHelperWidgetMulti(
+              values: [
+                productionChart,
+                saleChart,
+                inventoryChartsState,
+                stopChartsState,
+                utilityChart
+              ],
+              successBuilder: (data) {
+                final utility = data[4] as UtilityChartEntity;
+                return CustomScrollView(
+                  slivers: [
+                    SliverObserveContext(
+                      child: ProductionChartWidget(
+                        topWidgetKey: firstItemKey[0],
+                      ),
+                      onObserve: (context) {
+                        sliverIndexCtxMap[0] = context;
+                        nestedScrollUtil.bodySliverContexts.add(context);
+                      },
+                    ),
+                    SliverObserveContext(
+                      child: SaleChartsWidget(
+                        topWidgetKey: firstItemKey[1],
+                      ),
+                      onObserve: (context) {
+                        sliverIndexCtxMap[1] = context;
+                        nestedScrollUtil.bodySliverContexts.add(context);
+                      },
+                    ),
+                    SliverObserveContext(
+                      child: InventoryChartsWidget(
+                        topWidgetKey: firstItemKey[2],
+                      ),
+                      onObserve: (context) {
+                        sliverIndexCtxMap[2] = context;
+                        nestedScrollUtil.bodySliverContexts.add(context);
+                      },
+                    ),
+                    SliverObserveContext(
+                      child: StopChartsWidget(
+                        topWidgetKey: firstItemKey[3],
+                      ),
+                      onObserve: (context) {
+                        sliverIndexCtxMap[3] = context;
+                        nestedScrollUtil.bodySliverContexts.add(context);
+                      },
+                    ),
+                    SliverObserveContext(
+                      child: UtilityChartsWidget(
+                        chartsData: utility,
+                        topWidgetKey: firstItemKey[4],
+                      ),
+                      onObserve: (context) {
+                        sliverIndexCtxMap[4] = context;
+                        nestedScrollUtil.bodySliverContexts.add(context);
+                      },
+                    ),
+                  ],
+                );
+              },
+              tryAgain: () {
+                ref.invalidate(productionChartProvider);
+                ref.invalidate(saleChartProvider);
+                ref.invalidate(inventoryChartProvider);
+                ref.invalidate(stopsChartProvider);
+                ref.invalidate(utilityProductsProvider);
+              },
+            );
+          }),
+        ),
       ),
     );
   }

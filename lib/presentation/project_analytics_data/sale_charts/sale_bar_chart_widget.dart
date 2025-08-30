@@ -14,6 +14,7 @@ class SaleBarChart extends HookConsumerWidget {
   final double width;
   final bool isFullScreenMode;
   final bool enableZoom;
+  final bool showLable;
 
   const SaleBarChart({
     super.key,
@@ -22,6 +23,7 @@ class SaleBarChart extends HookConsumerWidget {
     this.width = double.infinity,
     this.isFullScreenMode = false,
     this.enableZoom = true,
+    this.showLable = true,
   });
 
   @override
@@ -93,6 +95,15 @@ class SaleBarChart extends HookConsumerWidget {
               color: const Color(0xFFF57C00),
               name: 'عملکرد',
               enableTooltip: true,
+              dataLabelSettings: DataLabelSettings(
+                isVisible: showLable,
+                labelAlignment: ChartDataLabelAlignment.middle,
+                labelPosition: ChartDataLabelPosition.inside,
+                textStyle: const TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
             ),
           ],
         ),
@@ -101,10 +112,15 @@ class SaleBarChart extends HookConsumerWidget {
           right: 8,
           child: isFullScreenMode
               ? IconButton(
+                  style: IconButton.styleFrom(
+                    backgroundColor:
+                        context.isLightTheme ? Colors.black12 : Colors.white24,
+                    foregroundColor: Colors.orange,
+                  ),
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
-                  icon: const Icon(Icons.fullscreen_exit),
+                  icon: const Icon(Icons.close),
                 )
               : IconButton(
                   icon: const Icon(Icons.fullscreen),
@@ -119,7 +135,10 @@ class SaleBarChart extends HookConsumerWidget {
   void _showFullScreenChart(BuildContext context) {
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => _FullScreenChart(data: data),
+        builder: (context) => _FullScreenChart(
+          data: data,
+          showLable: showLable,
+        ),
         fullscreenDialog: true,
       ),
     );
@@ -128,20 +147,22 @@ class SaleBarChart extends HookConsumerWidget {
 
 class _FullScreenChart extends StatelessWidget {
   final List<Data> data;
+  final bool showLable;
 
-  const _FullScreenChart({required this.data});
+  const _FullScreenChart({required this.data, this.showLable = false});
 
   @override
   Widget build(BuildContext context) {
     return ForceLandscapeWidget(
       child: Scaffold(
         body: Padding(
-          padding: const EdgeInsets.only(top: 32),
+          padding: const EdgeInsets.only(top: 8),
           child: SaleBarChart(
             data: data,
             height: double.maxFinite,
             isFullScreenMode: true,
             enableZoom: true,
+            showLable: showLable,
           ),
         ),
       ),

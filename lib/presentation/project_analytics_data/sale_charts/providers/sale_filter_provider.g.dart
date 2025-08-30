@@ -6,7 +6,7 @@ part of 'sale_filter_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$saleFilterHash() => r'2cfeb31b6d4cf72ed7a11e0a52de64a192008686';
+String _$saleFilterHash() => r'0eb0b38323d949a1da9d03d01aa8cdfa6004bb84';
 
 /// See also [SaleFilter].
 @ProviderFor(SaleFilter)

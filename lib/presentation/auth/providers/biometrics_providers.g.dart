@@ -244,7 +244,7 @@ final biometricTypeProvider =
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef BiometricTypeRef = AutoDisposeFutureProviderRef<BiometricType?>;
-String _$biometricTypeTextHash() => r'd49e7b970a6b2a64597a0642a0cf162dcc893dc9';
+String _$biometricTypeTextHash() => r'e26593b32b9f2c0b93bf6b576c72733df7715a84';
 
 /// See also [biometricTypeText].
 @ProviderFor(biometricTypeText)

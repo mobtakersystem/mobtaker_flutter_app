@@ -12,7 +12,6 @@ android {
         arfabi {
             dimension "flavor-type"
             applicationId "mobtakersystem.minebi.arfabi"
-            versionNameSuffix "-arfabi"
             resValue "string", "app_name", "Arfabi"
             resValue "mipmap", "ic_launcher", "@mipmap/ic_launcher"
         }

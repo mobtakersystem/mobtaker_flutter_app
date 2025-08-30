@@ -85,6 +85,7 @@ class _ContentWidget extends StatelessWidget {
         ),
         InventoryBarChartWidget(
           data: chartsData,
+          showLable: true,
         )
       ],
     );

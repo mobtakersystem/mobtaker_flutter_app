@@ -111,6 +111,7 @@ _$DataImpl _$$DataImplFromJson(Map<String, dynamic> json) => _$DataImpl(
       schedule: (json['schedule'] as num?)?.toInt(),
       performance: (json['performance'] as num?)?.toInt(),
       deviation: (json['deviation'] as num?)?.toInt(),
+      deviationStartLine: (json['deviationStartLine'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$$DataImplToJson(_$DataImpl instance) =>
@@ -119,4 +120,5 @@ Map<String, dynamic> _$$DataImplToJson(_$DataImpl instance) =>
       'schedule': instance.schedule,
       'performance': instance.performance,
       'deviation': instance.deviation,
+      'deviationStartLine': instance.deviationStartLine,
     };

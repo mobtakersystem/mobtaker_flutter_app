@@ -54,8 +54,46 @@ class MyApp extends ConsumerWidget {
         GlobalCupertinoLocalizations.delegate,
         FormBuilderLocalizations.delegate,
       ],
-      theme: AppTheme.light,
-      darkTheme: AppTheme.dark,
+      theme: AppTheme.light.copyWith(
+        inputDecorationTheme: InputDecorationTheme(
+          border: OutlineInputBorder(
+            borderSide: BorderSide(
+              color: Colors.grey[400]!,
+            ), // رنگ پیش‌فرض بوردر
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+              color: Colors.grey[400]!,
+            ),
+          ),
+        ),
+        filledButtonTheme: FilledButtonThemeData(
+          style: FilledButton.styleFrom(
+            backgroundColor: const Color(0xFFFD9843),
+            foregroundColor: Colors.white,
+          ),
+        ),
+      ),
+      darkTheme: AppTheme.dark.copyWith(
+        inputDecorationTheme: const InputDecorationTheme(
+          border: OutlineInputBorder(
+            borderSide: BorderSide(
+              color: Colors.white30,
+            ), //
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+              color: Colors.white30,
+            ),
+          ),
+        ),
+        filledButtonTheme: FilledButtonThemeData(
+          style: FilledButton.styleFrom(
+            backgroundColor: const Color(0xFFFD9843),
+            foregroundColor: Colors.white,
+          ),
+        ),
+      ),
       themeMode: ref.watch(themeModeDataProvider),
     );
   }
