@@ -86,6 +86,9 @@ class SaleChartsWidget extends ConsumerWidget {
             ),
             SliverRiverPodConnectionHelperWidget(
               value: ref.watch(saleChartProvider),
+              placeHolderConstraints: BoxConstraints(
+                minHeight: context.height * 0.7,
+              ),
               successBuilder: (chartsData) => SliverList.separated(
                 itemBuilder: (context, index) => _ContentWidget(
                   chartsData:

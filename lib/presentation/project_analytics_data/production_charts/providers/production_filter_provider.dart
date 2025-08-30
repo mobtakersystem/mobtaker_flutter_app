@@ -15,13 +15,14 @@ class ProductionFilter extends _$ProductionFilter {
   void setDateRange(DateTimeRange dateRange) {
     state = state.copyWith(
       dateRange: dateRange,
+      showDetails: true,
     );
   }
 
   void clearDateRange() {
     state = ProductionParams(
       dateRange: null,
-      showDetails: state.showDetails,
+      showDetails: false,
       showChartCumulative: state.showChartCumulative,
       chartPeriod: state.chartPeriod,
     );
@@ -48,6 +49,8 @@ class ProductionFilter extends _$ProductionFilter {
   }
 
   void setChartPeriod(ChartPeriod chartPeriod) {
-    state = state.copyWith(chartPeriod: chartPeriod);
+    state = state.copyWith(
+      chartPeriod: chartPeriod,
+    );
   }
 }

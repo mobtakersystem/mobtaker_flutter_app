@@ -38,6 +38,7 @@ import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sembast/sembast.dart';
 import 'package:sembast/sembast_io.dart';
+import 'package:smart_auth/smart_auth.dart';
 import 'package:uuid/uuid.dart';
 
 typedef DB = Database;
@@ -87,6 +88,13 @@ slConfig(GetIt getIt) async {
   getIt.registerLazySingleton<AuthDataProvider>(
     () => AuthDataProviderImpl(
       networkService: getIt(),
+      getAppSignature: () async {
+        final result = await SmartAuth.instance.getAppSignature();
+        if (result.hasError) {
+          return null;
+        }
+        return result.data;
+      },
     ),
   );
   getIt.registerLazySingleton<AuthRepository>(

@@ -3,6 +3,7 @@ import 'package:flutter_phoenix/flutter_phoenix.dart';
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mpm/common/widget/error.dart';
+import 'package:mpm/common/widget/loading_widget.dart';
 import 'package:mpm/domain/failure_model.dart';
 import 'package:mpm/presentation/auth/providers/auth_provider.dart';
 
@@ -56,11 +57,7 @@ class RiverPodConnectionHelperWidget<T> extends ConsumerWidget {
               );
         },
       ),
-      loading: () =>
-          loadingBuilder?.call() ??
-          const Center(
-            child: CircularProgressIndicator(),
-          ),
+      loading: () => loadingBuilder?.call() ?? const LoadingWidget(),
       error: (error, stack) {
         if (error is UnAuthorizedFailure) {
           ref.read(authProvider.notifier).unAuthenticated().then(
@@ -146,9 +143,7 @@ class SliverRiverPodConnectionHelperWidget<T> extends ConsumerWidget {
           SliverToBoxAdapter(
               child: ConstrainedBox(
             constraints: placeHolderConstraints,
-            child: const Center(
-              child: CircularProgressIndicator(),
-            ),
+            child: const LoadingWidget(),
           )),
       error: (error, stack) {
         if (error is UnAuthorizedFailure) {

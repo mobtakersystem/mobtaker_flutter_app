@@ -71,7 +71,7 @@ class LoginPage extends HookConsumerWidget {
                   name: 'userName',
                   validator: FormBuilderValidators.compose([
                     FormBuilderValidators.required(),
-                    FormBuilderValidators.email(),
+                    FormBuilderValidators.phoneNumber(),
                   ]),
                   decoration: const InputDecoration(
                     labelText: 'نام کاربری',

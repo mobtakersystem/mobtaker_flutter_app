@@ -70,6 +70,9 @@ class StopChartsWidget extends ConsumerWidget {
             ),
             SliverRiverPodConnectionHelperWidget(
               value: ref.watch(stopsChartProvider),
+              placeHolderConstraints: BoxConstraints(
+                minHeight: context.height * 0.7,
+              ),
               tryAgain: () {
                 ref.refresh(stopsChartProvider);
               },

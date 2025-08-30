@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:mpm/common/extention/context.dart';
 import 'package:mpm/data/entities/dashboard_chart/production_chart_entity.dart'
     show CurrentPerformance;
+import 'package:path/path.dart';
 import 'package:persian_number_utility/persian_number_utility.dart';
 
 class ProductionTableWidget extends StatelessWidget {
@@ -20,7 +21,7 @@ class ProductionTableWidget extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 8),
       scrollDirection: Axis.horizontal,
       itemBuilder: (context, index) => SizedBox(
-        width: min(((context.width - 65) / 3),200),
+        width: min(((context.width - 65) / 3), 200),
         child: Container(
           clipBehavior: Clip.antiAlias,
           decoration: BoxDecoration(
@@ -51,17 +52,25 @@ class ProductionTableWidget extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    Text(currentPerformanceList[index]
-                            .performance
-                            ?.toString()
-                            .seRagham() ??
-                        ""),
+                    Text(
+                      currentPerformanceList[index]
+                              .performance
+                              ?.toString()
+                              .seRagham() ??
+                          "",
+                    ),
                     Divider(
                       color: context.colorScheme.primary.withAlpha(200),
                       height: 0,
                     ),
                     Text(
                       "${currentPerformanceList[index].commited}%",
+                      style: TextStyle(
+                        color: _getColor(
+                          currentPerformanceList[index].commited ?? 0,
+                          context,
+                        ),
+                      ),
                     ),
                   ],
                 ),
@@ -75,5 +84,14 @@ class ProductionTableWidget extends StatelessWidget {
       ),
       itemCount: currentPerformanceList.length,
     );
+  }
+
+  Color _getColor(int value, BuildContext context) {
+    if (value < 80) {
+      return context.errorColor;
+    } else if (value < 100) {
+      return context.isLightTheme ? Colors.yellow.shade800 : Colors.yellow;
+    }
+    return context.isLightTheme ? Colors.green.shade800 : Colors.green;
   }
 }

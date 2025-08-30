@@ -8,9 +8,12 @@ import 'auth_interface.dart';
 
 class AuthDataProviderImpl extends AuthDataProvider {
   final NetworkService _networkService;
+  final Future<String?> Function() getAppSignature;
 
-  AuthDataProviderImpl({required NetworkService networkService})
-      : _networkService = networkService;
+  AuthDataProviderImpl({
+    required NetworkService networkService,
+    required this.getAppSignature,
+  }) : _networkService = networkService;
 
   @override
   Future<AuthUser> checkOtp(String loginToken, String otp, {String? deviceId}) {
@@ -76,7 +79,8 @@ class AuthDataProviderImpl extends AuthDataProvider {
     required String userName,
     required String password,
     required String? deviceId,
-  }) {
+  }) async {
+    final appSignature = await getAppSignature();
     return _networkService.execute(
       NetworkRequest(
         type: NetworkRequestType.post,
@@ -86,6 +90,7 @@ class AuthDataProviderImpl extends AuthDataProvider {
             "email": userName,
             "password": password,
             "mobileId": deviceId,
+            "mobile_signiture": appSignature,
           },
         ),
       ),

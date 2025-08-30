@@ -2,6 +2,7 @@ import 'package:auto_route/annotations.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:mpm/common/widget/loading_widget.dart';
 import 'package:mpm/presentation/auth/providers/auth_provider.dart';
 import 'package:mpm/routes/app_router.gr.dart';
 
@@ -27,8 +28,7 @@ class SplashPage extends ConsumerWidget {
       );
     });
     return const Scaffold(
-        body: Center(
-      child: CircularProgressIndicator(),
-    ));
+      body: LoadingWidget(),
+    );
   }
 }

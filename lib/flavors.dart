@@ -22,7 +22,7 @@ class F {
       case Flavor.dev:
         return "https://devapi.minebi.com/api/";
       case Flavor.arfabi:
-        return 'https://api.arfabi.ir/api/';
+        return 'https://testapi.arfabi.ir/api/';
     }
   }
 

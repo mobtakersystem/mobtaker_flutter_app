@@ -20,6 +20,7 @@ class InventoryFilter extends _$InventoryFilter {
   void clearDateRange() {
     state = const InventoryParams(
       dateRange: null,
+      
     );
   }
 

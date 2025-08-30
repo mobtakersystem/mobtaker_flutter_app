@@ -7,6 +7,7 @@ import 'package:mpm/common/extention/context.dart';
 import 'package:mpm/common/extention/date_time.dart';
 import 'package:mpm/common/widget/dialog/confirm_dialog.dart';
 import 'package:mpm/common/widget/error.dart';
+import 'package:mpm/common/widget/loading_widget.dart' show LoadingWidget;
 import 'package:mpm/data/entities/project/project_data_entity.dart';
 import 'package:mpm/domain/use_case/delete_project_data.dart';
 import 'package:mpm/presentation/project_data/project_data_item_widget.dart';
@@ -63,9 +64,7 @@ class LocalsProjectDataPage extends ConsumerWidget {
             ref.invalidate(getLocalSndSyncDataProvider);
           },
         ),
-        loading: () => const Center(
-          child: CircularProgressIndicator(),
-        ),
+        loading: () => const LoadingWidget(),
       ),
     );
   }

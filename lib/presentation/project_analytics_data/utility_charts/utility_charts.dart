@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mpm/common/extention/context.dart';
 import 'package:mpm/common/riverpod_helper.dart';
 import 'package:mpm/common/widget/error.dart';
+import 'package:mpm/common/widget/loading_widget.dart';
 import 'package:mpm/common/widget/select_period_widget.dart';
 import 'package:mpm/common/widget/switch_with_title_widget.dart';
 import 'package:mpm/data/entities/dashboard_chart/utility_chart_entity.dart'
@@ -141,12 +142,10 @@ class UtilityChartsWidget extends HookConsumerWidget {
                   itemCount: p0.utilityChart?.length ?? 0,
                 ),
                 tryAgain: () {},
-                loadingBuilder: () => const SliverToBoxAdapter(
+                loadingBuilder: () =>  SliverToBoxAdapter(
                   child: SizedBox(
-                    height: 200,
-                    child: Center(
-                      child: CircularProgressIndicator(),
-                    ),
+                    height: context.height * 0.5,
+                    child: LoadingWidget(),
                   ),
                 ),
                 failureBuilder: (error) => SliverToBoxAdapter(

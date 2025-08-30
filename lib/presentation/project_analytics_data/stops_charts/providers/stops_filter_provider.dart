@@ -15,12 +15,13 @@ class StopsFilter extends _$StopsFilter {
   void setDateRange(DateTimeRange dateRange) {
     state = state.copyWith(
       dateRange: dateRange,
+      showDetails: true,
     );
   }
   void clearDateRange() {
     state = StopParams(
       dateRange: null,
-      showDetails: state.showDetails,
+      showDetails: false,
       chartPeriod: state.chartPeriod,
     );
   }
@@ -36,6 +37,8 @@ class StopsFilter extends _$StopsFilter {
   }
 
   void setChartPeriod(ChartPeriod chartPeriod) {
-    state = state.copyWith(chartPeriod: chartPeriod);
+    state = state.copyWith(
+      chartPeriod: chartPeriod,
+    );
   }
 }

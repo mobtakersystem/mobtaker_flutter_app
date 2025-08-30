@@ -15,13 +15,14 @@ class SaleFilter extends _$SaleFilter {
   void setDateRange(DateTimeRange dateRange) {
     state = state.copyWith(
       dateRange: dateRange,
+      showDetails: true,
     );
   }
 
   void clearDateRange() {
     state = SalesParams(
       dateRange: null,
-      showDetails: state.showDetails,
+      showDetails: false,
       showChartCumulative: state.showChartCumulative,
       chartPeriod: state.chartPeriod,
     );
@@ -48,6 +49,8 @@ class SaleFilter extends _$SaleFilter {
   }
 
   void setChartPeriod(ChartPeriod chartPeriod) {
-    state = state.copyWith(chartPeriod: chartPeriod);
+    state = state.copyWith(
+      chartPeriod: chartPeriod,
+    );
   }
 }

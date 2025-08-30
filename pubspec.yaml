@@ -80,6 +80,7 @@ dependencies:
   equatable: ^2.0.7
   scrollview_observer: ^1.26.1
   auto_route: ^10.1.0+1
+  smart_auth: ^3.2.0
 
 
 dev_dependencies:

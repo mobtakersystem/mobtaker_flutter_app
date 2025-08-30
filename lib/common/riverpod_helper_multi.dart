@@ -3,6 +3,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mpm/common/widget/error.dart';
+import 'package:mpm/common/widget/loading_widget.dart';
 import 'package:mpm/domain/failure_model.dart';
 
 class RiverPodConnectionHelperWidgetMulti extends ConsumerWidget {
@@ -34,7 +35,7 @@ class RiverPodConnectionHelperWidgetMulti extends ConsumerWidget {
 
     if (isLoading && !allHaveData) {
       return loadingBuilder?.call() ??
-          const Center(child: CircularProgressIndicator());
+          const LoadingWidget();
     }
 
     // check error

@@ -30,23 +30,25 @@ class ProductionBarChart extends HookConsumerWidget {
       () => TooltipBehavior(
         enable: true,
         canShowMarker: true,
+        shared: true,
+        color: context.primaryColor,
         builder: (data, point, series, pointIndex, seriesIndex) => Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              if (seriesIndex == 0)
+              //if (seriesIndex == 0)
                 Text(
                   'برنامه: ${data.schedule.toString().seRagham()}',
                   style: context.theme.tooltipTheme.textStyle,
                 ),
-              if (seriesIndex == 1)
+              //if (seriesIndex == 1)
                 Text(
                   'عملکرد: ${data.performance.toString().seRagham()}',
                   style: context.theme.tooltipTheme.textStyle,
                 ),
-              if (seriesIndex == 2)
+              //if (seriesIndex == 2)
                 Text(
                   'درصد تحقق: ${data.deviation}%',
                   style: context.theme.tooltipTheme.textStyle,

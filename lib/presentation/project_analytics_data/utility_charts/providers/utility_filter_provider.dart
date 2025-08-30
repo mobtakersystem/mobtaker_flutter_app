@@ -18,13 +18,14 @@ class UtilityFilter extends _$UtilityFilter {
   void setDateRange(DateTimeRange dateRange) {
     state = state.copyWith(
       dateRange: dateRange,
+      showDetails: true,
     );
   }
 
   void clearDateRange() {
     state = UtilityParams(
       dateRange: null,
-      showDetails: state.showDetails,
+      showDetails: false,
       showChartCumulative: state.showChartCumulative,
       chartPeriod: state.chartPeriod,
     );
@@ -51,6 +52,8 @@ class UtilityFilter extends _$UtilityFilter {
   }
 
   void setChartPeriod(ChartPeriod chartPeriod) {
-    state = state.copyWith(chartPeriod: chartPeriod);
+    state = state.copyWith(
+      chartPeriod: chartPeriod,
+    );
   }
 }

@@ -52,6 +52,9 @@ class ProductionChartWidget extends HookConsumerWidget {
             ),
             SliverRiverPodConnectionHelperWidget(
               value: productionChart,
+              placeHolderConstraints: BoxConstraints(
+                minHeight: context.height * 0.7,
+              ),
               tryAgain: () {
                 ref.refresh(productionChartProvider);
               },

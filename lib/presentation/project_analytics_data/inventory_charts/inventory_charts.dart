@@ -42,6 +42,9 @@ class InventoryChartsWidget extends ConsumerWidget {
               ),
             ),
             SliverRiverPodConnectionHelperWidget(
+              placeHolderConstraints: BoxConstraints(
+                minHeight: context.height * 0.7,
+              ),
               value: ref.watch(inventoryChartProvider),
               successBuilder: (chartsData) => SliverList.separated(
                 itemBuilder: (context, index) => _ContentWidget(
