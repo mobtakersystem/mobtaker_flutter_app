@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:mpm/common/extention/context.dart';
 
@@ -23,9 +24,12 @@ class SwitchWithTitleWidget extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(
-            title,
-            style: context.textTheme.bodySmall,
+          Flexible(
+            child: AutoSizeText(
+              title,
+              maxLines: 1,
+              style: context.textTheme.bodySmall,
+            ),
           ),
           const SizedBox(
             width: 8,

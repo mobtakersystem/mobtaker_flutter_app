@@ -135,7 +135,7 @@ class _ContentWidget extends ConsumerWidget {
         ),
         ProductionBarChart(
           data: chartsData.data ?? [],
-          showLable: (chartsData.data?.length ?? 0) <= 3,
+          showLable: (chartsData.data?.length ?? 0) <= 2,
         )
       ],
     );

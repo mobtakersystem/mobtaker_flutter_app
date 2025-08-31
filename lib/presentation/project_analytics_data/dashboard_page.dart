@@ -245,7 +245,7 @@ class _DashboardPageState extends ConsumerState<DashboardPage> {
                   tabs: const [
                     Tab(text: 'تولید'),
                     Tab(text: 'فروش'),
-                    Tab(text: 'انبار'),
+                    Tab(text: 'موجودی'),
                     Tab(text: 'توقفات'),
                     Tab(text: 'یوتیلیتی'),
                   ],
