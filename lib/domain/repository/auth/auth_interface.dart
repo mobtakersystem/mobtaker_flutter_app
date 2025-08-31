@@ -5,7 +5,10 @@ import 'package:mpm/domain/failure_model.dart';
 abstract class AuthRepository {
   Future<bool> authConfig();
 
+  Future<ResultData<UserEntity>> getUserInfo();
+
   Future<ResultData<LoginTokenState>> biometricLogin();
+
   Future<ResultData<String>> loginCellphone(String cellPhone);
 
   Future<ResultData<LoginTokenState>> login({
@@ -18,5 +21,6 @@ abstract class AuthRepository {
   Future<ResultData<UserEntity>> checkOtp(String loginToken, String otp);
 
   Future<ResultData<String>> resendOtp(String loginToken);
+
   Future<String> getPersistentDeviceId();
 }

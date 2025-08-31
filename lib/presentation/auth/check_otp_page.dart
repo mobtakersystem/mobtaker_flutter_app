@@ -84,96 +84,104 @@ class CheckOtpPage extends HookConsumerWidget {
     );
     return Scaffold(
       appBar: AppBar(),
-      body: DecoratedBox(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage(context.isLightTheme
-                ? "assets/images/nodes-blue.png"
-                : "assets/images/nodes-blue-dark.png"),
-            fit: BoxFit.cover,
+      body: PopScope(
+        onPopInvokedWithResult: (didPop, result) {
+          // ref.read(loginFlowProvider.notifier).resetState();
+        },
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage(context.isLightTheme
+                  ? "assets/images/nodes-blue.png"
+                  : "assets/images/nodes-blue-dark.png"),
+              fit: BoxFit.cover,
+            ),
           ),
-        ),
-        child: ConstrainedBox(
-          constraints: BoxConstraints(
-            minHeight: context.height * .85,
-          ),
-          child: SingleChildScrollView(
-            child: FormBuilder(
-              key: _formKey,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Column(
-                  children: [
-                    const SizedBox(
-                      height: 16,
-                    ),
-                    Image.asset(
-                      context.appLogo,
-                      height: 100,
-                    ),
-                    const SizedBox(
-                      height: 26,
-                    ),
-                    AppTextFormField(
-                      name: 'otp',
-                      keyboardType: TextInputType.number,
-                      maxLength: 6,
-                      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                      validator: FormBuilderValidators.compose([
-                        FormBuilderValidators.required(),
-                        FormBuilderValidators.minLength(6),
-                        FormBuilderValidators.maxLength(6),
-                      ]),
-                      decoration: const InputDecoration(
-                        labelText: 'کد تایید',
+          child: ConstrainedBox(
+            constraints: BoxConstraints(
+              minHeight: context.height * .85,
+            ),
+            child: SingleChildScrollView(
+              child: FormBuilder(
+                key: _formKey,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Column(
+                    children: [
+                      const SizedBox(
+                        height: 16,
                       ),
-                    ),
-                    const SizedBox.square(
-                      dimension: 16,
-                    ),
-                    const SizedBox.square(
-                      dimension: 16,
-                    ),
-                    FilledButton(
-                      style: FilledButton.styleFrom(
-                        minimumSize: const Size(double.infinity, 48),
+                      Image.asset(
+                        context.appLogo,
+                        height: 80,
                       ),
-                      onPressed: () {
-                        if (_formKey.currentState?.saveAndValidate() ?? false) {
-                          ref.read(loginFlowProvider.notifier).phoneCheckOtp(
-                              _formKey.currentState?.value['otp'] as String);
-                        }
-                      },
-                      child: ref.watch(loginFlowProvider).isLoading
-                          ? CircularProgressIndicator(
-                              valueColor: AlwaysStoppedAnimation(
-                                context.onButtonColor,
-                              ),
-                            )
-                          : const Text('تایید'),
-                    ),
-                    const SizedBox.square(
-                      dimension: 16,
-                    ),
-                    Visibility(
-                      visible: !showResend.value,
-                      child: CountDownTimerWidget(
-                        duration: const Duration(seconds: 120),
-                        onEnd: () {
-                          showResend.value = true;
-                        },
+                      const SizedBox(
+                        height: 26,
                       ),
-                    ),
-                    Visibility(
-                      visible: showResend.value,
-                      child: TextButton(
+                      AppTextFormField(
+                        name: 'otp',
+                        keyboardType: TextInputType.number,
+                        maxLength: 6,
+                        inputFormatters: [
+                          FilteringTextInputFormatter.digitsOnly
+                        ],
+                        validator: FormBuilderValidators.compose([
+                          FormBuilderValidators.required(),
+                          FormBuilderValidators.minLength(6),
+                          FormBuilderValidators.maxLength(6),
+                        ]),
+                        decoration: const InputDecoration(
+                          labelText: 'کد تایید',
+                        ),
+                      ),
+                      const SizedBox.square(
+                        dimension: 16,
+                      ),
+                      const SizedBox.square(
+                        dimension: 16,
+                      ),
+                      FilledButton(
+                        style: FilledButton.styleFrom(
+                          minimumSize: const Size(double.infinity, 48),
+                        ),
                         onPressed: () {
-                          ref.read(loginFlowProvider.notifier).resendOtp();
+                          if (_formKey.currentState?.saveAndValidate() ??
+                              false) {
+                            ref.read(loginFlowProvider.notifier).phoneCheckOtp(
+                                _formKey.currentState?.value['otp'] as String);
+                          }
                         },
-                        child: const Text('ارسال مجدد کد تایید'),
+                        child: ref.watch(loginFlowProvider).isLoading
+                            ? CircularProgressIndicator(
+                                valueColor: AlwaysStoppedAnimation(
+                                  context.onButtonColor,
+                                ),
+                              )
+                            : const Text('تایید'),
                       ),
-                    ),
-                  ],
+                      const SizedBox.square(
+                        dimension: 16,
+                      ),
+                      Visibility(
+                        visible: !showResend.value,
+                        child: CountDownTimerWidget(
+                          duration: const Duration(seconds: 120),
+                          onEnd: () {
+                            showResend.value = true;
+                          },
+                        ),
+                      ),
+                      Visibility(
+                        visible: showResend.value,
+                        child: TextButton(
+                          onPressed: () {
+                            ref.read(loginFlowProvider.notifier).resendOtp();
+                          },
+                          child: const Text('ارسال مجدد کد تایید'),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),

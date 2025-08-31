@@ -99,31 +99,38 @@ class UtilityChartsWidget extends HookConsumerWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  SwitchWithTitleWidget(
-                    value: filters.showDetails,
-                    onChanged: (value) {
-                      ref
-                          .read(utilityFilterProvider.notifier)
-                          .setShowDetails(value);
-                    },
-                    title: "نمایش جزئیات",
+                  const SizedBox(
+                    width: 24,
+                  ),
+                  Expanded(
+                    child: SwitchWithTitleWidget(
+                      value: filters.showDetails,
+                      onChanged: (value) {
+                        ref
+                            .read(utilityFilterProvider.notifier)
+                            .setShowDetails(value);
+                      },
+                      title: "نمایش جزئیات",
+                    ),
                   ),
                   const SizedBox(
                     width: 16,
                   ),
-                  SwitchWithTitleWidget(
-                    value: filters.showChartCumulative,
-                    onChanged: (value) {
-                      ref
-                          .read(utilityFilterProvider.notifier)
-                          .setShowChartCumulative(
-                        value,
-                        onValidateError: (value) {
-                          context.showErrorMessage(value);
-                        },
-                      );
-                    },
-                    title: "نمایش تجمعی",
+                  Expanded(
+                    child: SwitchWithTitleWidget(
+                      value: filters.showChartCumulative,
+                      onChanged: (value) {
+                        ref
+                            .read(utilityFilterProvider.notifier)
+                            .setShowChartCumulative(
+                          value,
+                          onValidateError: (value) {
+                            context.showErrorMessage(value);
+                          },
+                        );
+                      },
+                      title: "نمایش تجمعی",
+                    ),
                   ),
                 ],
               ),

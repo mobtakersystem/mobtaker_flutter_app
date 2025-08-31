@@ -5,7 +5,6 @@ import 'package:lottie/lottie.dart';
 import 'package:mpm/common/extention/context.dart';
 import 'package:mpm/common/widget/force_landscape_wodget.dart';
 import 'package:mpm/data/entities/dashboard_chart/production_chart_entity.dart';
-import 'package:mpm/presentation/project_analytics_data/production_charts/production_filter_widget.dart';
 import 'package:persian_number_utility/persian_number_utility.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
@@ -96,14 +95,21 @@ class ProductionBarChart extends HookConsumerWidget {
               name: 'برنامه',
               enableTooltip: true,
               dataLabelSettings: DataLabelSettings(
-                isVisible: showLable,
-                labelAlignment: ChartDataLabelAlignment.middle,
-                labelPosition: ChartDataLabelPosition.inside,
-                textStyle: const TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
+                  isVisible: showLable,
+                  labelAlignment: ChartDataLabelAlignment.middle,
+                  labelPosition: ChartDataLabelPosition.inside,
+                  textStyle: const TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w600,
+                  ),
+                  builder: (data, point, series, pointIndex, seriesIndex) =>
+                      Text(
+                        data.schedule.toString().seRagham(),
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      )),
             ),
             ColumnSeries<Data, String>(
               dataSource: data,
@@ -120,13 +126,19 @@ class ProductionBarChart extends HookConsumerWidget {
                   color: Colors.white,
                   fontWeight: FontWeight.w600,
                 ),
+                builder: (data, point, series, pointIndex, seriesIndex) => Text(
+                  data.performance.toString().seRagham(),
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
               ),
             ),
             LineSeries<Data, String>(
               dataSource: data,
               xValueMapper: (Data data, _) => data.date ?? '',
-              yValueMapper: (Data data, _) =>
-                  (data.deviation ?? 0) + (data.deviationStartLine ?? 0),
+              yValueMapper: (Data data, _) => (data.deviationStartLine ?? 0),
               color: Colors.blueAccent,
               name: 'درصد تحقق',
               markerSettings: const MarkerSettings(
@@ -221,10 +233,10 @@ class ProductionBarChart extends HookConsumerWidget {
     );
   }
 
-  void _showSettingsDialog(BuildContext context) {
-    showModalBottomSheet(
-        context: context, builder: (context) => ProductionFilterWidget());
-  }
+  // void _showSettingsDialog(BuildContext context) {
+  //   showModalBottomSheet(
+  //       context: context, builder: (context) => ProductionFilterWidget());
+  // }
 
   void _showFullScreenChart(BuildContext context) {
     Navigator.of(context).push(
@@ -246,7 +258,7 @@ class _FullScreenChart extends ConsumerWidget {
   const _FullScreenChart({required this.data, this.showLable = false});
 
   @override
-  Widget build(BuildContext context,ref) {
+  Widget build(BuildContext context, ref) {
     return ForceLandscapeWidget(
       child: Scaffold(
         body: Padding(

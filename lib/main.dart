@@ -89,8 +89,13 @@ class MyApp extends ConsumerWidget {
         ),
         filledButtonTheme: FilledButtonThemeData(
           style: FilledButton.styleFrom(
-            backgroundColor: const Color(0xFFFD9843),
+            backgroundColor: const Color(0xFFF57C00),
             foregroundColor: Colors.white,
+          ),
+        ),
+        textButtonTheme: TextButtonThemeData(
+          style: TextButton.styleFrom(
+            foregroundColor: const Color(0xFFF57C00),
           ),
         ),
       ),

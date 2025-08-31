@@ -99,4 +99,8 @@ sQIDAQAB
         return false;
     }
   }
+
+  static String get supportUrl {
+   return "https://mobtakersystem.com/";
+  }
 }

@@ -212,6 +212,11 @@ class _DashboardPageState extends ConsumerState<DashboardPage> {
                 floating: true,
                 pinned: true,
                 snap: false,
+                leading: IconButton(
+                    onPressed: () {
+                      Scaffold.of(this.context).openDrawer();
+                    },
+                    icon: const Icon(Icons.menu)),
                 forceElevated: innerBoxIsScrolled,
                 bottom: TabBar(
                   controller: tabController,

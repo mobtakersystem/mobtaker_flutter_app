@@ -100,6 +100,12 @@ class UtilityColumnChart extends HookConsumerWidget {
                   color: Colors.white,
                   fontWeight: FontWeight.w600,
                 ),
+                builder: (data, point, series, pointIndex, seriesIndex) =>
+                    Text(data.schedule.toString().seRagham(),
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w600,
+                        )),
               ),
             ),
             ColumnSeries<Data, String>(
@@ -117,13 +123,18 @@ class UtilityColumnChart extends HookConsumerWidget {
                   color: Colors.white,
                   fontWeight: FontWeight.w600,
                 ),
+                builder: (data, point, series, pointIndex, seriesIndex) =>
+                    Text(data.performance.toString().seRagham(),
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w600,
+                        )),
               ),
             ),
             LineSeries<Data, String>(
               dataSource: data,
               xValueMapper: (Data data, _) => data.date ?? '',
-              yValueMapper: (Data data, _) =>
-                  (data.deviation ?? 0) + (data.deviationStartLine ?? 0),
+              yValueMapper: (Data data, _) => (data.deviationStartLine ?? 0),
               color: Colors.blueAccent,
               name: ' انحراف',
               markerSettings: const MarkerSettings(

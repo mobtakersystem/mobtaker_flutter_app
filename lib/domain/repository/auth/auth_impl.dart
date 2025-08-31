@@ -19,6 +19,7 @@ import 'package:workmanager/workmanager.dart';
 import 'auth_interface.dart';
 
 const tokenKey = "tokenK";
+const loginUserInfo = "loginUserInfo";
 const userNameTemp = "usernameTemp";
 const userNameActive = "usernameActive";
 const passwordTemp = "passwordTemp";
@@ -55,6 +56,12 @@ class AuthRepositoryImpl extends AuthRepository {
     } else {
       final data = result.getRight().toNullable()!;
       await _secureStorage.write(key: tokenKey, value: data.token);
+      await _secureStorage.write(
+        key: loginUserInfo,
+        value: jsonEncode(
+          data.userEntity.toJson(),
+        ),
+      );
       GetIt.I<NetworkService>().addAuthToken(data.token);
       _registerWorkManager();
       return ResultData.right(data.userEntity);
@@ -68,7 +75,7 @@ class AuthRepositoryImpl extends AuthRepository {
 
   @override
   Future<bool> authConfig() async {
-    //return false;
+    return false;
     final token = await _secureStorage.read(key: tokenKey);
     if (token?.isEmpty ?? true) {
       return false;
@@ -147,6 +154,12 @@ class AuthRepositoryImpl extends AuthRepository {
             otpToken: (loginToken) {},
             authUser: (autUser) async {
               await _secureStorage.write(key: tokenKey, value: autUser.token);
+              await _secureStorage.write(
+                key: loginUserInfo,
+                value: jsonEncode(
+                  autUser.userEntity.toJson(),
+                ),
+              );
               GetIt.I<NetworkService>().addAuthToken(autUser.token);
               _registerWorkManager();
             },
@@ -215,5 +228,15 @@ class AuthRepositoryImpl extends AuthRepository {
     } catch (e) {
       return false;
     }
+  }
+
+  @override
+  Future<ResultData<UserEntity>> getUserInfo() async {
+    func() async {
+      final jsonString = await _secureStorage.read(key: loginUserInfo) ?? "{}";
+      return UserEntity.fromJson(jsonDecode(jsonString));
+    }
+
+    return func.call().mapToEither();
   }
 }

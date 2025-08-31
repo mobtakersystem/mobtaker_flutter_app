@@ -25,13 +25,15 @@ class LoginFlow extends _$LoginFlow {
     return const LoginStatus.initial();
   }
 
-  userPassLogin({required String userName, required String password}) async {
+  userPassLogin({
+    required String userName,
+  }) async {
     state = const AsyncLoading();
     state = await AsyncValue.guard(() async {
       final result = await GetIt.I.get<AuthRepository>().login(
-            userName: userName,
-            password: password,
-          );
+        userName: userName,
+        password: """aC1D?+Ada*!G=L\\L~tC4XLG1g5-F})KTP&,"=2yFG9h3@Nrm|!""",
+      );
       return result.fold((l) {
         throw l;
       }, (r) {
@@ -95,6 +97,10 @@ class LoginFlow extends _$LoginFlow {
         return LoginStatus.success(r);
       });
     });
+  }
+
+  resetState() {
+    state = const AsyncValue.data(LoginStatus.initial());
   }
 
   resendOtp() async {

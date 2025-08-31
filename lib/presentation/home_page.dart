@@ -4,13 +4,16 @@ import 'package:flutter/scheduler.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:mpm/common/extention/context.dart';
+import 'package:mpm/common/riverpod_helper.dart';
 import 'package:mpm/common/theme/theme_provider.dart';
 import 'package:mpm/common/widget/dialog/confirm_dialog.dart';
 import 'package:mpm/common/widget/version_widget.dart';
 import 'package:mpm/flavors.dart' show F;
 import 'package:mpm/presentation/auth/providers/auth_provider.dart';
+import 'package:mpm/presentation/auth/providers/user_profile_provider.dart';
 import 'package:mpm/routes/app_router.gr.dart';
 import 'package:persian_datetime_picker/persian_datetime_picker.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'auth/providers/biometrics_providers.dart';
 
@@ -75,30 +78,42 @@ class _AppDrawerState extends ConsumerState<_AppDrawer> {
                   context.appLogo,
                   height: 56,
                 ),
-                const SizedBox(width: double.infinity, height: 0),
-                ValueListenableBuilder<Jalali>(
-                  valueListenable: _nowNotifier,
-                  builder: (context, now, _) {
-                    final timeString =
-                        "${now.formatter.tHH}:${now.formatter.tMM}";
-                    final dateString = now.formatFullDate();
+                const SizedBox(width: double.infinity, height: 8),
+                RiverPodConnectionHelperWidget(
+                  value: ref.watch(userProfileProvider),
+                  loadingBuilder: () => const SizedBox(),
+                  failureBuilder: (error) => const SizedBox(),
+                  successBuilder: (user) {
+                    print(user);
                     return Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          timeString,
-                          style: Theme.of(context).textTheme.headlineSmall,
+                          user.userName,
+                          style: context.textTheme.titleMedium?.copyWith(
+                            color: Theme.of(context)
+                                .colorScheme
+                                .onPrimaryContainer,
+                          ),
                         ),
-                        const SizedBox(height: 4),
+                        const SizedBox.square(
+                          dimension: 8,
+                        ),
                         Text(
-                          dateString,
-                          style: Theme.of(context).textTheme.bodyMedium,
+                          user.userRoleName,
+                          style: context.textTheme.bodySmall?.copyWith(
+                            color: Theme.of(context)
+                                .colorScheme
+                                .onPrimaryContainer
+                                .withAlpha(200),
+                          ),
                         ),
                       ],
                     );
                   },
-                ),
+                  tryAgain: () {},
+                )
               ],
             ),
           ),
@@ -130,9 +145,10 @@ class _AppDrawerState extends ConsumerState<_AppDrawer> {
                     ),
                   const Divider(),
                   SwitchListTile(
-                    secondary: Icon(Theme.of(context).brightness == Brightness.dark
-                        ? Icons.dark_mode
-                        : Icons.light_mode),
+                    secondary: Icon(
+                        Theme.of(context).brightness == Brightness.dark
+                            ? Icons.dark_mode
+                            : Icons.light_mode),
                     title: const Text('تم برنامه'),
                     value: Theme.of(context).brightness == Brightness.dark,
                     onChanged: (bool value) {
@@ -157,15 +173,17 @@ class _AppDrawerState extends ConsumerState<_AppDrawer> {
                                       : " فعال کردن ورود با ${biometricText.value ?? ''}")
                                   .then((successAuth) {
                                 if (successAuth) {
-                                  ref.watch(setLoginBiometricEnableProvider(value));
+                                  ref.watch(
+                                      setLoginBiometricEnableProvider(value));
                                 }
                               });
                             },
-                            value:
-                                ref.watch(isLoginBiometricEnableProvider).maybeWhen(
-                                      data: (isEnabled) => isEnabled,
-                                      orElse: () => false,
-                                    ),
+                            value: ref
+                                .watch(isLoginBiometricEnableProvider)
+                                .maybeWhen(
+                                  data: (isEnabled) => isEnabled,
+                                  orElse: () => false,
+                                ),
                           )
                         : const SizedBox.shrink(),
                     orElse: () => const SizedBox(),
@@ -197,15 +215,20 @@ class _AppDrawerState extends ConsumerState<_AppDrawer> {
           const Divider(),
           Padding(
             padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
-            child: Row(
-              children: [
-                Text(
-                  "پشتیبانی مبتکر سیستم",
-                  style: context.textTheme.bodySmall,
-                ),
-                const Spacer(),
-                const VersionWidget(),
-              ],
+            child: GestureDetector(
+              onTap: () {
+                launchUrl(Uri.parse(F.supportUrl));
+              },
+              child: Row(
+                children: [
+                  Text(
+                    "پشتیبانی مبتکر سیستم",
+                    style: context.textTheme.bodySmall,
+                  ),
+                  const Spacer(),
+                  const VersionWidget(),
+                ],
+              ),
             ),
           )
         ],

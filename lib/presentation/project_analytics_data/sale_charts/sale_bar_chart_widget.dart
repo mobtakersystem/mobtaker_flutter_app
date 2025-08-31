@@ -103,6 +103,12 @@ class SaleBarChart extends HookConsumerWidget {
                   color: Colors.white,
                   fontWeight: FontWeight.w600,
                 ),
+                builder: (data, point, series, pointIndex, seriesIndex) =>
+                    Text(data.performance.toString().seRagham(),
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w600,
+                        )),
               ),
             ),
           ],

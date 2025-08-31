@@ -109,6 +109,17 @@ class InventoryBarChartWidget extends HookConsumerWidget {
                   color: Colors.white,
                   fontWeight: FontWeight.w600,
                 ),
+                builder: (data, point, series, pointIndex, seriesIndex) => Text(
+                  (pointIndex == 0
+                          ? data.currentInventory
+                          : data.totalInventory)
+                      .toString()
+                      .seRagham(),
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
               ),
             ),
             ColumnSeries<InventoryChart, String>(
@@ -127,6 +138,17 @@ class InventoryBarChartWidget extends HookConsumerWidget {
                 textStyle: const TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.w600,
+                ),
+                builder: (data, point, series, pointIndex, seriesIndex) => Text(
+                  (pointIndex == 0
+                          ? data.totalInventory
+                          : data.currentInventory)
+                      .toString()
+                      .seRagham(),
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ),
             ),
@@ -147,6 +169,14 @@ class InventoryBarChartWidget extends HookConsumerWidget {
                     color: Colors.white,
                     fontWeight: FontWeight.w600,
                   ),
+                  builder: (data, point, series, pointIndex, seriesIndex) =>
+                      Text(
+                    data.saleCommitment.toString().seRagham(),
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
                 ),
               ),
             if (data.productSymbol != "STEEL")
@@ -166,6 +196,14 @@ class InventoryBarChartWidget extends HookConsumerWidget {
                     color: Colors.white,
                     fontWeight: FontWeight.w600,
                   ),
+                  builder: (data, point, series, pointIndex, seriesIndex) =>
+                      Text(
+                    data.buyCommitment.toString().seRagham(),
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
                 ),
               ),
           ],
@@ -177,7 +215,7 @@ class InventoryBarChartWidget extends HookConsumerWidget {
               ? IconButton(
                   style: IconButton.styleFrom(
                     backgroundColor:
-                    context.isLightTheme ? Colors.black12 : Colors.white24,
+                        context.isLightTheme ? Colors.black12 : Colors.white24,
                     foregroundColor: Colors.orange,
                   ),
                   onPressed: () {

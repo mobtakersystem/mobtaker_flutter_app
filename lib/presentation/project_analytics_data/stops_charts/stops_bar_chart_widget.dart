@@ -106,6 +106,12 @@ class StopsBarChart extends HookConsumerWidget {
                   color: Colors.white,
                   fontWeight: FontWeight.w600,
                 ),
+                builder: (data, point, series, pointIndex, seriesIndex) =>
+                    Text(data.totalHour.toString().seRagham(),
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w600,
+                        )),
               ),
             ),
           ],
@@ -117,7 +123,7 @@ class StopsBarChart extends HookConsumerWidget {
               ? IconButton(
                   style: IconButton.styleFrom(
                     backgroundColor:
-                    context.isLightTheme ? Colors.black12 : Colors.white24,
+                        context.isLightTheme ? Colors.black12 : Colors.white24,
                     foregroundColor: Colors.orange,
                   ),
                   onPressed: () {
