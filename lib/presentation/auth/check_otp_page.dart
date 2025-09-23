@@ -5,14 +5,10 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:local_auth/local_auth.dart';
 import 'package:mpm/common/extention/context.dart';
-import 'package:mpm/common/widget/dialog/confirm_dialog.dart';
 import 'package:mpm/common/widget/text_form_field.dart';
-import 'package:mpm/presentation/auth/providers/biometrics_providers.dart';
 import 'package:mpm/presentation/auth/providers/login_provider.dart';
 import 'package:mpm/presentation/auth/timer/otp_timer_widget.dart';
-import 'package:mpm/routes/app_router.gr.dart';
 import 'package:smart_auth/smart_auth.dart';
 
 @RoutePage()
@@ -53,30 +49,7 @@ class CheckOtpPage extends HookConsumerWidget {
                 showResend.value = false;
               }
             },
-            success: (value) async {
-              final isBiometricIsAvailable =
-                  await ref.read(biometricAvailableProvider.future);
-              final isBiometricLoginEnable =
-                  await ref.read(isLoginBiometricEnableProvider.future);
-              if (isBiometricIsAvailable &&
-                  !isBiometricLoginEnable &&
-                  context.mounted) {
-                bool successEnable = false;
-                await _showDialogSuggestion(context, () {
-                  successEnable = true;
-                });
-                if (successEnable) {
-                  if (await _biometricAuthentication(
-                      "فعال سازی ورود بیومتریک")) {
-                    await ref
-                        .read(setLoginBiometricEnableProvider(true).future);
-                  }
-                }
-              }
-              if (context.mounted) {
-                context.popAllAndPush(const HomeRoute());
-              }
-            },
+            success: (value) async {},
             orElse: () {},
           );
         }
@@ -191,28 +164,4 @@ class CheckOtpPage extends HookConsumerWidget {
     );
   }
 
-  Future<void> _showDialogSuggestion(
-      BuildContext context, VoidCallback onConfirm) async {
-    await ConfirmDialog.show(
-      context,
-      message: "آیا میخواهید ورود بیومتریک را برای ورود مجدد فعال کنید؟",
-      confirmCallBack: onConfirm,
-    );
-  }
-
-  Future<bool> _biometricAuthentication(String reason) async {
-    try {
-      final auth = LocalAuthentication();
-      final bool authenticated = await auth.authenticate(
-        localizedReason: reason,
-        options: const AuthenticationOptions(
-          useErrorDialogs: true,
-          stickyAuth: true,
-        ),
-      );
-      return authenticated;
-    } catch (e) {
-      return false;
-    }
-  }
 }

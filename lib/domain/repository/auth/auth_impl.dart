@@ -13,6 +13,7 @@ import 'package:mpm/data/entities/user/user_entity.dart';
 import 'package:mpm/data/network/network_service.dart';
 import 'package:mpm/domain/exception_handling.dart';
 import 'package:mpm/domain/failure_model.dart';
+import 'package:uuid/uuid.dart';
 
 import 'package:workmanager/workmanager.dart';
 
@@ -183,7 +184,15 @@ class AuthRepositoryImpl extends AuthRepository {
       rawId =
           "${iosInfo.identifierForVendor ?? DateTime.now().toIso8601String()}:${iosInfo.name}:${iosInfo.model}";
     }
+    final randomId = await _secureStorage.read(key: 'randomId');
 
+    if (randomId == null) {
+      final newRandomID = GetIt.I<Uuid>().v4();
+      await _secureStorage.write(key: 'randomId', value: newRandomID);
+      rawId += ":$newRandomID";
+    } else {
+      rawId += ":$randomId";
+    }
     final generatedId = base64Encode(utf8.encode(rawId));
     debugPrint(generatedId);
     debugPrint(utf8.decode(base64Decode(generatedId)));

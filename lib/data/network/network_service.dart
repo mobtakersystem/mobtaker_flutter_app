@@ -30,7 +30,7 @@ class NetworkService {
         PrettyDioLogger(
           requestBody: true,
           error: true,
-          responseBody: false,
+          responseBody: true,
           enabled: kDebugMode,
           filter: (options, args) {
             if (options.path.contains('projects/drilling/data/create')) {

@@ -31,7 +31,7 @@ class AuthDataProviderImpl extends AuthDataProvider {
       ),
       parser: (jsonParam) {
         return (
-          userEntity: UserEntity.fromJson({...jsonParam!}),
+          userEntity: UserEntity.fromJson({...jsonParam!['user']}),
           token: jsonParam['token'] as String,
         );
       },
@@ -110,7 +110,6 @@ class AuthDataProviderImpl extends AuthDataProvider {
             ),
           );
         }
-        print("ECC");
         throw Exception('Invalid response from server');
       },
     );

@@ -38,7 +38,7 @@ class InventoryBarChartWidget extends HookConsumerWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               if (seriesIndex == 0)
-                pointIndex == 0
+                this.data.productSymbol == "STEEL"
                     ? Text(
                         '${this.data.chartTotalInventoryTitle}: ${data.currentInventory.toString().seRagham()}',
                         style: context.theme.tooltipTheme.textStyle,
@@ -48,7 +48,7 @@ class InventoryBarChartWidget extends HookConsumerWidget {
                         style: context.theme.tooltipTheme.textStyle,
                       ),
               if (seriesIndex == 1)
-                pointIndex == 0
+                this.data.productSymbol == "STEEL"
                     ? Text(
                         '${this.data.chartCurrentInventoryTitle}: ${data.totalInventory.toString().seRagham()}',
                         style: context.theme.tooltipTheme.textStyle,
@@ -57,12 +57,13 @@ class InventoryBarChartWidget extends HookConsumerWidget {
                         '${this.data.chartCurrentInventoryTitle}: ${data.currentInventory.toString().seRagham()}',
                         style: context.theme.tooltipTheme.textStyle,
                       ),
-              if (seriesIndex == 2)
+              if (seriesIndex == 2 && this.data.productSymbol != "PELLET")
                 Text(
                   'تعهد شده فروش: ${data.saleCommitment.toString().seRagham()}',
                   style: context.theme.tooltipTheme.textStyle,
                 ),
-              if (seriesIndex == 3)
+              if (seriesIndex == 3 ||
+                  (seriesIndex == 2 && this.data.productSymbol == "PELLET"))
                 Text(
                   'خرید در راه: ${data.buyCommitment.toString().seRagham()}',
                   style: context.theme.tooltipTheme.textStyle,
@@ -97,7 +98,9 @@ class InventoryBarChartWidget extends HookConsumerWidget {
               xValueMapper: (InventoryChart data, _) =>
                   data.productSymbol ?? '',
               yValueMapper: (InventoryChart data, index) =>
-                  index == 0 ? data.currentInventory : data.totalInventory,
+                  data.productSymbol == "STEEL"
+                      ? data.currentInventory
+                      : data.totalInventory,
               color: const Color(0xFF6EA8FE),
               name: data.chartTotalInventoryTitle,
               enableTooltip: true,
@@ -110,7 +113,7 @@ class InventoryBarChartWidget extends HookConsumerWidget {
                   fontWeight: FontWeight.w600,
                 ),
                 builder: (data, point, series, pointIndex, seriesIndex) => Text(
-                  (pointIndex == 0
+                  (this.data.productSymbol == "STEEL"
                           ? data.currentInventory
                           : data.totalInventory)
                       .toString()
@@ -127,7 +130,9 @@ class InventoryBarChartWidget extends HookConsumerWidget {
               xValueMapper: (InventoryChart data, _) =>
                   data.productSymbol ?? '',
               yValueMapper: (InventoryChart data, index) =>
-                  index == 0 ? data.totalInventory : data.currentInventory,
+                  data.productSymbol == "STEEL"
+                      ? data.totalInventory
+                      : data.currentInventory,
               color: const Color(0xFFFD9843),
               name: data.chartCurrentInventoryTitle,
               enableTooltip: true,
@@ -140,7 +145,7 @@ class InventoryBarChartWidget extends HookConsumerWidget {
                   fontWeight: FontWeight.w600,
                 ),
                 builder: (data, point, series, pointIndex, seriesIndex) => Text(
-                  (pointIndex == 0
+                  (this.data.productSymbol == "STEEL"
                           ? data.totalInventory
                           : data.currentInventory)
                       .toString()

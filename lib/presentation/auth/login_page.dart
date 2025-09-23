@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:mpm/common/extention/context.dart';
+import 'package:mpm/common/widget/dialog/confirm_dialog.dart';
 import 'package:mpm/common/widget/text_form_field.dart';
 import 'package:mpm/presentation/auth/providers/biometrics_providers.dart';
 import 'package:mpm/presentation/auth/providers/login_provider.dart';
@@ -34,7 +35,26 @@ class LoginPage extends HookConsumerWidget {
                 context.push(CheckOtpRoute());
               }
             },
-            success: (value) {
+            success: (value) async {
+              final isBiometricIsAvailable =
+                  await ref.read(biometricAvailableProvider.future);
+              final isBiometricLoginEnable =
+                  await ref.read(isLoginBiometricEnableProvider.future);
+              if (isBiometricIsAvailable &&
+                  !isBiometricLoginEnable &&
+                  context.mounted) {
+                bool successEnable = false;
+                await _showDialogSuggestion(context, () {
+                  successEnable = true;
+                });
+                if (successEnable) {
+                  if (await _biometricAuthentication(
+                      "فعال سازی ورود بیومتریک")) {
+                    await ref
+                        .read(setLoginBiometricEnableProvider(true).future);
+                  }
+                }
+              }
               if (context.mounted) {
                 context.popAllAndPush(const HomeRoute());
               }
@@ -82,7 +102,7 @@ class LoginPage extends HookConsumerWidget {
                     const SizedBox(
                       height: 20,
                     ),
-                     Text(
+                    Text(
                       "لطفا شماره موبایل خود را وارد کنید",
                       style: context.textTheme.bodyMedium,
                     ),
@@ -150,21 +170,21 @@ class LoginPage extends HookConsumerWidget {
                     isBiometricEnable.maybeWhen(
                       data: (data) => data
                           ? Center(
-                            child: TextButton.icon(
+                              child: TextButton.icon(
                                 onPressed: () {
                                   ref
                                       .read(loginFlowProvider.notifier)
                                       .biometricLogin();
                                 },
-                                label:
-                                    Text('ورود با ${biometricText.value ?? ''}'),
+                                label: Text(
+                                    'ورود با ${biometricText.value ?? ''}'),
                                 icon: Icon(
                                   biometricType.value == BiometricType.face
                                       ? Icons.face
                                       : Icons.fingerprint,
                                 ),
                               ),
-                          )
+                            )
                           : const SizedBox.shrink(),
                       orElse: () => const SizedBox.shrink(),
                     ),
@@ -179,5 +199,30 @@ class LoginPage extends HookConsumerWidget {
         ),
       ),
     );
+  }
+
+  Future<void> _showDialogSuggestion(
+      BuildContext context, VoidCallback onConfirm) async {
+    await ConfirmDialog.show(
+      context,
+      message: "آیا میخواهید ورود بیومتریک را برای ورود مجدد فعال کنید؟",
+      confirmCallBack: onConfirm,
+    );
+  }
+
+  Future<bool> _biometricAuthentication(String reason) async {
+    try {
+      final auth = LocalAuthentication();
+      final bool authenticated = await auth.authenticate(
+        localizedReason: reason,
+        options: const AuthenticationOptions(
+          useErrorDialogs: true,
+          stickyAuth: true,
+        ),
+      );
+      return authenticated;
+    } catch (e) {
+      return false;
+    }
   }
 }
