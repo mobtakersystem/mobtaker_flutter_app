@@ -9,6 +9,7 @@ flavors:
         versionNameSuffix: "\"-dev\""
     ios:
       bundleId: "mobtakersystem.minebi.dev"
+      icon: "assets/images/dev-logo.png"
   arfabi:
     app:
       name: "Arfabi"
@@ -19,3 +20,4 @@ flavors:
         versionNameSuffix: "\"-arfabi\""
     ios:
       bundleId: "mobtakersystem.minebi.arfabi"
+      icon: "assets/images/arfabi-logo.png"

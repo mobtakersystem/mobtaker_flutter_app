@@ -47,5 +47,11 @@
     <true/>
     <key>NSFaceIDUsageDescription</key>
     <string>App use face id to login to your account secure</string>
+    <key>LSApplicationQueriesSchemes</key>
+    <array>
+      <string>sms</string>
+      <string>tel</string>
+      <string>https</string>
+    </array>
   </dict>
 </plist>
