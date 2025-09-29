@@ -118,14 +118,17 @@ class AuthRepositoryImpl extends AuthRepository {
   }
 
   @override
-  Future<ResultData<LoginTokenState>> login(
-      {required String userName, required String password}) async {
+  Future<ResultData<LoginTokenState>> login({
+    required String userName,
+    required String password,
+  }) async {
     final enUserName = await _encryptWithPublicKey(userName);
     final enPassword = await _encryptWithPublicKey(password);
 
     final resultData = await _loginEncryptedData(
       enUserName: enUserName,
       enPassword: enPassword,
+      enableGetDeviceId: false,
     );
     if (resultData.isRight()) {
       await _secureStorage.write(key: userNameTemp, value: enUserName);
@@ -140,13 +143,17 @@ class AuthRepositoryImpl extends AuthRepository {
     return await fast.RSA.encryptPKCS1v15(plainText, _rsaPublicKey);
   }
 
-  Future<ResultData<LoginTokenState>> _loginEncryptedData(
-      {required String enUserName, required String enPassword}) async {
+  Future<ResultData<LoginTokenState>> _loginEncryptedData({
+    required String enUserName,
+    required String enPassword,
+    required bool enableGetDeviceId,
+  }) async {
     final result = await _dataProvider
         .login(
-            password: enPassword,
-            userName: enUserName,
-            deviceId: await getPersistentDeviceId())
+          password: enPassword,
+          userName: enUserName,
+          deviceId: enableGetDeviceId ? await getPersistentDeviceId() : null,
+        )
         .mapToEither();
     if (result.isLeft()) {
       return ResultData.left(result.getLeft().toNullable()!);
@@ -219,6 +226,7 @@ class AuthRepositoryImpl extends AuthRepository {
       return _loginEncryptedData(
         enUserName: userName,
         enPassword: password,
+        enableGetDeviceId: true,
       );
     }
   }
