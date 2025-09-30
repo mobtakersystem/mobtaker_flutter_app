@@ -822,6 +822,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 03D40C5B3716EC00DA3A4A6F /* foladRelease.xcconfig */;
 			buildSettings = {
+				DEVELOPMENT_TEAM = 29BSD3YVX9;
+				PRODUCT_BUNDLE_IDENTIFIER = mobtakersystem.minebi.arfabi;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = "Release-arfabi";
@@ -905,6 +907,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 3D095F170EE549142DD948DF /* foladProfile.xcconfig */;
 			buildSettings = {
+				DEVELOPMENT_TEAM = 29BSD3YVX9;
+				PRODUCT_BUNDLE_IDENTIFIER = mobtakersystem.minebi.arfabi;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = "Profile-arfabi";
@@ -913,6 +917,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 90D031D1B0BD7AE5755C5EB1 /* foladDebug.xcconfig */;
 			buildSettings = {
+				DEVELOPMENT_TEAM = 29BSD3YVX9;
+				PRODUCT_BUNDLE_IDENTIFIER = mobtakersystem.minebi.arfabi;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = "Debug-arfabi";
